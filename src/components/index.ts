@@ -1,1 +1,2 @@
-export { ParallaxMountainScene } from './parallaxMountains/';
+export { Main } from './main'
+export { ParallaxMountainScene } from './parallaxMountains';

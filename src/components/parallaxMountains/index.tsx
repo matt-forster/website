@@ -6,18 +6,12 @@ import mountainForegroundSvg from './MountainForeground.svg';
 import mountainBackgroundSvg from './MountainBackground.svg';
 
 export const ParallaxMountainScene: Component<{ position: { x: number, y: number } }> = (props) => {
-
-  // Learning: make sure to access props in a tracking context
-  const setBackgroundTranslate = (speed: number) => css`
-      translate: ${(window.innerWidth - props.position.x) / window.innerWidth * speed * 6}px;
-    `;
-
   const Container = styled('div')`
     position: absolute;
-    display: inline-block;
     right: 0;
     bottom: 0;
-
+    
+    display: inline-block;
     overflow: hidden;
 
     width: 100vw;
@@ -30,10 +24,19 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
       height: 1000px;
     }
 
+    #background {
+      z-index: 0;
+    }
+
     #foreground {
       z-index: 1;
     }
   `
+
+  // Learning: make sure to access props in a tracking context
+  const setBackgroundTranslate = (speed: number) => css`
+    translate: ${(window.innerWidth - props.position.x) / window.innerWidth * speed * 6}px;
+  `;
 
   return (
     <Portal>
