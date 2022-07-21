@@ -1,1 +1,9 @@
-Built using Typescript, Vite, SolidJs, Styled Components and SVG
+Built using;
+
+- Typescript, 
+- Vite, 
+- SolidJs, 
+- Styled Components (solid flavour)
+- SVG
+
+Hosted on Cloudflare Pages
