@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "solid-js": "^1.4.7",
+    "solid-meta": "^0.27.5",
     "solid-styled-components": "^0.28.4"
   }
 }
