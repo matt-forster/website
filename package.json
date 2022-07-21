@@ -9,15 +9,6 @@
     "serve": "vite preview",
     "test": "jest"
   },
-  "jest": {
-    "preset": "solid-jest/preset/browser",
-    "setupFilesAfterEnv": [
-      "<rootDir>/jest-setup.ts"
-    ],
-    "transformIgnorePatterns": [
-      "node_modules\/(?!(solid-styled-components))"
-    ]
-  },
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.18.6",
