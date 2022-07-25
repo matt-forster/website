@@ -3,11 +3,12 @@ import { render, fireEvent } from 'solid-testing-library';
 import { ParallaxMountainScene } from '.';
 
 describe('<ParallaxMountainScene />', () => {
-  test('it will render an text input and a button', () => {
-    const { getByPlaceholderText, getByText, unmount } = render(() => <ParallaxMountainScene position={{x: 0, y: 0}} />);
+  test('it renders', () => {
+    const { getByAltText, unmount } = render(() => <ParallaxMountainScene position={{x: 0, y: 0}} />);
 
-    expect(getByPlaceholderText('new todo here')).toBeInTheDocument();
-    expect(getByText('Add Todo')).toBeInTheDocument();
+    expect(getByAltText('Mountain Foreground')).toBeInTheDocument();
+    expect(getByAltText('Mountain Background')).toBeInTheDocument();
+
     unmount();
   });
 
