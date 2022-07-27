@@ -2,6 +2,8 @@ import type { Component } from 'solid-js';
 
 import mountainForegroundSvg from './MountainForeground.svg';
 import mountainBackgroundSvg from './MountainBackground.svg';
+import cloudOne from './CloudOne.svg';
+import cloudTwo from './CloudTwo.svg';
 
 export const ParallaxMountainScene: Component<{ position: { x: number, y: number } }> = (props) => {
 
@@ -12,19 +14,31 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
 
   return (
       <div class = "absolute inline-block right-0 bottom-0  w-screen h-[500px] z-0">
-        <img class = "absolute bottom-0 left-0 h-[1000px] max-w-none z-0" 
+
+        <img class = "absolute bottom-0 -left-10 h-[1000px] max-w-none" 
              style = {`translate: ${setBackgroundTranslate(3)}`} 
              id = "background" 
              src = {mountainBackgroundSvg}  
              alt = 'Mountain Background' />
-        <img class = "absolute bottom-0 left-0 h-[1000px] max-w-none z-0" 
+
+        <img class = "absolute bottom-0 left-0 h-[1000px] max-w-none" 
              style={`translate: ${setBackgroundTranslate(1)}`} 
              id = "foreground" 
              src = {mountainForegroundSvg}  
              alt = 'Mountain Foreground' />
+
+        <img class = "absolute bottom-[300px] left-[450px] h-[100px] max-w-none" 
+             style={`translate: ${setBackgroundTranslate(15)}`} 
+             id = "foreground" 
+             src = {cloudOne}  
+             alt = 'Cloud One' />
+
+        <img class = "absolute bottom-[250px] left-[750px] h-[100px] max-w-none" 
+             style={`translate: ${setBackgroundTranslate(23)}`} 
+             id = "foreground" 
+             src = {cloudTwo}  
+             alt = 'Cloud One' />
+
       </div>
   )
 }
-
-
-// class={setBackgroundTranslate(0.5)}
