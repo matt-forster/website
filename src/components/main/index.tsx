@@ -1,11 +1,9 @@
-import { createSignal } from 'solid-js';
-import { styled } from 'solid-styled-components';
-import { ParallaxMountainScene } from '..'
+import type { Component } from 'solid-js';
 
-export const Main = () => {
-  const Container = styled('div')`
-    min-height: 100vh;
-  `
+import { createSignal } from 'solid-js';
+import { Card, ParallaxMountainScene } from '..'
+
+export const Main: Component = () => {
 
   const [mousePosition, setMousePosition] = createSignal({ x: 0, y: 0 });
   function handleMouseMove(event: MouseEvent) {
@@ -16,8 +14,9 @@ export const Main = () => {
   }
 
   return (
-    <Container onMouseMove={handleMouseMove}>
+    <div class="bg-[#eceff4] min-h-screen" onMouseMove={handleMouseMove}>
+      <Card />
       <ParallaxMountainScene position={mousePosition()} />
-    </Container>
+    </div>
   )
 }
