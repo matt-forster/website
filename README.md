@@ -4,8 +4,8 @@ Built using;
 
 - Typescript, 
 - Vite, 
-- SolidJs, 
-- Styled Components (solid flavour)
+- SolidJs (react-like), 
+- Tailwind CSS
 - SVG
 
-Hosted on Cloudflare Pages
+Hosted on Cloudflare Pages w/ Cloudflare Workers

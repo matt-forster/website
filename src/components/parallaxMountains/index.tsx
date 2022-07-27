@@ -15,43 +15,45 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
   `;
 
   return (
-      <div class = "absolute inline-block right-0 bottom-0  w-screen h-[500px] z-0">
+      <div class = "absolute inline-block right-0 bottom-0 w-screen min-w-screen h-[500px] z-0">
 
-        <img class = "absolute bottom-0 -left-10 h-[1000px] max-w-none" 
+        <img class = "absolute -bottom-6 -left-24 h-[1000px] max-w-none" 
              style = {`translate: ${setBackgroundTranslate(3)}`} 
              id = "background" 
              src = {mountainBackgroundSvg}  
              alt = 'Mountain Background' />
 
-        <img class = "absolute bottom-[175px] left-[50px] h-[100px] max-w-none" 
-             style={`translate: ${setBackgroundTranslate(7)}`} 
+        <img class = "absolute bottom-[200px] left-[50px] h-[100px] max-w-none" 
+             style={`translate: ${setBackgroundTranslate(7, 1)}`} 
              id = "foreground" 
              src = {cloudThree}  
              alt = 'Cloud Three' />
 
-          <img class = "absolute bottom-[250px] left-[750px] h-[100px] max-w-none" 
-             style={`translate: ${setBackgroundTranslate(27)}`} 
+        <img class = "absolute bottom-[250px] left-[1100px] h-[100px] max-w-none" 
+             style={`translate: ${setBackgroundTranslate(20, 0.5)}`} 
              id = "foreground" 
-             src = {cloudTwo}  
-             alt = 'Cloud Two' />
+             src = {cloudFour}  
+             alt = 'Cloud Four' />
 
-        <img class = "absolute bottom-0 left-0 h-[1000px] max-w-none" 
+        <img class = "absolute bottom-0 -left-12 h-[1000px] max-w-none" 
              style={`translate: ${setBackgroundTranslate(1)}`} 
              id = "foreground" 
              src = {mountainForegroundSvg}  
              alt = 'Mountain Foreground' />
 
-        <img class = "absolute bottom-[300px] left-[450px] h-[100px] max-w-none" 
-             style={`translate: ${setBackgroundTranslate(13)}`} 
+        <img class = "absolute bottom-[300px] left-[750px] h-[100px] max-w-none" 
+             style={`translate: ${setBackgroundTranslate(27, 2)}`} 
+             id = "foreground" 
+             src = {cloudTwo}  
+             alt = 'Cloud Two' />
+
+        <img class = "absolute bottom-[350px] left-[450px] h-[100px] max-w-none" 
+             style={`translate: ${setBackgroundTranslate(13, 3)}`} 
              id = "foreground" 
              src = {cloudOne}  
              alt = 'Cloud One' />
 
-        <img class = "absolute bottom-[200px] left-[1100px] h-[100px] max-w-none" 
-             style={`translate: ${setBackgroundTranslate(20)}`} 
-             id = "foreground" 
-             src = {cloudFour}  
-             alt = 'Cloud Four' />
+        
 
       </div>
   )
