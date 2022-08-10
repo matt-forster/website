@@ -6,6 +6,7 @@ import { Card, ParallaxMountainScene } from '..'
 export const Main: Component = () => {
 
   const [mousePosition, setMousePosition] = createSignal({ x: 0, y: 0 });
+
   function handleMouseMove(event: MouseEvent) {
     setMousePosition({
       x: event.clientX,
@@ -14,7 +15,7 @@ export const Main: Component = () => {
   }
 
   return (
-    <div class="bg-[#eceff4] min-h-screen min-w-screen w-100" onMouseMove={handleMouseMove}>
+    <div class="bg-[#eceff4] min-h-screen min-w-screen w-100 max-w-none" onMouseMove={handleMouseMove}>
       <Card />
       <ParallaxMountainScene position={mousePosition()} />
     </div>
