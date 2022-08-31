@@ -1,7 +1,7 @@
 import type { Component } from 'solid-js';
 
 import { createSignal } from 'solid-js';
-import { Card, ParallaxMountainScene } from '..'
+import { Card, ParallaxMountainScene, Stars } from '..'
 
 export const Main: Component = () => {
 
@@ -25,6 +25,7 @@ export const Main: Component = () => {
   return (
     <div class={style} onMouseMove={handleMouseMove}>
       <Card />
+      <Stars />
       <ParallaxMountainScene position={mousePosition()} />
     </div>
   )
