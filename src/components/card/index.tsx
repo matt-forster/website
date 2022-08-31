@@ -24,12 +24,14 @@ export const Card: Component = () => {
 
     left-4
     top-4
+
     md:left-20
     md:top-20
+
     lg:left-48
     lg:top-48
 
-    md:h-54
+    md:h-64
     md:w-96
 
     mt-10
@@ -38,8 +40,7 @@ export const Card: Component = () => {
     my-auto
     overflow-hidden
 
-    p-4
-    md:p-8
+    p-8
 
     rounded-lg
     shadow-md
