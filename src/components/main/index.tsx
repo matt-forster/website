@@ -14,8 +14,16 @@ export const Main: Component = () => {
     })
   }
 
+  const style = `
+    bg-[#eceff4]
+    min-h-screen
+    min-w-screen
+    w-100
+    max-w-none
+  `;
+
   return (
-    <div class="bg-[#eceff4] min-h-screen min-w-screen w-100 max-w-none" onMouseMove={handleMouseMove}>
+    <div class={style} onMouseMove={handleMouseMove}>
       <Card />
       <ParallaxMountainScene position={mousePosition()} />
     </div>

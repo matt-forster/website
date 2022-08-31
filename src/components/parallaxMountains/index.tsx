@@ -20,8 +20,20 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
     return `${xPosition}px ${yPosition}px;`;
   }
 
+  const style = `
+    absolute
+    inline-block
+    right-0
+    bottom-0
+    w-screen
+    min-w-screen
+    h-[500px]
+    z-0
+    overflow-hidden
+  `;
+
   return (
-    <div class="absolute inline-block right-0 bottom-0 w-screen min-w-screen h-[500px] z-0 overflow-hidden">
+    <div class={style}>
 
       <img class="absolute -bottom-6 -left-24 h-[1100px] max-w-none"
         style={`translate: ${setBackgroundTranslate(3)}`}
