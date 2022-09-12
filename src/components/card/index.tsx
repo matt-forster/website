@@ -31,7 +31,7 @@ export const Card: Component = () => {
     lg:left-48
     lg:top-48
 
-    md:h-64
+    md:h-52
     md:w-96
 
     mt-10
