@@ -56,7 +56,7 @@ export const Card: Component = () => {
       <Portal>
         <div class={boxStyle}>
           <h1 class="text-4xl">{name}</h1>
-          <div class="text-[#4c566a]">{title} <br/> <span class="font-medium">{description}</span></div>
+          <div class="text-[#4c566a]">{title} <br/> <span>{description}</span></div>
           <hr class="m-4"></hr>
           <div class="flex flex-col md:flex-row flex-wrap pt-2 text-sm">
             <span><a class="hover:text-[#b48ead]" href="http://www.github.com/matt-forster"><GithubIcon /><span class={textStyle}>matt-forster</span></a></span>
