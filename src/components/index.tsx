@@ -1,7 +1,8 @@
 import type { Component } from 'solid-js';
 
 import { createSignal } from 'solid-js';
-import { Card, ParallaxMountainScene } from '..'
+import { ParallaxMountainScene } from './parallaxMountains';
+import { Card } from './card';
 
 export const Main: Component = () => {
 
