@@ -17,6 +17,7 @@ const InboxIcon = () => (
 const name = 'Matt Forster';
 const title = 'Software Engineer';
 const description = 'Web, Developer Experience, and Operations';
+const skills = 'Typescript, Golang, Terraform, Architecture';
 
 export const Card: Component = () => {
 
@@ -34,7 +35,6 @@ export const Card: Component = () => {
     lg:left-48
     lg:top-48
 
-    md:h-52
     md:w-96
 
     mt-10
@@ -58,8 +58,9 @@ export const Card: Component = () => {
   return (
       <Portal>
         <div class={boxStyle}>
-          <h1 class="text-4xl">{name}</h1>
-          <div class="text-[#4c566a]">{title} <br/> <span>{description}</span></div>
+          <h1 class="text-3xl">{name}</h1>
+          <div class="text-[#2e3440]">{title} <br /><br/> <span>{description}</span></div>
+          <div class="text-[#4c566a] text-sm">{skills}</div>
           <hr class="m-4"></hr>
           <div class="flex flex-col md:flex-row flex-wrap pt-2 text-sm">
             <span><a class="hover:text-[#81a1c1]" href="http://www.github.com/matt-forster"><GithubIcon /><span class={textStyle}>matt-forster</span></a></span>
