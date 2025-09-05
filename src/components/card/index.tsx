@@ -16,7 +16,7 @@ const InboxIcon = () => (
 
 const name = 'Matt Forster';
 const title = 'Software Engineer';
-const description = 'Backend Services, Developer Experience, and Operations';
+const description = 'Backend Services, DevEx, Operations';
 const skills = 'Software Architecture, Typescript, Golang';
 
 export const Card: Component = () => {
