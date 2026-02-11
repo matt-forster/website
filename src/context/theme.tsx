@@ -26,9 +26,8 @@ export const ThemeProvider: Component<{ children: JSX.Element }> = (props) => {
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e: MediaQueryListEvent) => {
-      if (!localStorage.getItem(STORAGE_KEY)) {
-        setMode(e.matches ? 'dark' : 'light');
-      }
+      setMode(e.matches ? 'dark' : 'light');
+      localStorage.removeItem(STORAGE_KEY);
     };
     mediaQuery.addEventListener('change', handleChange);
     onCleanup(() => mediaQuery.removeEventListener('change', handleChange));
