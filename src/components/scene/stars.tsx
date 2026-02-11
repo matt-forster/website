@@ -1,5 +1,6 @@
 import type { Component } from 'solid-js';
 import { For } from 'solid-js';
+import { transitions } from '../../theme';
 
 interface Star {
   x: number;
@@ -31,7 +32,7 @@ export const Stars: Component<{ visible: boolean }> = (props) => {
       class="absolute inset-0 pointer-events-none z-[1]"
       style={{
         opacity: props.visible ? '1' : '0',
-        transition: 'opacity 1.5s ease',
+        transition: transitions.starsFade,
       }}
     >
       <For each={stars}>

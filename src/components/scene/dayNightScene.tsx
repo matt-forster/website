@@ -3,14 +3,11 @@ import { createSignal, createEffect, onMount, onCleanup } from 'solid-js';
 import { useTheme } from '../../context/theme';
 import { Stars } from './stars';
 import { CelestialBody } from './celestialBody';
-
-const EVENING_COLORS = ['#eceff4', '#d4956a', '#3b4252', '#2e3440'];
-const MORNING_COLORS = ['#2e3440', '#3b4252', '#d08770', '#eceff4'];
-const NIGHT_FILTER = 'brightness(0.5) hue-rotate(20deg) saturate(0.7)';
+import { palette, NIGHT_FILTER, EVENING_COLORS, MORNING_COLORS, transitions } from '../../theme';
 
 export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
   const { mode } = useTheme();
-  const [skyColor, setSkyColor] = createSignal('#eceff4');
+  const [skyColor, setSkyColor] = createSignal(palette.daySky);
   const [svgFilter, setSvgFilter] = createSignal('none');
   const [initialized, setInitialized] = createSignal(false);
   // Track the last mode we've applied so the effect only runs on actual changes
@@ -19,7 +16,7 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
   onMount(() => {
     const current = mode();
     if (current === 'dark') {
-      setSkyColor('#2e3440');
+      setSkyColor(palette.nightSky);
       setSvgFilter(NIGHT_FILTER);
     }
     lastAppliedMode = current;
@@ -38,16 +35,14 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
     // Set the SVG filter target immediately — CSS transition handles the smooth interpolation
     setSvgFilter(toNight ? NIGHT_FILTER : 'none');
 
-    const duration = 2000;
-    const steps = 50;
-    const interval = duration / steps;
+    const interval = transitions.skyDuration / transitions.skySteps;
     let step = 0;
 
     const colors = toNight ? EVENING_COLORS : MORNING_COLORS;
 
     const timer = setInterval(() => {
       step++;
-      const progress = Math.min(step / steps, 1);
+      const progress = Math.min(step / transitions.skySteps, 1);
       const eased = progress < 0.5
         ? 2 * progress * progress
         : 1 - Math.pow(-2 * progress + 2, 2) / 2;
@@ -57,9 +52,9 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
       const colorProgress = (eased * (colors.length - 1)) - colorIndex;
       setSkyColor(interpolateColor(colors[colorIndex], colors[colorIndex + 1], colorProgress));
 
-      if (step >= steps) {
+      if (step >= transitions.skySteps) {
         clearInterval(timer);
-        setSkyColor(toNight ? '#2e3440' : '#eceff4');
+        setSkyColor(toNight ? palette.nightSky : palette.daySky);
       }
     }, interval);
 
@@ -75,7 +70,7 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
       <CelestialBody />
       <div style={{
         filter: svgFilter(),
-        transition: initialized() ? 'filter 2s ease-in-out' : 'none',
+        transition: initialized() ? transitions.filterCss : 'none',
       }}>
         {props.children}
       </div>

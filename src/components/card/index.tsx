@@ -4,6 +4,7 @@ import { Portal } from 'solid-js/web'
 import { fetchProfile } from '../../data/profile';
 import { iconComponents } from '../icons';
 import { useTheme } from '../../context/theme';
+import { palette, colors } from '../../theme';
 
 export const Card: Component = () => {
   const [profile] = createResource(fetchProfile);
@@ -46,37 +47,37 @@ export const Card: Component = () => {
             <div
               class={boxStyle}
               style={{
-                'background-color': mode() === 'dark' ? '#3b4252' : '#eceff4',
-                'border-color': mode() === 'dark' ? '#4c566a' : '#d8dee9',
+                'background-color': mode() === 'dark' ? palette.nightCardBg : palette.dayCardBg,
+                'border-color': mode() === 'dark' ? palette.nightBorder : palette.dayBorder,
               }}
             >
               <h1
                 class="text-3xl transition-colors duration-700"
-                style={{ color: mode() === 'dark' ? '#eceff4' : '#2e3440' }}
+                style={{ color: mode() === 'dark' ? palette.nightText : palette.dayText }}
               >
                 {data().name}
               </h1>
               <div
                 class="mt-1 transition-colors duration-700"
-                style={{ color: mode() === 'dark' ? '#d8dee9' : '#2e3440' }}
+                style={{ color: mode() === 'dark' ? palette.nightSecondaryText : palette.dayText }}
               >
                 {data().title}
               </div>
               <div
                 class="mt-2 transition-colors duration-700"
-                style={{ color: mode() === 'dark' ? '#81a1c1' : '#4c566a' }}
+                style={{ color: mode() === 'dark' ? palette.nightMutedText : palette.dayMutedText }}
               >
                 {data().description}
               </div>
               <div
                 class="text-sm mt-1 transition-colors duration-700"
-                style={{ color: mode() === 'dark' ? '#81a1c1' : '#4c566a' }}
+                style={{ color: mode() === 'dark' ? palette.nightMutedText : palette.dayMutedText }}
               >
                 {data().skills}
               </div>
               <div
                 class="mt-4 mb-3 border-t transition-colors duration-700"
-                style={{ 'border-color': mode() === 'dark' ? '#4c566a' : '#d8dee9' }}
+                style={{ 'border-color': mode() === 'dark' ? palette.nightBorder : palette.dayBorder }}
               />
               <div class="flex items-center gap-3">
                 <For each={data().links}>
@@ -88,11 +89,11 @@ export const Card: Component = () => {
                         aria-label={link.label}
                         class={`
                           relative group
-                          hover:text-[#81a1c1]
+                          hover:text-[${colors.nord9}]
                           transition-all duration-200
                           hover:-translate-y-0.5
                         `}
-                        style={{ color: mode() === 'dark' ? '#d8dee9' : 'rgba(76, 86, 106, 0.6)' }}
+                        style={{ color: mode() === 'dark' ? palette.nightLinkColor : palette.dayLinkColor }}
                       >
                         <Icon />
                         <span
@@ -105,9 +106,9 @@ export const Card: Component = () => {
                             pointer-events-none whitespace-nowrap
                           `}
                           style={{
-                            color: mode() === 'dark' ? '#d8dee9' : '#4c566a',
-                            'background-color': mode() === 'dark' ? '#3b4252' : '#eceff4',
-                            'border-color': mode() === 'dark' ? '#4c566a' : '#d8dee9',
+                            color: mode() === 'dark' ? palette.nightSecondaryText : palette.dayMutedText,
+                            'background-color': mode() === 'dark' ? palette.nightCardBg : palette.dayCardBg,
+                            'border-color': mode() === 'dark' ? palette.nightBorder : palette.dayBorder,
                           }}
                         >
                           {link.label}
