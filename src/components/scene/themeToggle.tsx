@@ -1,0 +1,25 @@
+import type { Component } from 'solid-js';
+import { useTheme } from '../../context/theme';
+import { palette } from '../../theme';
+
+export const ThemeToggle: Component = () => {
+  const { mode, toggle } = useTheme();
+
+  return (
+    <button
+      onClick={toggle}
+      aria-label="Toggle dark mode"
+      class={`
+        fixed top-3 right-3 z-50
+        w-4 h-4 rounded-full
+        opacity-25 hover:opacity-[0.55]
+        focus-visible:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-nord-frost focus-visible:outline-offset-2
+        transition-opacity duration-300
+        cursor-pointer
+      `}
+      style={{
+        'background-color': mode() === 'light' ? palette.dayToggle : palette.nightToggle,
+      }}
+    />
+  );
+};

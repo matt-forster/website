@@ -3,12 +3,14 @@ import { For, Show, createResource } from 'solid-js';
 import { Portal } from 'solid-js/web'
 import { fetchProfile } from '../../data/profile';
 import { iconComponents } from '../icons';
+import { useTheme } from '../../context/theme';
+import { palette } from '../../theme';
 
 export const Card: Component = () => {
   const [profile] = createResource(fetchProfile);
+  const { mode } = useTheme();
 
   const boxStyle = `
-    bg-[#eceff4]
     absolute
     inline-block
 
@@ -33,20 +35,50 @@ export const Card: Component = () => {
 
     rounded-lg
     border-[2.5px]
-    border-[#d8dee9]
     z-10
+
+    transition-colors duration-700 ease-in-out
   `;
 
   return (
       <Portal>
         <Show when={profile()}>
           {(data) => (
-            <div class={boxStyle}>
-              <h1 class="text-3xl text-[#2e3440]">{data().name}</h1>
-              <div class="text-[#2e3440] mt-1">{data().title}</div>
-              <div class="text-[#4c566a] mt-2">{data().description}</div>
-              <div class="text-[#4c566a] text-sm mt-1">{data().skills}</div>
-              <div class="border-t border-[#d8dee9] mt-4 mb-3" />
+            <div
+              class={boxStyle}
+              style={{
+                'background-color': mode() === 'dark' ? palette.nightCardBg : palette.dayCardBg,
+                'border-color': mode() === 'dark' ? palette.nightBorder : palette.dayBorder,
+              }}
+            >
+              <h1
+                class="text-3xl transition-colors duration-700"
+                style={{ color: mode() === 'dark' ? palette.nightText : palette.dayText }}
+              >
+                {data().name}
+              </h1>
+              <div
+                class="mt-1 transition-colors duration-700"
+                style={{ color: mode() === 'dark' ? palette.nightSecondaryText : palette.dayText }}
+              >
+                {data().title}
+              </div>
+              <div
+                class="mt-2 transition-colors duration-700"
+                style={{ color: mode() === 'dark' ? palette.nightMutedText : palette.dayMutedText }}
+              >
+                {data().description}
+              </div>
+              <div
+                class="text-sm mt-1 transition-colors duration-700"
+                style={{ color: mode() === 'dark' ? palette.nightMutedText : palette.dayMutedText }}
+              >
+                {data().skills}
+              </div>
+              <div
+                class="mt-4 mb-3 border-t transition-colors duration-700"
+                style={{ 'border-color': mode() === 'dark' ? palette.nightBorder : palette.dayBorder }}
+              />
               <div class="flex items-center gap-3">
                 <For each={data().links}>
                   {(link) => {
@@ -57,21 +89,28 @@ export const Card: Component = () => {
                         aria-label={link.label}
                         class={`
                           relative group
-                          text-[#4c566a]/60
-                          hover:text-[#81a1c1]
+                          hover:text-nord-frost
                           transition-all duration-200
                           hover:-translate-y-0.5
                         `}
+                        style={{ color: mode() === 'dark' ? palette.nightLinkColor : palette.dayLinkColor }}
                       >
                         <Icon />
-                        <span class={`
-                          absolute left-1/2 -translate-x-1/2 top-full mt-1
-                          text-xs text-[#4c566a]
-                          bg-[#eceff4] border border-[#d8dee9] rounded px-1.5 py-0.5
-                          opacity-0 group-hover:opacity-100
-                          transition-opacity duration-200
-                          pointer-events-none whitespace-nowrap
-                        `}>
+                        <span
+                          class={`
+                            absolute left-1/2 -translate-x-1/2 top-full mt-1
+                            text-xs
+                            border rounded px-1.5 py-0.5
+                            opacity-0 group-hover:opacity-100
+                            transition-opacity duration-200
+                            pointer-events-none whitespace-nowrap
+                          `}
+                          style={{
+                            color: mode() === 'dark' ? palette.nightSecondaryText : palette.dayMutedText,
+                            'background-color': mode() === 'dark' ? palette.nightCardBg : palette.dayCardBg,
+                            'border-color': mode() === 'dark' ? palette.nightBorder : palette.dayBorder,
+                          }}
+                        >
                           {link.label}
                         </span>
                       </a>
