@@ -11,12 +11,11 @@ let cloudThree = '';
 let cloudFour = '';
 let cloudFive = '';
 let cloudSix = '';
-let pineSmallSvg = '';
-let pineLargeSvg = '';
-let deciduousOneSvg = '';
-let bushOneSvg = '';
-let bushTwoSvg = '';
 let rocksSvg = '';
+let rockSmallSvg = '';
+let grassTuftSvg = '';
+let wildflowersSvg = '';
+let shrubSvg = '';
 
 export const ParallaxMountainScene: Component<{ position: { x: number, y: number } }> = (props) => {
   // Initialize with default values that work on both server and client
@@ -36,12 +35,11 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
     cloudFour = (await import('./cloudFour.svg')).default;
     cloudFive = (await import('./cloudFive.svg')).default;
     cloudSix = (await import('./cloudSix.svg')).default;
-    pineSmallSvg = (await import('./pineSmall.svg')).default;
-    pineLargeSvg = (await import('./pineLarge.svg')).default;
-    deciduousOneSvg = (await import('./deciduousOne.svg')).default;
-    bushOneSvg = (await import('./bushOne.svg')).default;
-    bushTwoSvg = (await import('./bushTwo.svg')).default;
     rocksSvg = (await import('./rocks.svg')).default;
+    rockSmallSvg = (await import('./rockSmall.svg')).default;
+    grassTuftSvg = (await import('./grassTuft.svg')).default;
+    wildflowersSvg = (await import('./wildflowers.svg')).default;
+    shrubSvg = (await import('./shrub.svg')).default;
     
     setAssetsLoaded(true);
     
@@ -76,13 +74,12 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
       cloudTwo: calculateTranslate(27, 2),
       cloudOne: calculateTranslate(13, 3),
       grass: calculateTranslate(),
-      // Vegetation layers — background (slow), mid-ground (moderate), foreground (faster)
-      pineBack: calculateTranslate(2, 0.5),
-      pineFore: calculateTranslate(0.8, 0.3),
-      deciduous: calculateTranslate(0.6, 0.2),
-      bushOne: calculateTranslate(0.4, 0.1),
-      bushTwo: calculateTranslate(0.5, 0.2),
+      // Ground-level vegetation — paper diorama elements sitting on the grass layer
       rocks: calculateTranslate(0.3, 0.1),
+      rockSmall: calculateTranslate(0.2, 0.1),
+      grassTuft: calculateTranslate(0.1, 0.05),
+      wildflowers: calculateTranslate(0.15, 0.05),
+      shrub: calculateTranslate(0.2, 0.1),
     });
   });
 
@@ -128,46 +125,42 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
             src={mountainForegroundSvg}
             alt='Mountain Foreground' />
 
-          {/* Background vegetation — small pines on the distant hillside */}
-          <img class="absolute bottom-[220px] left-[900px] h-[50px] max-w-none"
-            style={`translate: ${translateValues().pineBack}`}
-            src={pineSmallSvg}
-            alt='' />
-          <img class="absolute bottom-[240px] left-[1050px] h-[45px] max-w-none"
-            style={`translate: ${translateValues().pineBack}`}
-            src={pineSmallSvg}
-            alt='' />
-          <img class="absolute bottom-[230px] left-[1600px] h-[55px] max-w-none"
-            style={`translate: ${translateValues().pineBack}`}
-            src={pineLargeSvg}
-            alt='' />
-
-          {/* Mid-ground vegetation — trees between mountain layers */}
-          <img class="absolute bottom-[120px] left-[1200px] h-[90px] max-w-none"
-            style={`translate: ${translateValues().pineFore}`}
-            src={pineLargeSvg}
-            alt='' />
-          <img class="absolute bottom-[110px] left-[1350px] h-[70px] max-w-none"
-            style={`translate: ${translateValues().pineFore}`}
-            src={pineSmallSvg}
-            alt='' />
-          <img class="absolute bottom-[105px] left-[1800px] h-[85px] max-w-none"
-            style={`translate: ${translateValues().deciduous}`}
-            src={deciduousOneSvg}
-            alt='' />
-
-          {/* Foreground vegetation — bushes, rocks near the grass */}
-          <img class="absolute bottom-[55px] left-[800px] h-[35px] max-w-none"
-            style={`translate: ${translateValues().bushOne}`}
-            src={bushOneSvg}
-            alt='' />
-          <img class="absolute bottom-[50px] left-[1500px] h-[28px] max-w-none"
-            style={`translate: ${translateValues().bushTwo}`}
-            src={bushTwoSvg}
-            alt='' />
-          <img class="absolute bottom-[40px] left-[1100px] h-[32px] max-w-none"
+          {/* Ground-level vegetation — paper diorama elements sitting on the grass */}
+          <img class="absolute bottom-[2px] left-[850px] h-[28px] max-w-none"
             style={`translate: ${translateValues().rocks}`}
             src={rocksSvg}
+            alt='' />
+          <img class="absolute bottom-[2px] left-[1400px] h-[20px] max-w-none"
+            style={`translate: ${translateValues().rockSmall}`}
+            src={rockSmallSvg}
+            alt='' />
+          <img class="absolute bottom-[2px] left-[1900px] h-[22px] max-w-none"
+            style={`translate: ${translateValues().rockSmall}`}
+            src={rockSmallSvg}
+            alt='' />
+          <img class="absolute bottom-0 left-[600px] h-[22px] max-w-none"
+            style={`translate: ${translateValues().grassTuft}`}
+            src={grassTuftSvg}
+            alt='' />
+          <img class="absolute bottom-0 left-[1200px] h-[20px] max-w-none"
+            style={`translate: ${translateValues().grassTuft}`}
+            src={grassTuftSvg}
+            alt='' />
+          <img class="absolute bottom-0 left-[1700px] h-[18px] max-w-none"
+            style={`translate: ${translateValues().wildflowers}`}
+            src={wildflowersSvg}
+            alt='' />
+          <img class="absolute bottom-0 left-[1000px] h-[16px] max-w-none"
+            style={`translate: ${translateValues().wildflowers}`}
+            src={wildflowersSvg}
+            alt='' />
+          <img class="absolute bottom-[2px] left-[1550px] h-[20px] max-w-none"
+            style={`translate: ${translateValues().shrub}`}
+            src={shrubSvg}
+            alt='' />
+          <img class="absolute bottom-[2px] left-[750px] h-[16px] max-w-none"
+            style={`translate: ${translateValues().shrub}`}
+            src={shrubSvg}
             alt='' />
 
           <img class="absolute bottom-[250px] left-[1900px] h-[100px] max-w-none"

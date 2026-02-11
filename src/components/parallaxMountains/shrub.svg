@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 28" shape-rendering="geometricPrecision">
+  <!-- Low shrub — a compact, ground-hugging mound of foliage, paper diorama style -->
+  <path d="M4,27 C2,20 6,14 14,10 C20,8 28,7 34,9 C40,11 48,16 52,22 C52,26 4,27 4,27Z" fill="#8fbcbb" stroke="#3f5787" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M10,26 C8,20 14,14 22,12 C28,11 36,13 42,18 C44,22 44,26 10,26Z" fill="#a3be8c" stroke="#3f5787" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

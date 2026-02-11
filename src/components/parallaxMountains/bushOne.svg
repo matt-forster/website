@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 55" shape-rendering="geometricPrecision">
-  <!-- Bush — hand-drawn rounded clusters, Nord palette -->
-  <!-- Back cluster -->
-  <path d="M8,50 C4,38 8,26 18,20 C26,15 38,14 50,16 C62,14 74,15 82,20 C92,26 96,38 92,50Z" fill="#8fbcbb" stroke="#3f5787" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Front-left lobe -->
-  <path d="M10,52 C6,42 10,32 20,26 C28,22 38,22 46,28 C50,32 50,42 46,50 C40,54 22,54 10,52Z" fill="#a3be8c" stroke="#3f5787" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Front-right lobe -->
-  <path d="M48,50 C46,40 50,30 58,26 C66,22 76,24 84,30 C90,36 92,44 88,52 C82,54 56,54 48,50Z" fill="#a3be8c" stroke="#3f5787" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
