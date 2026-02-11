@@ -28,9 +28,9 @@ const profile: ProfileData = {
   links: [
     { label: 'GitHub', href: 'https://github.com/matt-forster', icon: 'github' },
     { label: 'Email', href: 'mailto:hey@mattforster.ca', icon: 'email' },
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/matt-forster', icon: 'linkedin' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/mattforster', icon: 'linkedin' },
     { label: 'Posts', href: 'https://posts.mattforster.ca', icon: 'posts' },
-    { label: 'Bluesky', href: 'https://bsky.app/profile/mattforster.social', icon: 'bluesky' },
+    { label: 'Bluesky', href: 'https://mattforster.social', icon: 'bluesky' },
   ],
   experience: [],
 };

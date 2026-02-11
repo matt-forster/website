@@ -59,7 +59,7 @@ describe('fetchProfile', () => {
     const bluesky = profile.links.find((l) => l.icon === 'bluesky');
 
     expect(bluesky).toBeDefined();
-    expect(bluesky!.href).toContain('bsky.app');
+    expect(bluesky!.href).toContain('mattforster.social');
   });
 
   it('has an experience array', async () => {
