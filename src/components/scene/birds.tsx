@@ -19,6 +19,7 @@ export const Birds: Component = () => {
 
   onMount(() => {
     const spawn = () => {
+      if (mode() === 'dark') return;
       const bird: Bird = {
         id: nextId++,
         y: 40 + Math.random() * 25,
