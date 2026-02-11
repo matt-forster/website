@@ -92,8 +92,8 @@ function generateGroundElements(): GroundElement[] {
     elements.push({ src: () => dandelionSvg, left: i === 0 ? nearLeft() : biasedLeft(), height: 40 + Math.floor(rand() * 16) });
   }
 
-  // Deciduous trees (2–4) — first one placed left for mobile visibility
-  const deciduousCount = 2 + Math.floor(rand() * 3);
+  // Deciduous trees (4–6) — first one placed left for mobile visibility
+  const deciduousCount = 4 + Math.floor(rand() * 3);
   for (let i = 0; i < deciduousCount; i++) {
     const variant = rand() > 0.5 ? () => treeDeciduousBSvg : () => treeDeciduousSvg;
     elements.push({
@@ -107,8 +107,8 @@ function generateGroundElements(): GroundElement[] {
     });
   }
 
-  // Pine trees (2–3) — first one placed left for mobile visibility, offset from deciduous
-  const pineCount = 2 + Math.floor(rand() * 2);
+  // Pine trees (3–5) — first one placed left for mobile visibility, offset from deciduous
+  const pineCount = 3 + Math.floor(rand() * 3);
   for (let i = 0; i < pineCount; i++) {
     const variant = rand() > 0.5 ? () => treePineBSvg : () => treePineSvg;
     elements.push({
