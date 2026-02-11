@@ -1,7 +1,7 @@
 import type { Component } from 'solid-js';
-import { For } from 'solid-js';
+import { For, Show, createResource } from 'solid-js';
 import { Portal } from 'solid-js/web'
-import { getProfile } from '../../data/profile';
+import { fetchProfile } from '../../data/profile';
 import type { Link } from '../../data/profile';
 
 const GithubIcon = () => (
@@ -28,7 +28,7 @@ const hoverColors: Record<Link['icon'], string> = {
 };
 
 export const Card: Component = () => {
-  const profile = getProfile();
+  const [profile] = createResource(fetchProfile);
 
   const boxStyle = `
     bg-white
@@ -66,26 +66,30 @@ export const Card: Component = () => {
 
   return (
       <Portal>
-        <div class={boxStyle}>
-          <h1 class="text-3xl">{profile.name}</h1>
-          <div class="text-[#2e3440]">{profile.title} <br /><br/> <span>{profile.description}</span></div>
-          <div class="text-[#4c566a] text-sm">{profile.skills}</div>
-          <hr class="m-4"></hr>
-          <div class="flex flex-col md:flex-row flex-wrap pt-2 text-sm">
-            <For each={profile.links}>
-              {(link, index) => {
-                const Icon = iconComponents[link.icon];
-                return (
-                  <span class={index() > 0 ? 'md:pl-4' : ''}>
-                    <a class={hoverColors[link.icon]} href={link.href}>
-                      <Icon /><span class={textStyle}>{link.label}</span>
-                    </a>
-                  </span>
-                );
-              }}
-            </For>
-          </div>
-        </div>
+        <Show when={profile()}>
+          {(data) => (
+            <div class={boxStyle}>
+              <h1 class="text-3xl">{data().name}</h1>
+              <div class="text-[#2e3440]">{data().title} <br /><br/> <span>{data().description}</span></div>
+              <div class="text-[#4c566a] text-sm">{data().skills}</div>
+              <hr class="m-4"></hr>
+              <div class="flex flex-col md:flex-row flex-wrap pt-2 text-sm">
+                <For each={data().links}>
+                  {(link, index) => {
+                    const Icon = iconComponents[link.icon];
+                    return (
+                      <span class={index() > 0 ? 'md:pl-4' : ''}>
+                        <a class={hoverColors[link.icon]} href={link.href}>
+                          <Icon /><span class={textStyle}>{link.label}</span>
+                        </a>
+                      </span>
+                    );
+                  }}
+                </For>
+              </div>
+            </div>
+          )}
+        </Show>
       </Portal>
   )
 }

@@ -32,6 +32,6 @@ const profile: ProfileData = {
   experience: [],
 };
 
-export function getProfile(): ProfileData {
+export async function fetchProfile(): Promise<ProfileData> {
   return profile;
 }

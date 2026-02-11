@@ -1,9 +1,9 @@
-import { getProfile } from './profile';
+import { fetchProfile } from './profile';
 import type { ProfileData } from './profile';
 
-describe('getProfile', () => {
-  it('returns a valid ProfileData object', () => {
-    const profile: ProfileData = getProfile();
+describe('fetchProfile', () => {
+  it('returns a valid ProfileData object', async () => {
+    const profile: ProfileData = await fetchProfile();
 
     expect(profile.name).toBe('Matt Forster');
     expect(profile.title).toBe('Software Engineer');
@@ -11,8 +11,8 @@ describe('getProfile', () => {
     expect(profile.skills).toBe('Software Architecture, Typescript, Golang');
   });
 
-  it('includes links with required fields', () => {
-    const profile = getProfile();
+  it('includes links with required fields', async () => {
+    const profile = await fetchProfile();
 
     expect(profile.links.length).toBeGreaterThanOrEqual(2);
     profile.links.forEach((link) => {
@@ -22,24 +22,24 @@ describe('getProfile', () => {
     });
   });
 
-  it('includes a github link', () => {
-    const profile = getProfile();
+  it('includes a github link', async () => {
+    const profile = await fetchProfile();
     const github = profile.links.find((l) => l.icon === 'github');
 
     expect(github).toBeDefined();
     expect(github!.href).toContain('github.com');
   });
 
-  it('includes an email link', () => {
-    const profile = getProfile();
+  it('includes an email link', async () => {
+    const profile = await fetchProfile();
     const email = profile.links.find((l) => l.icon === 'email');
 
     expect(email).toBeDefined();
     expect(email!.href).toContain('mailto:');
   });
 
-  it('has an experience array', () => {
-    const profile = getProfile();
+  it('has an experience array', async () => {
+    const profile = await fetchProfile();
 
     expect(Array.isArray(profile.experience)).toBe(true);
   });
