@@ -25,6 +25,7 @@ type GroundElement = {
   src: () => string;
   left: number;
   height: number;
+  isTree?: boolean;
 };
 
 // Seed-based pseudo-random for consistent layout across renders
@@ -40,11 +41,11 @@ function generateGroundElements(): GroundElement[] {
   const rand = seededRandom(7331);
   const elements: GroundElement[] = [];
 
-  // Helper: generate a left position biased toward the left (0–1200px range most likely)
-  const biasedLeft = () => Math.floor(rand() * rand() * 1400) + 100;
+  // Helper: generate a left position with mild left bias (spread across 200–1500px range)
+  const biasedLeft = () => Math.floor(rand() * 1400) + 200;
 
-  // Helper: wider spread for taller elements like trees (100–1500px range)
-  const spreadLeft = () => Math.floor(rand() * 1500) + 100;
+  // Helper: wider spread for taller elements like trees (250–1600px range, avoids left edge cutoff)
+  const spreadLeft = () => Math.floor(rand() * 1400) + 250;
 
   // Rocks cluster (1–2)
   const rockCount = rand() > 0.5 ? 2 : 1;
@@ -85,13 +86,13 @@ function generateGroundElements(): GroundElement[] {
   // Deciduous trees (2–4) — extracted from grass layer
   const deciduousCount = 2 + Math.floor(rand() * 3);
   for (let i = 0; i < deciduousCount; i++) {
-    elements.push({ src: () => treeDeciduousSvg, left: spreadLeft(), height: 120 + Math.floor(rand() * 40) });
+    elements.push({ src: () => treeDeciduousSvg, left: spreadLeft(), height: 120 + Math.floor(rand() * 40), isTree: true });
   }
 
   // Pine trees (2–3) — new tree variety
   const pineCount = 2 + Math.floor(rand() * 2);
   for (let i = 0; i < pineCount; i++) {
-    elements.push({ src: () => treePineSvg, left: spreadLeft(), height: 100 + Math.floor(rand() * 40) });
+    elements.push({ src: () => treePineSvg, left: spreadLeft(), height: 100 + Math.floor(rand() * 40), isTree: true });
   }
 
   // Tuft bushes (2–4) — dense grass tuft bushes with berries
@@ -227,13 +228,21 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
             src={cloudOne}
             alt='Cloud One' />
 
+          {/* Trees — rendered before grass so they appear behind it */}
+          <For each={groundElements().filter(el => el.isTree)}>{(el) =>
+            <img class="absolute bottom-[2px] max-w-none"
+              style={`left: ${el.left}px; height: ${el.height}px; translate: ${translateValues().ground}`}
+              src={el.src()}
+              alt='' />
+          }</For>
+
           <img class="absolute bottom-0 -left-12 h-[750px] max-w-none"
             style={`translate: ${translateValues().grass}`}
             src={grass}
             alt='Grass' />
 
           {/* Ground-level vegetation — rendered after grass so they appear in front */}
-          <For each={groundElements()}>{(el) =>
+          <For each={groundElements().filter(el => !el.isTree)}>{(el) =>
             <img class="absolute bottom-[2px] max-w-none"
               style={`left: ${el.left}px; height: ${el.height}px; translate: ${translateValues().ground}`}
               src={el.src()}
