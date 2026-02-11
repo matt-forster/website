@@ -48,3 +48,28 @@ html, body {
   50% { transform: translateX(40px); }
   100% { transform: translateX(0); }
 }
+
+@keyframes satellite-pass-ltr {
+  0%   { left: -2%; transform: translateY(0); opacity: 0.4; }
+  10%  { opacity: 1; }
+  25%  { transform: translateY(-30px); }
+  50%  { transform: translateY(-60px); }
+  75%  { transform: translateY(-30px); }
+  90%  { opacity: 1; }
+  100% { left: 102%; transform: translateY(0); opacity: 0.4; }
+}
+
+@keyframes satellite-pass-rtl {
+  0%   { right: -2%; transform: translateY(0); opacity: 0.4; }
+  10%  { opacity: 1; }
+  25%  { transform: translateY(-30px); }
+  50%  { transform: translateY(-60px); }
+  75%  { transform: translateY(-30px); }
+  90%  { opacity: 1; }
+  100% { right: 102%; transform: translateY(0); opacity: 0.4; }
+}
+
+@keyframes satellite-glint {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
