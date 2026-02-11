@@ -13,6 +13,7 @@ const hoverColors: Record<Link['icon'], string> = {
   linkedin: colors.nord10,
   posts: colors.nord7,
   bluesky: colors.nord9,
+  cv: colors.nord8,
 };
 
 export const Card: Component = () => {
