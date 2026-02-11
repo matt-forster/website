@@ -7,8 +7,8 @@ describe('fetchProfile', () => {
 
     expect(profile.name).toBe('Matt Forster');
     expect(profile.title).toBe('Software Engineer');
-    expect(profile.description).toBe('Backend Services, DevEx, Operations');
-    expect(profile.skills).toBe('Software Architecture, Typescript, Golang');
+    expect(profile.description).toBe('Platform Engineering, DevEx, Operations');
+    expect(profile.skills).toBe('Systems Design, API Design, Infrastructure Automation');
   });
 
   it('includes links with required fields', async () => {

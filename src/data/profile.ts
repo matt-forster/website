@@ -23,8 +23,8 @@ export interface ProfileData {
 const profile: ProfileData = {
   name: 'Matt Forster',
   title: 'Software Engineer',
-  description: 'Backend Services, DevEx, Operations',
-  skills: 'Software Architecture, Typescript, Golang',
+  description: 'Platform Engineering, DevEx, Operations',
+  skills: 'Systems Design, API Design, Infrastructure Automation',
   links: [
     { label: 'GitHub', href: 'https://github.com/matt-forster', icon: 'github' },
     { label: 'Email', href: 'mailto:hey@mattforster.ca', icon: 'email' },
