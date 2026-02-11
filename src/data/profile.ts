@@ -1,7 +1,7 @@
 export interface Link {
   label: string;
   href: string;
-  icon: 'github' | 'email';
+  icon: 'github' | 'email' | 'linkedin' | 'posts' | 'bluesky';
 }
 
 export interface Experience {
@@ -26,8 +26,11 @@ const profile: ProfileData = {
   description: 'Backend Services, DevEx, Operations',
   skills: 'Software Architecture, Typescript, Golang',
   links: [
-    { label: 'matt-forster', href: 'https://github.com/matt-forster', icon: 'github' },
-    { label: 'hey@mattforster.ca', href: 'mailto:hey@mattforster.ca', icon: 'email' },
+    { label: 'GitHub', href: 'https://github.com/matt-forster', icon: 'github' },
+    { label: 'Email', href: 'mailto:hey@mattforster.ca', icon: 'email' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/mattforster', icon: 'linkedin' },
+    { label: 'Posts', href: 'https://posts.mattforster.ca', icon: 'posts' },
+    { label: 'Bluesky', href: 'https://mattforster.social', icon: 'bluesky' },
   ],
   experience: [],
 };
