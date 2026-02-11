@@ -5,8 +5,8 @@ export const Deer: Component = () => {
   const [visible, setVisible] = createSignal(false);
   const [eating, setEating] = createSignal(false);
 
-  // Randomize position (biased left for mobile) and facing direction
-  const leftPos = Math.floor(Math.random() * Math.random() * 1400) + 100;
+  // Randomize position (capped for mobile visibility) and facing direction
+  const leftPos = Math.floor(Math.random() * Math.random() * 300) + 20;
   const flipHorizontally = Math.random() > 0.5;
 
   onMount(() => {
@@ -24,16 +24,16 @@ export const Deer: Component = () => {
       }, eatDuration);
     };
 
-    // First eat after a short delay
-    const initialDelay = setTimeout(() => startEating(), 3000 + Math.random() * 4000);
+    // First eat after a longer delay
+    const initialDelay = setTimeout(() => startEating(), 8000 + Math.random() * 7000);
 
-    // Then eat at random intervals (6–12 seconds apart)
+    // Then eat at random intervals (15–30 seconds apart)
     let nextTimeout: ReturnType<typeof setTimeout>;
     const scheduleNextEat = () => {
       nextTimeout = setTimeout(() => {
         startEating();
         scheduleNextEat();
-      }, 6000 + Math.random() * 6000);
+      }, 15000 + Math.random() * 15000);
     };
     scheduleNextEat();
 
@@ -80,8 +80,8 @@ export const Deer: Component = () => {
           <g
             style={{
               'transform-origin': '62px 36px',
-              transition: 'transform 1.2s ease-in-out',
-              transform: eating() ? 'rotate(35deg)' : 'rotate(0deg)',
+              transition: 'transform 1.5s ease-in-out',
+              transform: eating() ? 'rotate(20deg)' : 'rotate(0deg)',
             }}
           >
             {/* Neck — filled shape */}
