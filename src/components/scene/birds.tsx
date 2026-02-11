@@ -17,7 +17,7 @@ export const Birds: Component = () => {
   const [birds, setBirds] = createSignal<Bird[]>([]);
 
   onMount(() => {
-    const spawnInterval = setInterval(() => {
+    const spawn = () => {
       const bird: Bird = {
         id: nextId++,
         y: 5 + Math.random() * 35,
@@ -30,16 +30,12 @@ export const Birds: Component = () => {
       setTimeout(() => {
         setBirds((prev) => prev.filter((b) => b.id !== bird.id));
       }, bird.speed * 1000);
-    }, 4000 + Math.random() * 6000);
+    };
 
-    // Re-randomize spawn interval periodically
-    const reshuffleInterval = setInterval(() => {
-      clearInterval(spawnInterval);
-    }, 30000);
+    const spawnInterval = setInterval(spawn, 4000 + Math.random() * 6000);
 
     onCleanup(() => {
       clearInterval(spawnInterval);
-      clearInterval(reshuffleInterval);
     });
   });
 
