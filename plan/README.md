@@ -1,6 +1,6 @@
 # Website Enhancement Plan
 
-Five planned enhancements for the portfolio site. Each is documented in its own file — read the one relevant to the work you're doing.
+Six planned enhancements for the portfolio site. Each is documented in its own file — read the one relevant to the work you're doing.
 
 ## Plan Files
 
@@ -11,12 +11,13 @@ Five planned enhancements for the portfolio site. Each is documented in its own 
 | 3 | [Card Redesign + Links](./03-card-redesign.md) | Redesign the card to match the hand-drawn SVG aesthetic (organic borders, no glassmorphism). Make links icon-only with subtle hover-reveal labels. Data-driven link rendering via `<For>`. | You are restyling the card, adding/changing links, or working on the icon components. |
 | 4 | [Dark Mode](./04-dark-mode.md) | Day/night transition with a pinwheel rotation effect, evening/morning color phases, system preference detection, and a near-invisible toggle. Stars, sun/moon, and CSS filter tinting for the SVGs. | You are implementing dark mode, the theme context, the scene transition, or the toggle. |
 | 5 | [Animated Elements](./05-animated-elements.md) | Add birds, shooting stars (night only), and autonomous cloud drift to bring the scene to life independently of mouse movement. | You are adding animations, scene elements, or working on the parallax cloud layer. |
+| 6 | [Scene Vegetation](./06-scene-vegetation.md) | Add hand-drawn trees, bushes, flowers, and rocks to the parallax scene. Covers element types, Nord palette usage, parallax layer placement, and dark mode filter compatibility. | You are adding new landscape elements (trees, plants, rocks) to the scene, or creating new SVG assets for the environment. |
 
 ## Implementation Order
 
 Build incrementally — each step depends on the ones before it:
 
-1. **Data layer** → 2. **Card redesign + links** → 3. **CV page + routing** → 4. **Dark mode** → 5. **Animated elements**
+1. **Data layer** → 2. **Card redesign + links** → 3. **CV page + routing** → 4. **Dark mode** → 5. **Animated elements** → 6. **Scene vegetation**
 
 Each step should be followed by a build verification (`npm run build`) and visual check.
 
@@ -47,8 +48,8 @@ src/
     │   ├── birds.tsx                   # NEW — flying birds
     │   └── themeToggle.tsx             # NEW — near-invisible dark mode toggle
     └── parallaxMountains/
-        ├── index.tsx                   # Updated — cloud drift animation
-        └── *.svg
+        ├── index.tsx                   # Updated — cloud drift animation + vegetation elements
+        └── *.svg                       # Existing + new hand-drawn vegetation SVGs
 ```
 
 ## Dependencies
