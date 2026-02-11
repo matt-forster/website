@@ -1,5 +1,8 @@
 import type { Component } from 'solid-js';
+import { For, Show, createResource } from 'solid-js';
 import { Portal } from 'solid-js/web'
+import { fetchProfile } from '../../data/profile';
+import type { Link } from '../../data/profile';
 
 const GithubIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" class="inline-block h-6 w-6">
@@ -14,12 +17,18 @@ const InboxIcon = () => (
   </svg>
 )
 
-const name = 'Matt Forster';
-const title = 'Software Engineer';
-const description = 'Backend Services, DevEx, Operations';
-const skills = 'Software Architecture, Typescript, Golang';
+const iconComponents: Record<Link['icon'], Component> = {
+  github: GithubIcon,
+  email: InboxIcon,
+};
+
+const hoverColors: Record<Link['icon'], string> = {
+  github: 'hover:text-[#81a1c1]',
+  email: 'hover:text-[#5e81ac]',
+};
 
 export const Card: Component = () => {
+  const [profile] = createResource(fetchProfile);
 
   const boxStyle = `
     bg-white
@@ -57,16 +66,30 @@ export const Card: Component = () => {
 
   return (
       <Portal>
-        <div class={boxStyle}>
-          <h1 class="text-3xl">{name}</h1>
-          <div class="text-[#2e3440]">{title} <br /><br/> <span>{description}</span></div>
-          <div class="text-[#4c566a] text-sm">{skills}</div>
-          <hr class="m-4"></hr>
-          <div class="flex flex-col md:flex-row flex-wrap pt-2 text-sm">
-            <span><a class="hover:text-[#81a1c1]" href="http://www.github.com/matt-forster"><GithubIcon /><span class={textStyle}>matt-forster</span></a></span>
-            <span class="md:pl-4"><a class="hover:text-[#5e81ac]" href="mailto:hey@mattforster.ca"><InboxIcon /><span class={textStyle}>hey@mattforster.ca</span></a></span>
-          </div>
-        </div>
+        <Show when={profile()}>
+          {(data) => (
+            <div class={boxStyle}>
+              <h1 class="text-3xl">{data().name}</h1>
+              <div class="text-[#2e3440]">{data().title} <br /><br/> <span>{data().description}</span></div>
+              <div class="text-[#4c566a] text-sm">{data().skills}</div>
+              <hr class="m-4"></hr>
+              <div class="flex flex-col md:flex-row flex-wrap pt-2 text-sm">
+                <For each={data().links}>
+                  {(link, index) => {
+                    const Icon = iconComponents[link.icon];
+                    return (
+                      <span class={index() > 0 ? 'md:pl-4' : ''}>
+                        <a class={hoverColors[link.icon]} href={link.href}>
+                          <Icon /><span class={textStyle}>{link.label}</span>
+                        </a>
+                      </span>
+                    );
+                  }}
+                </For>
+              </div>
+            </div>
+          )}
+        </Show>
       </Portal>
   )
 }
