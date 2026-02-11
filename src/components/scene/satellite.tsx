@@ -16,8 +16,8 @@ export const Satellite: Component<{ visible: boolean }> = (props) => {
   onMount(() => {
     const trySpawn = () => {
       if (!props.visible || satellite()) return;
-      // ~10% chance every 15 seconds — very rare
-      if (Math.random() > 0.1) return;
+      // ~25% chance every 10 seconds
+      if (Math.random() > 0.25) return;
 
       const pass: SatellitePass = {
         id: satelliteId++,
@@ -32,7 +32,7 @@ export const Satellite: Component<{ visible: boolean }> = (props) => {
       }, pass.duration * 1000);
     };
 
-    const interval = setInterval(trySpawn, 15000);
+    const interval = setInterval(trySpawn, 10000);
     onCleanup(() => clearInterval(interval));
   });
 
