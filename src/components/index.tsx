@@ -3,6 +3,8 @@ import type { Component } from 'solid-js';
 import { createSignal } from 'solid-js';
 import { ParallaxMountainScene } from './parallaxMountains';
 import { Card } from './card';
+import { DayNightScene } from './scene/dayNightScene';
+import { ThemeToggle } from './scene/themeToggle';
 
 export const Main: Component = () => {
 
@@ -15,18 +17,13 @@ export const Main: Component = () => {
     })
   }
 
-  const style = `
-    bg-[#eceff4]
-    min-h-screen
-    min-w-screen
-    w-100
-    max-w-none
-  `;
-
   return (
-    <div class={style} onMouseMove={handleMouseMove}>
-      <Card />
-      <ParallaxMountainScene position={mousePosition()} />
-    </div>
+    <DayNightScene>
+      <div class="min-h-screen" onMouseMove={handleMouseMove}>
+        <Card />
+        <ParallaxMountainScene position={mousePosition()} />
+        <ThemeToggle />
+      </div>
+    </DayNightScene>
   )
 }

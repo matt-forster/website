@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes sky-evening {
+  0%   { background-color: #eceff4; }
+  30%  { background-color: #e8c47c; }
+  60%  { background-color: #bf616a; }
+  100% { background-color: #2e3440; }
+}
+
+@keyframes sky-morning {
+  0%   { background-color: #2e3440; }
+  30%  { background-color: #434c5e; }
+  60%  { background-color: #d08770; }
+  100% { background-color: #eceff4; }
+}
+
+@keyframes pinwheel-to-night {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(180deg); }
+}
+
+@keyframes pinwheel-to-day {
+  0%   { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
+}
