@@ -47,9 +47,9 @@ export const Deer: Component = () => {
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 80 70"
+          viewBox="0 0 90 70"
           shape-rendering="geometricPrecision"
-          style={{ width: '64px', height: '56px' }}
+          style={{ width: '72px', height: '56px' }}
         >
           {/* Legs */}
           <path d="M24,54 L22,68" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
@@ -77,24 +77,11 @@ export const Deer: Component = () => {
               transform: eating() ? 'rotate(35deg)' : 'rotate(0deg)',
             }}
           >
-            {/* Neck */}
-            <path
-              d="M60,36 C62,30 64,24 66,20"
-              fill="none"
-              stroke="#d08770"
-              stroke-width="8"
-              stroke-linecap="round"
-            />
-            <path
-              d="M60,36 C62,30 64,24 66,20"
-              fill="none"
-              stroke="#4c566a"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
+            {/* Neck — filled shape */}
+            <path d="M58,36 C59,34 60,32 61,30 L67,18 C68,20 68,22 67,24 L63,34 C62,36 60,37 58,36Z" fill="#d08770" stroke="#4c566a" stroke-width="1.5" stroke-linejoin="round" />
 
             {/* Head */}
-            <ellipse cx="68" cy="16" rx="8" ry="6" fill="#d08770" stroke="#4c566a" stroke-width="2" />
+            <ellipse cx="68" cy="16" rx="8" ry="6" fill="#d08770" stroke="#4c566a" stroke-width="1.5" />
 
             {/* Ears */}
             <path d="M72,12 C74,8 76,7 77,9" fill="#d08770" stroke="#4c566a" stroke-width="1.5" stroke-linecap="round" />
