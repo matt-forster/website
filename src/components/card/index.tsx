@@ -112,13 +112,14 @@ export const Card: Component = () => {
                   }}
                 </For>
                 <span
+                  aria-hidden="true"
                   class="text-xs ml-1 transition-opacity duration-200 whitespace-nowrap"
                   style={{
                     color: mode() === 'dark' ? palette.nightSecondaryText : palette.dayMutedText,
                     opacity: hoveredLabel() ? 1 : 0,
                   }}
                 >
-                  {hoveredLabel() ?? '\u00A0'}
+                  {hoveredLabel()}
                 </span>
               </div>
             </div>
