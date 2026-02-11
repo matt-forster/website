@@ -14,11 +14,11 @@ describe('fetchProfile', () => {
   it('includes links with required fields', async () => {
     const profile = await fetchProfile();
 
-    expect(profile.links.length).toBeGreaterThanOrEqual(2);
+    expect(profile.links.length).toBeGreaterThanOrEqual(5);
     profile.links.forEach((link) => {
       expect(link.label).toBeTruthy();
       expect(link.href).toBeTruthy();
-      expect(['github', 'email']).toContain(link.icon);
+      expect(['github', 'email', 'linkedin', 'posts', 'bluesky']).toContain(link.icon);
     });
   });
 
@@ -36,6 +36,30 @@ describe('fetchProfile', () => {
 
     expect(email).toBeDefined();
     expect(email!.href).toContain('mailto:');
+  });
+
+  it('includes a linkedin link', async () => {
+    const profile = await fetchProfile();
+    const linkedin = profile.links.find((l) => l.icon === 'linkedin');
+
+    expect(linkedin).toBeDefined();
+    expect(linkedin!.href).toContain('linkedin.com');
+  });
+
+  it('includes a posts link', async () => {
+    const profile = await fetchProfile();
+    const posts = profile.links.find((l) => l.icon === 'posts');
+
+    expect(posts).toBeDefined();
+    expect(posts!.href).toContain('posts.mattforster.ca');
+  });
+
+  it('includes a bluesky link', async () => {
+    const profile = await fetchProfile();
+    const bluesky = profile.links.find((l) => l.icon === 'bluesky');
+
+    expect(bluesky).toBeDefined();
+    expect(bluesky!.href).toContain('bsky.app');
   });
 
   it('has an experience array', async () => {
