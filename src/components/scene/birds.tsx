@@ -59,22 +59,24 @@ export const Birds: Component = () => {
               fill="none"
             >
               {/* Left wing */}
-              <line
-                x1="10" y1="5" x2="2" y2="2"
+              <path
+                d="M10 5 Q6 2 2 3"
                 stroke={strokeColor()}
                 stroke-width="1.5"
                 stroke-linecap="round"
+                fill="none"
                 style={{
                   'transform-origin': '10px 5px',
                   animation: `bird-flap-left ${bird.flapSpeed}s ease-in-out infinite`,
                 }}
               />
               {/* Right wing */}
-              <line
-                x1="10" y1="5" x2="18" y2="2"
+              <path
+                d="M10 5 Q14 2 18 3"
                 stroke={strokeColor()}
                 stroke-width="1.5"
                 stroke-linecap="round"
+                fill="none"
                 style={{
                   'transform-origin': '10px 5px',
                   animation: `bird-flap-right ${bird.flapSpeed}s ease-in-out infinite`,
