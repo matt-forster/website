@@ -1,5 +1,5 @@
 import type { Component, JSX } from 'solid-js';
-import { createSignal, createEffect, onMount } from 'solid-js';
+import { createSignal, createEffect, onMount, onCleanup } from 'solid-js';
 import { useTheme } from '../../context/theme';
 import { Stars } from './stars';
 
@@ -70,6 +70,8 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
         setSvgFilter(toNight ? 'brightness(0.5) hue-rotate(20deg) saturate(0.7)' : 'none');
       }
     }, interval);
+
+    onCleanup(() => clearInterval(timer));
   });
 
   return (

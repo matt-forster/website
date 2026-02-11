@@ -1,5 +1,5 @@
 import type { Component } from 'solid-js';
-import { For, createMemo } from 'solid-js';
+import { For } from 'solid-js';
 
 interface Star {
   x: number;
@@ -23,9 +23,9 @@ function generateStars(count: number): Star[] {
   return stars;
 }
 
-export const Stars: Component<{ visible: boolean }> = (props) => {
-  const stars = createMemo(() => generateStars(80));
+const stars = generateStars(80);
 
+export const Stars: Component<{ visible: boolean }> = (props) => {
   return (
     <div
       class="absolute inset-0 pointer-events-none z-[1]"
@@ -34,7 +34,7 @@ export const Stars: Component<{ visible: boolean }> = (props) => {
         transition: 'opacity 1.5s ease',
       }}
     >
-      <For each={stars()}>
+      <For each={stars}>
         {(star) => (
           <div
             class="absolute rounded-full bg-white"

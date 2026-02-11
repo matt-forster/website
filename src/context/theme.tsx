@@ -1,4 +1,4 @@
-import { createContext, createSignal, useContext, onMount } from 'solid-js';
+import { createContext, createSignal, useContext, onMount, onCleanup } from 'solid-js';
 import type { Component, JSX } from 'solid-js';
 
 type ThemeMode = 'light' | 'dark';
@@ -31,6 +31,7 @@ export const ThemeProvider: Component<{ children: JSX.Element }> = (props) => {
       }
     };
     mediaQuery.addEventListener('change', handleChange);
+    onCleanup(() => mediaQuery.removeEventListener('change', handleChange));
   });
 
   const toggle = () => {
