@@ -1,5 +1,6 @@
 import type { Component } from 'solid-js';
 import { createSignal, onMount, createEffect, For } from 'solid-js';
+import { Deer } from '../scene/deer';
 
 // Declare the SVG imports to handle them carefully for SSR
 let mountainForegroundSvg = '';
@@ -231,6 +232,9 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
             src={cloudOne}
             alt='Cloud One' />
 
+          {/* Deer — appears occasionally, rendered before grass so it sits behind */}
+          <Deer />
+          
           {/* Trees — rendered before grass so they appear behind it */}
           <For each={groundElements().filter(el => el.isTree)}>{(el) =>
             <img class="absolute bottom-[2px] max-w-none"
