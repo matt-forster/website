@@ -36,7 +36,7 @@ This document outlines the approach for five planned enhancements to the portfol
    - `/cv` → renders a new `<CVPage />` component.
 3. **Create `src/components/cv/index.tsx`** — A `<CVPage />` component that:
    - Reuses the same parallax mountain background and overall layout from `<Main />`.
-   - Renders a wider panel (same glassmorphic style as the redesigned card — see §3) populated with experience data from `getProfile()`.
+   - Renders a wider panel (same hand-drawn card style as the redesigned card — see §3) populated with experience data from `getProfile()`.
    - Includes a "← Back" link to `/` using the router's `<A>` component.
 4. **Update `<Card />`** — Add a subtle CV link that routes to `/cv` using `<A href="/cv">`.
 5. **Shared layout** — Extract the parallax-scene + mouse-tracking wrapper from `<Main />` into a shared layout component (or use the router's `root` prop) so both pages share the same background scene.
@@ -56,19 +56,20 @@ This document outlines the approach for five planned enhancements to the portfol
 
 ### 3a. Card Redesign — Flow with the Scene
 
-**Goal:** Rethink the card so it feels like a natural part of the landscape rather than a separate opaque box floating on top.
+**Goal:** Rethink the card so it feels like a natural part of the landscape, matching the hand-made/hand-drawn aesthetic of the existing SVGs rather than a sterile UI element floating on top.
 
-**Approach — Glassmorphic / Semi-Transparent Card:**
+**Design direction:** The SVGs (mountains, clouds, grass) were hand-drawn and use organic, imperfect paths with soft Nord palette strokes (`#d8dee9`, `#3f5787`, `#5e81ac`). The card should feel like it belongs in this world — like a hand-written note or a wooden sign post in the scene — not like a glass panel or a material-design card.
 
-- Replace the solid white `bg-white` background with a semi-transparent frosted-glass style:
-  - `background: rgba(255, 255, 255, 0.65)` (light mode) or `rgba(59, 66, 82, 0.7)` (dark mode).
-  - `backdrop-filter: blur(12px)` to create a frosted effect that lets the mountain scene bleed through.
-  - Softer shadow: `shadow-lg shadow-black/10` instead of `shadow-md`.
-  - Slightly more rounded corners: `rounded-2xl`.
+**Approach — Organic / Hand-Drawn Card:**
+
+- Keep the white/off-white background (`#eceff4` or `#fff`) to stay consistent with the illustration palette — do **not** use transparency, blur, or glassmorphic effects.
+- Replace the hard `rounded-lg` + `shadow-md` with a softer, sketchier border treatment:
+  - Use an SVG border/frame around the card that mimics the hand-drawn stroke style of the existing artwork (irregular lines, slight wobble, Nord stroke colors like `#d8dee9` or `#3f5787`).
+  - Alternatively, use a CSS `border` with a slightly heavier weight (`2–3px`) in a muted Nord color (`#d8dee9`) and keep the simple `rounded-lg`, relying on the color palette to tie it visually to the scene rather than adding drawn-stroke SVG framing.
+- Typography: consider a slightly more casual or humanist font pairing to complement the hand-drawn aesthetic, while remaining highly legible. If adding a new font feels heavy, simply adjusting weight/spacing of the existing sans-serif is sufficient.
 - Reduce the heavy positioning margins; let the card sit more naturally:
-  - Keep the responsive breakpoint positions but loosen the strict `absolute` layout so it doesn't feel pinned.
-- Typography: slightly increase letter spacing on the name, use lighter weight for description/skills to feel airy.
-- The card should feel like a translucent sign sitting in the scene rather than a modal overlay.
+  - Keep the responsive breakpoint positions but consider whether the strict `absolute` pinned layout could be softened.
+- The card should feel like a note, sign, or label placed in the scene — **not** a frosted glass overlay or a material card.
 
 ### 3b. Subtle Links
 
@@ -98,7 +99,7 @@ This document outlines the approach for five planned enhancements to the portfol
 |---|---|
 | `src/data/profile.ts` | Modified — add posts + linkedin links, add `icon` field to `Link` type |
 | `src/components/icons/index.tsx` | New — shared icon components (smaller, muted) |
-| `src/components/card/index.tsx` | Modified — glassmorphic card, icon-only links with hover reveal |
+| `src/components/card/index.tsx` | Modified — hand-drawn card style, icon-only links with hover reveal |
 
 ---
 
@@ -123,7 +124,7 @@ This document outlines the approach for five planned enhancements to the portfol
    - The entire layer fades in (`opacity: 0 → 1`, 2s transition) when dark mode activates.
 6. **Update background colors** — In `<Main />` (`src/components/index.tsx`):
    - Transition `bg-[#eceff4]` to a dark sky color (e.g., `#2e3440`) using inline `style` with a CSS `transition: background 1.5s ease`.
-7. **Update `<Card />` and `<CVPage />`** — Transition card background from white to Nord dark (`#3b4252`) and text from dark to light.
+7. **Update `<Card />` and `<CVPage />`** — Transition card background from the off-white/white Nord palette to a dark Nord variant (`#3b4252`) and text from dark to light. Keep the hand-drawn border/stroke style but shift stroke colors to lighter Nord tones for night visibility.
 8. **Add CSS animations** to `src/index.css`:
    - `@keyframes twinkle` — opacity oscillation for stars.
    - `@keyframes shooting-star` — diagonal translate + fade for shooting stars.
@@ -188,9 +189,9 @@ This document outlines the approach for five planned enhancements to the portfol
 The recommended order minimizes conflicts and builds incrementally:
 
 1. **Unified data layer** (#1) — foundational; includes both profile and CV data. No visual change yet.
-2. **Icons extraction, subtle links & card redesign** (#3) — refactor icons into shared file, redesign card to glassmorphic style, make links icon-only with hover reveal. Add posts link.
+2. **Icons extraction, subtle links & card redesign** (#3) — refactor icons into shared file, redesign card to hand-drawn style, make links icon-only with hover reveal. Add posts link.
 3. **Routing & CV page** (#2) — depends on data layer and icons. CV reads from same data source.
-4. **Dark mode** (#4) — theme context, sun, stars, toggle, color transitions (glassmorphic card adapts).
+4. **Dark mode** (#4) — theme context, sun, stars, toggle, color transitions (hand-drawn card adapts).
 5. **Animated elements** (#5) — birds, shooting stars, cloud drift, composition.
 
 Each step should be followed by a build verification (`npm run build`) and visual check.
@@ -215,7 +216,7 @@ src/
     ├── icons/
     │   └── index.tsx                   # NEW — shared SVG icon components (muted, small)
     ├── card/
-    │   └── index.tsx                   # Updated — glassmorphic, icon-only links
+    │   └── index.tsx                   # Updated — hand-drawn style, icon-only links
     ├── cv/
     │   └── index.tsx                   # NEW — CV/resume page (reads same data)
     ├── scene/
