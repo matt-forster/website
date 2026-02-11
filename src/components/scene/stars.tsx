@@ -1,5 +1,5 @@
 import type { Component } from 'solid-js';
-import { For } from 'solid-js';
+import { createSignal, onMount, onCleanup, For } from 'solid-js';
 import { transitions } from '../../theme';
 
 interface Star {
@@ -7,6 +7,13 @@ interface Star {
   y: number;
   size: number;
   delay: number;
+  duration: number;
+}
+
+interface ShootingStar {
+  id: number;
+  x: number;
+  y: number;
   duration: number;
 }
 
@@ -25,6 +32,8 @@ function generateStars(count: number): Star[] {
 }
 
 const stars = generateStars(80);
+
+let shootingStarId = 0;
 
 export const Stars: Component<{ visible: boolean }> = (props) => {
   return (
@@ -49,6 +58,51 @@ export const Stars: Component<{ visible: boolean }> = (props) => {
           />
         )}
       </For>
+      <ShootingStars visible={props.visible} />
     </div>
+  );
+};
+
+const ShootingStars: Component<{ visible: boolean }> = (props) => {
+  const [shootingStars, setShootingStars] = createSignal<ShootingStar[]>([]);
+
+  onMount(() => {
+    const interval = setInterval(() => {
+      if (!props.visible) return;
+      // 30% chance to spawn
+      if (Math.random() > 0.3) return;
+
+      const star: ShootingStar = {
+        id: shootingStarId++,
+        x: 10 + Math.random() * 70,
+        y: 5 + Math.random() * 30,
+        duration: 0.5 + Math.random() * 0.5,
+      };
+      setShootingStars((prev) => [...prev, star]);
+
+      setTimeout(() => {
+        setShootingStars((prev) => prev.filter((s) => s.id !== star.id));
+      }, star.duration * 1000);
+    }, 2000);
+
+    onCleanup(() => clearInterval(interval));
+  });
+
+  return (
+    <For each={shootingStars()}>
+      {(star) => (
+        <div
+          class="absolute rounded-full bg-white"
+          style={{
+            left: `${star.x}%`,
+            top: `${star.y}%`,
+            width: '2px',
+            height: '2px',
+            'box-shadow': '0 0 4px 1px rgba(255, 255, 255, 0.8)',
+            animation: `shooting-star ${star.duration}s linear forwards`,
+          }}
+        />
+      )}
+    </For>
   );
 };

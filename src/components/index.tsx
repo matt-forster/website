@@ -5,6 +5,7 @@ import { ParallaxMountainScene } from './parallaxMountains';
 import { Card } from './card';
 import { DayNightScene } from './scene/dayNightScene';
 import { ThemeToggle } from './scene/themeToggle';
+import { Birds } from './scene/birds';
 
 export const Main: Component = () => {
 
@@ -21,6 +22,7 @@ export const Main: Component = () => {
     <DayNightScene>
       <div class="min-h-screen" onMouseMove={handleMouseMove}>
         <Card />
+        <Birds />
         <ParallaxMountainScene position={mousePosition()} />
         <ThemeToggle />
       </div>

@@ -55,8 +55,10 @@ export const palette = {
   // Celestial
   sunColor: colors.nord13,
   sunGlow: 'rgba(235, 203, 139, 0.4)',
+  sunTexture: '#d9b263',
   moonColor: colors.nord4,
   moonGlow: 'rgba(216, 222, 233, 0.3)',
+  moonCrater: '#c2c9d6',
 
   // Toggle
   dayToggle: colors.nord3,

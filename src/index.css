@@ -6,3 +6,40 @@
   0%, 100% { opacity: 0.3; }
   50% { opacity: 1; }
 }
+
+@keyframes bird-fly {
+  0% { left: -5%; }
+  100% { left: 105%; }
+}
+
+@keyframes bird-flap-left {
+  0%, 100% { transform: rotate(-30deg); }
+  50% { transform: rotate(15deg); }
+}
+
+@keyframes bird-flap-right {
+  0%, 100% { transform: rotate(30deg); }
+  50% { transform: rotate(-15deg); }
+}
+
+@keyframes shooting-star {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(-35deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(120px, 80px) rotate(-35deg);
+  }
+}
+
+@keyframes celestial-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.85; }
+}
+
+@keyframes cloud-drift {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(40px); }
+  100% { transform: translateX(0); }
+}
