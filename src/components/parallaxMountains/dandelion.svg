@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 80" shape-rendering="geometricPrecision">
+  <!-- Dandelion — extracted from grass layer, paper diorama style -->
+  <!-- Stem -->
+  <path d="M19,78 L19,32 L21,32 L21,78Z" fill="#a3be8c" stroke="#7a8e68" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Flower head — starburst -->
+  <path d="M20,38 L17,35 L12,35 L12,31 L9,31 L11,27 L8,25 L10,22 L9,18 L13,17 L14,13 L18,13 L21,10 L24,13 L28,13 L29,16 L33,17 L32,21 L34,24 L31,27 L33,31 L30,32 L29,35 L25,36 L20,38Z" fill="#ebcb8b" stroke="#cfb176" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

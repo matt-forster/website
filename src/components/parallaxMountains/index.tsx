@@ -16,6 +16,7 @@ let rockSmallSvg = '';
 let grassTuftSvg = '';
 let wildflowersSvg = '';
 let shrubSvg = '';
+let dandelionSvg = '';
 
 type GroundElement = {
   src: () => string;
@@ -60,13 +61,19 @@ function generateGroundElements(): GroundElement[] {
   // Wildflowers (1–3)
   const flowerCount = 1 + Math.floor(rand() * 3);
   for (let i = 0; i < flowerCount; i++) {
-    elements.push({ src: () => wildflowersSvg, left: biasedLeft(), height: 14 + Math.floor(rand() * 6) });
+    elements.push({ src: () => wildflowersSvg, left: biasedLeft(), height: 30 + Math.floor(rand() * 12) });
   }
 
   // Wild rose bushes (1–2)
   const shrubCount = 1 + Math.floor(rand() * 2);
   for (let i = 0; i < shrubCount; i++) {
-    elements.push({ src: () => shrubSvg, left: biasedLeft(), height: 18 + Math.floor(rand() * 8) });
+    elements.push({ src: () => shrubSvg, left: biasedLeft(), height: 28 + Math.floor(rand() * 8) });
+  }
+
+  // Dandelions (4–8) — extracted from grass layer for independent parallax
+  const dandelionCount = 4 + Math.floor(rand() * 5);
+  for (let i = 0; i < dandelionCount; i++) {
+    elements.push({ src: () => dandelionSvg, left: biasedLeft(), height: 40 + Math.floor(rand() * 16) });
   }
 
   return elements;
@@ -96,6 +103,7 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
     grassTuftSvg = (await import('./grassTuft.svg')).default;
     wildflowersSvg = (await import('./wildflowers.svg')).default;
     shrubSvg = (await import('./shrub.svg')).default;
+    dandelionSvg = (await import('./dandelion.svg')).default;
     
     setGroundElements(generateGroundElements());
     setAssetsLoaded(true);
