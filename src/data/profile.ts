@@ -1,7 +1,7 @@
 export interface Link {
   label: string;
   href: string;
-  icon: 'github' | 'email' | 'linkedin' | 'posts' | 'bluesky';
+  icon: 'github' | 'email' | 'linkedin' | 'posts' | 'bluesky' | 'cv';
 }
 
 export interface Experience {
@@ -23,14 +23,15 @@ export interface ProfileData {
 const profile: ProfileData = {
   name: 'Matt Forster',
   title: 'Software Engineer',
-  description: 'Backend Services, DevEx, Operations',
-  skills: 'Software Architecture, Typescript, Golang',
+  description: 'Platform Engineering, DevEx',
+  skills: 'Systems Design, APIs, Automation',
   links: [
     { label: 'GitHub', href: 'https://github.com/matt-forster', icon: 'github' },
     { label: 'Email', href: 'mailto:hey@mattforster.ca', icon: 'email' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/mattforster', icon: 'linkedin' },
     { label: 'Posts', href: 'https://posts.mattforster.ca', icon: 'posts' },
     { label: 'Bluesky', href: 'https://mattforster.social', icon: 'bluesky' },
+    { label: 'CV', href: 'https://github.com/matt-forster/cv', icon: 'cv' },
   ],
   experience: [],
 };
