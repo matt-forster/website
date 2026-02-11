@@ -6,6 +6,7 @@ import { CelestialBody } from './celestialBody';
 
 const EVENING_COLORS = ['#eceff4', '#d4956a', '#3b4252', '#2e3440'];
 const MORNING_COLORS = ['#2e3440', '#3b4252', '#d08770', '#eceff4'];
+const NIGHT_FILTER = 'brightness(0.5) hue-rotate(20deg) saturate(0.7)';
 
 export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
   const { mode } = useTheme();
@@ -19,7 +20,7 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
     const current = mode();
     if (current === 'dark') {
       setSkyColor('#2e3440');
-      setSvgFilter('brightness(0.5) hue-rotate(20deg) saturate(0.7)');
+      setSvgFilter(NIGHT_FILTER);
     }
     lastAppliedMode = current;
     setInitialized(true);
@@ -35,7 +36,7 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
     const toNight = current === 'dark';
 
     // Set the SVG filter target immediately — CSS transition handles the smooth interpolation
-    setSvgFilter(toNight ? 'brightness(0.5) hue-rotate(20deg) saturate(0.7)' : 'none');
+    setSvgFilter(toNight ? NIGHT_FILTER : 'none');
 
     const duration = 2000;
     const steps = 50;
