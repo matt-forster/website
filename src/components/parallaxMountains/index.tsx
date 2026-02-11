@@ -201,6 +201,9 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
             src={cloudOne}
             alt='Cloud One' />
 
+          {/* Deer — appears occasionally, rendered before grass so it sits behind */}
+          <Deer />
+
           <img class="absolute bottom-0 -left-12 h-[750px] max-w-none"
             style={`translate: ${translateValues().grass}`}
             src={grass}
@@ -213,9 +216,6 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
               src={el.src()}
               alt='' />
           }</For>
-
-          {/* Deer — appears occasionally on the grass layer */}
-          <Deer />
         </>
       )}
     </div>

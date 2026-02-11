@@ -42,20 +42,20 @@ export const Deer: Component = () => {
   return (
     <Show when={visible()}>
       <div
-        class="absolute bottom-[18px] z-[2] pointer-events-none"
+        class="absolute bottom-0 pointer-events-none"
         style={{ right: '18%' }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 90 70"
+          viewBox="0 0 90 80"
           shape-rendering="geometricPrecision"
-          style={{ width: '72px', height: '56px' }}
+          style={{ width: '72px', height: '64px' }}
         >
           {/* Legs */}
-          <path d="M24,54 L22,68" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
-          <path d="M32,56 L31,68" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
-          <path d="M52,56 L51,68" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
-          <path d="M58,54 L60,68" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
+          <path d="M24,54 L21,78" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
+          <path d="M32,56 L30,78" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
+          <path d="M52,56 L50,78" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
+          <path d="M58,54 L61,78" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
 
           {/* Body */}
           <path
