@@ -19,7 +19,9 @@ let wildflowersSvg = '';
 let shrubSvg = '';
 let dandelionSvg = '';
 let treeDeciduousSvg = '';
+let treeDeciduousBSvg = '';
 let treePineSvg = '';
+let treePineBSvg = '';
 let tuftBushSvg = '';
 
 type GroundElement = {
@@ -27,6 +29,9 @@ type GroundElement = {
   left: number;
   height: number;
   isTree?: boolean;
+  scale?: number;
+  rotation?: number;
+  flipX?: boolean;
 };
 
 // Seed-based pseudo-random for consistent layout across renders
@@ -87,16 +92,34 @@ function generateGroundElements(): GroundElement[] {
     elements.push({ src: () => dandelionSvg, left: i === 0 ? nearLeft() : biasedLeft(), height: 40 + Math.floor(rand() * 16) });
   }
 
-  // Deciduous trees (2–4) — first one placed left for mobile visibility
-  const deciduousCount = 2 + Math.floor(rand() * 3);
+  // Deciduous trees (4–6) — first one placed left for mobile visibility
+  const deciduousCount = 4 + Math.floor(rand() * 3);
   for (let i = 0; i < deciduousCount; i++) {
-    elements.push({ src: () => treeDeciduousSvg, left: i === 0 ? 60 + Math.floor(rand() * 120) : spreadLeft(), height: 120 + Math.floor(rand() * 40), isTree: true });
+    const variant = rand() > 0.5 ? () => treeDeciduousBSvg : () => treeDeciduousSvg;
+    elements.push({
+      src: variant,
+      left: i === 0 ? 60 + Math.floor(rand() * 120) : spreadLeft(),
+      height: 120 + Math.floor(rand() * 40),
+      isTree: true,
+      scale: 0.85 + rand() * 0.3,
+      rotation: (rand() - 0.5) * 6,
+      flipX: rand() > 0.5,
+    });
   }
 
-  // Pine trees (2–3) — first one placed left for mobile visibility, offset from deciduous
-  const pineCount = 2 + Math.floor(rand() * 2);
+  // Pine trees (3–5) — first one placed left for mobile visibility, offset from deciduous
+  const pineCount = 3 + Math.floor(rand() * 3);
   for (let i = 0; i < pineCount; i++) {
-    elements.push({ src: () => treePineSvg, left: i === 0 ? 220 + Math.floor(rand() * 120) : spreadLeft(), height: 100 + Math.floor(rand() * 40), isTree: true });
+    const variant = rand() > 0.5 ? () => treePineBSvg : () => treePineSvg;
+    elements.push({
+      src: variant,
+      left: i === 0 ? 220 + Math.floor(rand() * 120) : spreadLeft(),
+      height: 100 + Math.floor(rand() * 40),
+      isTree: true,
+      scale: 0.85 + rand() * 0.3,
+      rotation: (rand() - 0.5) * 6,
+      flipX: rand() > 0.5,
+    });
   }
 
   // Tuft bushes (2–4) — first one placed left for mobile visibility
@@ -134,7 +157,9 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
     shrubSvg = (await import('./shrub.svg')).default;
     dandelionSvg = (await import('./dandelion.svg')).default;
     treeDeciduousSvg = (await import('./treeDeciduous.svg')).default;
+    treeDeciduousBSvg = (await import('./treeDeciduousB.svg')).default;
     treePineSvg = (await import('./treePine.svg')).default;
+    treePineBSvg = (await import('./treePineB.svg')).default;
     tuftBushSvg = (await import('./tuftBush.svg')).default;
     
     setGroundElements(generateGroundElements());
@@ -238,13 +263,13 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
           {/* Trees — rendered before grass so they appear behind it */}
           <For each={groundElements().filter(el => el.isTree)}>{(el) =>
             <img class="absolute bottom-[2px] max-w-none"
-              style={`left: ${el.left}px; height: ${el.height}px; translate: ${translateValues().ground}`}
+              style={`left: ${el.left}px; height: ${el.height}px; translate: ${translateValues().ground}; transform-origin: bottom center; transform: scale(${el.scale ?? 1}) rotate(${el.rotation ?? 0}deg)${el.flipX ? ' scaleX(-1)' : ''};`}
               src={el.src()}
               alt='' />
           }</For>
 
           <img class="absolute bottom-0 -left-12 h-[750px] max-w-none"
-            style={`translate: ${translateValues().grass}`}
+            style={`translate: ${translateValues().grass}; animation: grass-sway 8s ease-in-out infinite;`}
             src={grass}
             alt='Grass' />
 
