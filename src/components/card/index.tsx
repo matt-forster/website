@@ -1,14 +1,24 @@
 import type { Component } from 'solid-js';
-import { For, Show, createResource } from 'solid-js';
+import { For, Show, createSignal, createResource } from 'solid-js';
 import { Portal } from 'solid-js/web'
 import { fetchProfile } from '../../data/profile';
 import { iconComponents } from '../icons';
 import { useTheme } from '../../context/theme';
-import { palette } from '../../theme';
+import { palette, colors } from '../../theme';
+import type { Link } from '../../data/profile';
+
+const hoverColors: Record<Link['icon'], string> = {
+  github: colors.nord9,
+  email: colors.nord8,
+  linkedin: colors.nord10,
+  posts: colors.nord7,
+  bluesky: colors.nord9,
+};
 
 export const Card: Component = () => {
   const [profile] = createResource(fetchProfile);
   const { mode } = useTheme();
+  const [hoveredLabel, setHoveredLabel] = createSignal<string | null>(null);
 
   const boxStyle = `
     absolute
@@ -87,36 +97,30 @@ export const Card: Component = () => {
                       <a
                         href={link.href}
                         aria-label={link.label}
-                        class={`
-                          relative group
-                          hover:text-nord-frost
-                          transition-all duration-200
-                          hover:-translate-y-0.5
-                        `}
-                        style={{ color: mode() === 'dark' ? palette.nightLinkColor : palette.dayLinkColor }}
+                        class="transition-all duration-200 hover:-translate-y-0.5"
+                        style={{
+                          color: hoveredLabel() === link.label
+                            ? hoverColors[link.icon]
+                            : mode() === 'dark' ? palette.nightLinkColor : palette.dayLinkColor,
+                        }}
+                        onMouseEnter={() => setHoveredLabel(link.label)}
+                        onMouseLeave={() => setHoveredLabel(null)}
                       >
                         <Icon />
-                        <span
-                          class={`
-                            absolute left-1/2 -translate-x-1/2 top-full mt-1
-                            text-xs
-                            border rounded px-1.5 py-0.5
-                            opacity-0 group-hover:opacity-100
-                            transition-opacity duration-200
-                            pointer-events-none whitespace-nowrap
-                          `}
-                          style={{
-                            color: mode() === 'dark' ? palette.nightSecondaryText : palette.dayMutedText,
-                            'background-color': mode() === 'dark' ? palette.nightCardBg : palette.dayCardBg,
-                            'border-color': mode() === 'dark' ? palette.nightBorder : palette.dayBorder,
-                          }}
-                        >
-                          {link.label}
-                        </span>
                       </a>
                     );
                   }}
                 </For>
+                <span
+                  aria-hidden="true"
+                  class="text-xs ml-1 transition-opacity duration-200 whitespace-nowrap"
+                  style={{
+                    color: mode() === 'dark' ? palette.nightSecondaryText : palette.dayMutedText,
+                    opacity: hoveredLabel() ? 1 : 0,
+                  }}
+                >
+                  {hoveredLabel()}
+                </span>
               </div>
             </div>
           )}
