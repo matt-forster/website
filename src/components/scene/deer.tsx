@@ -5,6 +5,10 @@ export const Deer: Component = () => {
   const [visible, setVisible] = createSignal(false);
   const [eating, setEating] = createSignal(false);
 
+  // Randomize position (biased left for mobile) and facing direction
+  const leftPos = Math.floor(Math.random() * Math.random() * 1400) + 100;
+  const flipHorizontally = Math.random() > 0.5;
+
   onMount(() => {
     // Only appear ~40% of the time on page load
     if (Math.random() > 0.4) return;
@@ -43,7 +47,10 @@ export const Deer: Component = () => {
     <Show when={visible()}>
       <div
         class="absolute bottom-0 pointer-events-none"
-        style={{ right: '18%' }}
+        style={{
+          left: `${leftPos}px`,
+          transform: flipHorizontally ? 'scaleX(-1)' : 'none',
+        }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
