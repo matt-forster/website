@@ -22,7 +22,7 @@ export const Satellite: Component<{ visible: boolean }> = (props) => {
       const pass: SatellitePass = {
         id: satelliteId++,
         y: 8 + Math.random() * 35,
-        duration: 15 + Math.random() * 10,
+        duration: 25 + Math.random() * 15,
         direction: Math.random() > 0.5 ? 'ltr' : 'rtl',
       };
       setSatellite(pass);
@@ -40,14 +40,14 @@ export const Satellite: Component<{ visible: boolean }> = (props) => {
     <Show when={satellite()}>
       {(sat) => (
         <div
-          class="absolute rounded-full bg-white pointer-events-none"
+          class="absolute rounded-full pointer-events-none"
           style={{
             top: `${sat().y}%`,
-            width: '2px',
-            height: '2px',
-            opacity: '0.85',
-            'box-shadow': '0 0 3px 1px rgba(255, 255, 255, 0.6)',
-            animation: `satellite-pass-${sat().direction} ${sat().duration}s linear forwards`,
+            width: '2.5px',
+            height: '2.5px',
+            background: '#fffaf0',
+            'box-shadow': '0 0 4px 2px rgba(255, 248, 230, 0.7), 0 0 8px 3px rgba(235, 203, 139, 0.3)',
+            animation: `satellite-pass-${sat().direction} ${sat().duration}s linear forwards, satellite-glint 3s ease-in-out infinite`,
           }}
         />
       )}
