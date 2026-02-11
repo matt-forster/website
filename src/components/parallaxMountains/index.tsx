@@ -21,10 +21,9 @@ type GroundElement = {
   src: () => string;
   left: number;
   height: number;
-  key: string;
 };
 
-// Seed-based pseudo-random for deterministic layout per session
+// Seed-based pseudo-random for consistent layout across renders
 function seededRandom(seed: number) {
   let s = seed;
   return () => {
@@ -34,7 +33,7 @@ function seededRandom(seed: number) {
 }
 
 function generateGroundElements(): GroundElement[] {
-  const rand = seededRandom(42 + Math.floor(Date.now() / 86400000));
+  const rand = seededRandom(7331);
   const elements: GroundElement[] = [];
 
   // Helper: generate a left position biased toward the left (0–1200px range most likely)
@@ -43,31 +42,31 @@ function generateGroundElements(): GroundElement[] {
   // Rocks cluster (1–2)
   const rockCount = rand() > 0.5 ? 2 : 1;
   for (let i = 0; i < rockCount; i++) {
-    elements.push({ src: () => rocksSvg, left: biasedLeft(), height: 24 + Math.floor(rand() * 8), key: `rocks-${i}` });
+    elements.push({ src: () => rocksSvg, left: biasedLeft(), height: 24 + Math.floor(rand() * 8) });
   }
 
   // Small rocks (1–3)
   const smallRockCount = 1 + Math.floor(rand() * 3);
   for (let i = 0; i < smallRockCount; i++) {
-    elements.push({ src: () => rockSmallSvg, left: biasedLeft(), height: 16 + Math.floor(rand() * 8), key: `rockSmall-${i}` });
+    elements.push({ src: () => rockSmallSvg, left: biasedLeft(), height: 16 + Math.floor(rand() * 8) });
   }
 
   // Grass tufts (2–4)
   const grassCount = 2 + Math.floor(rand() * 3);
   for (let i = 0; i < grassCount; i++) {
-    elements.push({ src: () => grassTuftSvg, left: biasedLeft(), height: 16 + Math.floor(rand() * 8), key: `grassTuft-${i}` });
+    elements.push({ src: () => grassTuftSvg, left: biasedLeft(), height: 16 + Math.floor(rand() * 8) });
   }
 
   // Wildflowers (1–3)
   const flowerCount = 1 + Math.floor(rand() * 3);
   for (let i = 0; i < flowerCount; i++) {
-    elements.push({ src: () => wildflowersSvg, left: biasedLeft(), height: 14 + Math.floor(rand() * 6), key: `wildflower-${i}` });
+    elements.push({ src: () => wildflowersSvg, left: biasedLeft(), height: 14 + Math.floor(rand() * 6) });
   }
 
   // Wild rose bushes (1–2)
   const shrubCount = 1 + Math.floor(rand() * 2);
   for (let i = 0; i < shrubCount; i++) {
-    elements.push({ src: () => shrubSvg, left: biasedLeft(), height: 18 + Math.floor(rand() * 8), key: `shrub-${i}` });
+    elements.push({ src: () => shrubSvg, left: biasedLeft(), height: 18 + Math.floor(rand() * 8) });
   }
 
   return elements;
