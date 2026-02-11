@@ -1,5 +1,5 @@
 import type { Component } from 'solid-js';
-import { createSignal, onMount, createEffect } from 'solid-js';
+import { createSignal, onMount, createEffect, For } from 'solid-js';
 
 // Declare the SVG imports to handle them carefully for SSR
 let mountainForegroundSvg = '';
@@ -17,11 +17,68 @@ let grassTuftSvg = '';
 let wildflowersSvg = '';
 let shrubSvg = '';
 
+type GroundElement = {
+  src: () => string;
+  left: number;
+  height: number;
+  key: string;
+};
+
+// Seed-based pseudo-random for deterministic layout per session
+function seededRandom(seed: number) {
+  let s = seed;
+  return () => {
+    s = (s * 16807 + 0) % 2147483647;
+    return (s - 1) / 2147483646;
+  };
+}
+
+function generateGroundElements(): GroundElement[] {
+  const rand = seededRandom(42 + Math.floor(Date.now() / 86400000));
+  const elements: GroundElement[] = [];
+
+  // Helper: generate a left position biased toward the left (0–1200px range most likely)
+  const biasedLeft = () => Math.floor(rand() * rand() * 1400) + 100;
+
+  // Rocks cluster (1–2)
+  const rockCount = rand() > 0.5 ? 2 : 1;
+  for (let i = 0; i < rockCount; i++) {
+    elements.push({ src: () => rocksSvg, left: biasedLeft(), height: 24 + Math.floor(rand() * 8), key: `rocks-${i}` });
+  }
+
+  // Small rocks (1–3)
+  const smallRockCount = 1 + Math.floor(rand() * 3);
+  for (let i = 0; i < smallRockCount; i++) {
+    elements.push({ src: () => rockSmallSvg, left: biasedLeft(), height: 16 + Math.floor(rand() * 8), key: `rockSmall-${i}` });
+  }
+
+  // Grass tufts (2–4)
+  const grassCount = 2 + Math.floor(rand() * 3);
+  for (let i = 0; i < grassCount; i++) {
+    elements.push({ src: () => grassTuftSvg, left: biasedLeft(), height: 16 + Math.floor(rand() * 8), key: `grassTuft-${i}` });
+  }
+
+  // Wildflowers (1–3)
+  const flowerCount = 1 + Math.floor(rand() * 3);
+  for (let i = 0; i < flowerCount; i++) {
+    elements.push({ src: () => wildflowersSvg, left: biasedLeft(), height: 14 + Math.floor(rand() * 6), key: `wildflower-${i}` });
+  }
+
+  // Wild rose bushes (1–2)
+  const shrubCount = 1 + Math.floor(rand() * 2);
+  for (let i = 0; i < shrubCount; i++) {
+    elements.push({ src: () => shrubSvg, left: biasedLeft(), height: 18 + Math.floor(rand() * 8), key: `shrub-${i}` });
+  }
+
+  return elements;
+}
+
 export const ParallaxMountainScene: Component<{ position: { x: number, y: number } }> = (props) => {
   // Initialize with default values that work on both server and client
   const [windowSize, setWindowSize] = createSignal({ width: 1024, height: 768 });
   const [translateValues, setTranslateValues] = createSignal<Record<string, string>>({});
   const [assetsLoaded, setAssetsLoaded] = createSignal(false);
+  const [groundElements, setGroundElements] = createSignal<GroundElement[]>([]);
   
   // Load all assets only on the client side
   onMount(async () => {
@@ -41,6 +98,7 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
     wildflowersSvg = (await import('./wildflowers.svg')).default;
     shrubSvg = (await import('./shrub.svg')).default;
     
+    setGroundElements(generateGroundElements());
     setAssetsLoaded(true);
     
     // Set window size after mounting
@@ -74,12 +132,8 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
       cloudTwo: calculateTranslate(27, 2),
       cloudOne: calculateTranslate(13, 3),
       grass: calculateTranslate(),
-      // Ground-level vegetation — paper diorama elements sitting on the grass layer
-      rocks: calculateTranslate(0.3, 0.1),
-      rockSmall: calculateTranslate(0.2, 0.1),
-      grassTuft: calculateTranslate(0.1, 0.05),
-      wildflowers: calculateTranslate(0.15, 0.05),
-      shrub: calculateTranslate(0.2, 0.1),
+      // Ground-level vegetation uses a single shared parallax speed
+      ground: calculateTranslate(0.15, 0.05),
     });
   });
 
@@ -125,43 +179,13 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
             src={mountainForegroundSvg}
             alt='Mountain Foreground' />
 
-          {/* Ground-level vegetation — paper diorama elements sitting on the grass */}
-          <img class="absolute bottom-[2px] left-[850px] h-[28px] max-w-none"
-            style={`translate: ${translateValues().rocks}`}
-            src={rocksSvg}
-            alt='' />
-          <img class="absolute bottom-[2px] left-[1400px] h-[20px] max-w-none"
-            style={`translate: ${translateValues().rockSmall}`}
-            src={rockSmallSvg}
-            alt='' />
-          <img class="absolute bottom-[2px] left-[1900px] h-[22px] max-w-none"
-            style={`translate: ${translateValues().rockSmall}`}
-            src={rockSmallSvg}
-            alt='' />
-          <img class="absolute bottom-0 left-[600px] h-[22px] max-w-none"
-            style={`translate: ${translateValues().grassTuft}`}
-            src={grassTuftSvg}
-            alt='' />
-          <img class="absolute bottom-0 left-[1200px] h-[20px] max-w-none"
-            style={`translate: ${translateValues().grassTuft}`}
-            src={grassTuftSvg}
-            alt='' />
-          <img class="absolute bottom-0 left-[1700px] h-[18px] max-w-none"
-            style={`translate: ${translateValues().wildflowers}`}
-            src={wildflowersSvg}
-            alt='' />
-          <img class="absolute bottom-0 left-[1000px] h-[16px] max-w-none"
-            style={`translate: ${translateValues().wildflowers}`}
-            src={wildflowersSvg}
-            alt='' />
-          <img class="absolute bottom-[2px] left-[1550px] h-[20px] max-w-none"
-            style={`translate: ${translateValues().shrub}`}
-            src={shrubSvg}
-            alt='' />
-          <img class="absolute bottom-[2px] left-[750px] h-[16px] max-w-none"
-            style={`translate: ${translateValues().shrub}`}
-            src={shrubSvg}
-            alt='' />
+          {/* Ground-level vegetation — randomized paper diorama elements */}
+          <For each={groundElements()}>{(el) =>
+            <img class="absolute bottom-[2px] max-w-none"
+              style={`left: ${el.left}px; height: ${el.height}px; translate: ${translateValues().ground}`}
+              src={el.src()}
+              alt='' />
+          }</For>
 
           <img class="absolute bottom-[250px] left-[1900px] h-[100px] max-w-none"
             style={`translate: ${translateValues().cloudSix} animation: cloud-drift 42s ease-in-out 8s infinite;`}
