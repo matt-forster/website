@@ -47,6 +47,9 @@ function generateGroundElements(): GroundElement[] {
   // Helper: wider spread for taller elements like trees (250–1600px range, avoids left edge cutoff)
   const spreadLeft = () => Math.floor(rand() * 1400) + 250;
 
+  // Helper: guarantee near-left placement for mobile visibility (20–300px range)
+  const nearLeft = () => Math.floor(rand() * 280) + 20;
+
   // Rocks cluster (1–2)
   const rockCount = rand() > 0.5 ? 2 : 1;
   for (let i = 0; i < rockCount; i++) {
@@ -59,16 +62,16 @@ function generateGroundElements(): GroundElement[] {
     elements.push({ src: () => rockSmallSvg, left: biasedLeft(), height: 16 + Math.floor(rand() * 8) });
   }
 
-  // Grass tufts (5–8)
+  // Grass tufts (5–8) — first one placed left for mobile visibility
   const grassCount = 5 + Math.floor(rand() * 4);
   for (let i = 0; i < grassCount; i++) {
-    elements.push({ src: () => grassTuftSvg, left: biasedLeft(), height: 16 + Math.floor(rand() * 8) });
+    elements.push({ src: () => grassTuftSvg, left: i === 0 ? nearLeft() : biasedLeft(), height: 16 + Math.floor(rand() * 8) });
   }
 
-  // Wildflowers (1–3)
+  // Wildflowers (1–3) — first one placed left for mobile visibility
   const flowerCount = 1 + Math.floor(rand() * 3);
   for (let i = 0; i < flowerCount; i++) {
-    elements.push({ src: () => wildflowersSvg, left: biasedLeft(), height: 30 + Math.floor(rand() * 12) });
+    elements.push({ src: () => wildflowersSvg, left: i === 0 ? nearLeft() : biasedLeft(), height: 30 + Math.floor(rand() * 12) });
   }
 
   // Wild rose bushes (1–2)
@@ -77,10 +80,10 @@ function generateGroundElements(): GroundElement[] {
     elements.push({ src: () => shrubSvg, left: biasedLeft(), height: 28 + Math.floor(rand() * 8) });
   }
 
-  // Dandelions (4–8) — extracted from grass layer for independent parallax
+  // Dandelions (4–8) — first one placed left for mobile visibility
   const dandelionCount = 4 + Math.floor(rand() * 5);
   for (let i = 0; i < dandelionCount; i++) {
-    elements.push({ src: () => dandelionSvg, left: biasedLeft(), height: 40 + Math.floor(rand() * 16) });
+    elements.push({ src: () => dandelionSvg, left: i === 0 ? nearLeft() : biasedLeft(), height: 40 + Math.floor(rand() * 16) });
   }
 
   // Deciduous trees (2–4) — extracted from grass layer
@@ -95,10 +98,10 @@ function generateGroundElements(): GroundElement[] {
     elements.push({ src: () => treePineSvg, left: spreadLeft(), height: 100 + Math.floor(rand() * 40), isTree: true });
   }
 
-  // Tuft bushes (2–4) — dense grass tuft bushes with berries
+  // Tuft bushes (2–4) — first one placed left for mobile visibility
   const tuftBushCount = 2 + Math.floor(rand() * 3);
   for (let i = 0; i < tuftBushCount; i++) {
-    elements.push({ src: () => tuftBushSvg, left: biasedLeft(), height: 22 + Math.floor(rand() * 10) });
+    elements.push({ src: () => tuftBushSvg, left: i === 0 ? nearLeft() : biasedLeft(), height: 22 + Math.floor(rand() * 10) });
   }
 
   return elements;
