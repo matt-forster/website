@@ -17,7 +17,7 @@ Six planned enhancements for the portfolio site. Each is documented in its own f
 
 Build incrementally — each step depends on the ones before it:
 
-1. **Data layer** → 2. **Card redesign + links** → 3. **CV page + routing** → 4. **Dark mode** → 5. **Animated elements** → 6. **Scene vegetation**
+1. **Data layer** → 2. **Card redesign + links** → 3. **Dark mode** → 4. **Animated elements** → 5. **Scene vegetation** → 6. **CV page + routing**
 
 Each step should be followed by a build verification (`npm run build`) and visual check.
 
@@ -56,6 +56,6 @@ src/
 
 | Package | Purpose | Required By |
 |---|---|---|
-| `@solidjs/router` | Client-side routing for `/` and `/cv` | Step 2 (CV Page) |
+| `@solidjs/router` | Client-side routing for `/` and `/cv` | Step 6 (CV Page) |
 
 No other new dependencies are needed. All animations use CSS keyframes and SolidJS signals/effects.

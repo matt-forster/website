@@ -18,6 +18,7 @@ All new elements must match the **existing hand-drawn aesthetic**:
 
 ### 6a. Trees
 
+- **Improve existing trees:** The current mountain foreground SVG includes simple tree-like marks (lines representing trunks/evergreens on the hillside). These should be refined — add fuller canopy shapes, more detail, and better integration with the landscape. The existing strokes can serve as a starting point for richer, more recognizable tree forms while keeping the hand-drawn style.
 - **Evergreen / pine trees:** Simple triangular shapes with slightly wobbly edges. 2–3 size variants (small, medium, large). Placed in clusters along the mountain base or hillside.
 - **Deciduous trees:** Rounded, blob-like canopy shapes on a thin trunk. Again, hand-drawn imperfection in the outline. 1–2 variants.
 - Each tree SVG should be a standalone file in `src/components/parallaxMountains/` (e.g., `pineSmall.svg`, `pineLarge.svg`, `deciduousOne.svg`).
@@ -59,7 +60,7 @@ In dark mode (see [§4 — Dark Mode](./04-dark-mode.md)), vegetation elements w
 
 | File | Change |
 |---|---|
-| `src/components/parallaxMountains/*.svg` | New — hand-drawn SVG files for trees, bushes, flowers, rocks |
+| `src/components/parallaxMountains/*.svg` | New + modified — hand-drawn SVG files for trees, bushes, flowers, rocks; improved existing tree elements in mountain foreground |
 | `src/components/parallaxMountains/index.tsx` | Modified — import new SVGs, add positioned `<img>` elements with parallax speeds |
 
 ## Notes
