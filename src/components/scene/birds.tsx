@@ -22,7 +22,7 @@ export const Birds: Component = () => {
       const bird: Bird = {
         id: nextId++,
         y: 40 + Math.random() * 25,
-        speed: 14 + Math.random() * 18,
+        speed: 30 + Math.random() * 25,
         size: 16 + Math.random() * 12,
         flapSpeed: 0.4 + Math.random() * 0.3,
       };
