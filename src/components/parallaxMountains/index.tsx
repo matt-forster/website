@@ -90,17 +90,17 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
             alt='Mountain Background' />
 
           <img class="absolute bottom-[350px] left-[1500px] h-[100px] max-w-none"
-            style={`translate: ${translateValues().cloudFive} animation: cloud-drift 45s ease-in-out infinite;`}
+            style={`translate: ${translateValues().cloudFive} animation: cloud-drift 30s ease-in-out infinite;`}
             src={cloudFive}
             alt='Cloud Five' />
 
           <img class="absolute bottom-[300px] left-[1100px] h-[100px] max-w-none"
-            style={`translate: ${translateValues().cloudFour} animation: cloud-drift 55s ease-in-out 5s infinite;`}
+            style={`translate: ${translateValues().cloudFour} animation: cloud-drift 38s ease-in-out 5s infinite;`}
             src={cloudFour}
             alt='Cloud Four' />
 
           <img class="absolute bottom-[250px] left-[50px] h-[100px] max-w-none"
-            style={`translate: ${translateValues().cloudThree} animation: cloud-drift 50s ease-in-out 2s infinite;`}
+            style={`translate: ${translateValues().cloudThree} animation: cloud-drift 34s ease-in-out 2s infinite;`}
             src={cloudThree}
             alt='Cloud Three' />
 
@@ -110,17 +110,17 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
             alt='Mountain Foreground' />
 
           <img class="absolute bottom-[250px] left-[1900px] h-[100px] max-w-none"
-            style={`translate: ${translateValues().cloudSix} animation: cloud-drift 60s ease-in-out 8s infinite;`}
+            style={`translate: ${translateValues().cloudSix} animation: cloud-drift 42s ease-in-out 8s infinite;`}
             src={cloudSix}
             alt='Cloud Six' />
 
           <img class="absolute bottom-[350px] left-[750px] h-[100px] max-w-none"
-            style={`translate: ${translateValues().cloudTwo} animation: cloud-drift 40s ease-in-out 3s infinite;`}
+            style={`translate: ${translateValues().cloudTwo} animation: cloud-drift 26s ease-in-out 3s infinite;`}
             src={cloudTwo}
             alt='Cloud Two' />
 
           <img class="absolute bottom-[400px] left-[450px] h-[100px] max-w-none"
-            style={`translate: ${translateValues().cloudOne} animation: cloud-drift 35s ease-in-out 6s infinite;`}
+            style={`translate: ${translateValues().cloudOne} animation: cloud-drift 22s ease-in-out 6s infinite;`}
             src={cloudOne}
             alt='Cloud One' />
 

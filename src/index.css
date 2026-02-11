@@ -12,9 +12,14 @@
   100% { left: 105%; }
 }
 
-@keyframes bird-flap {
-  0%, 100% { d: path("M0 4 Q5 0 10 4 Q15 0 20 4"); }
-  50% { d: path("M0 4 Q5 8 10 4 Q15 8 20 4"); }
+@keyframes bird-flap-left {
+  0%, 100% { transform: rotate(-30deg); }
+  50% { transform: rotate(15deg); }
+}
+
+@keyframes bird-flap-right {
+  0%, 100% { transform: rotate(30deg); }
+  50% { transform: rotate(-15deg); }
 }
 
 @keyframes shooting-star {
@@ -30,6 +35,6 @@
 
 @keyframes cloud-drift {
   0% { transform: translateX(0); }
-  50% { transform: translateX(15px); }
+  50% { transform: translateX(40px); }
   100% { transform: translateX(0); }
 }

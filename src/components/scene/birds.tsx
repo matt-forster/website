@@ -8,6 +8,7 @@ interface Bird {
   y: number;
   speed: number;
   size: number;
+  flapSpeed: number;
 }
 
 let nextId = 0;
@@ -20,9 +21,10 @@ export const Birds: Component = () => {
     const spawn = () => {
       const bird: Bird = {
         id: nextId++,
-        y: 5 + Math.random() * 35,
-        speed: 12 + Math.random() * 16,
+        y: 40 + Math.random() * 25,
+        speed: 14 + Math.random() * 18,
         size: 16 + Math.random() * 12,
+        flapSpeed: 0.4 + Math.random() * 0.3,
       };
       setBirds((prev) => [...prev, bird]);
 
@@ -32,7 +34,7 @@ export const Birds: Component = () => {
       }, bird.speed * 1000);
     };
 
-    const spawnInterval = setInterval(spawn, 4000 + Math.random() * 6000);
+    const spawnInterval = setInterval(spawn, 8000 + Math.random() * 10000);
 
     onCleanup(() => {
       clearInterval(spawnInterval);
@@ -42,27 +44,45 @@ export const Birds: Component = () => {
   return (
     <div class="absolute inset-0 pointer-events-none z-[3] overflow-hidden">
       <For each={birds()}>
-        {(bird) => (
-          <svg
-            class="absolute"
-            style={{
-              top: `${bird.y}%`,
-              width: `${bird.size}px`,
-              height: `${bird.size * 0.5}px`,
-              animation: `bird-fly ${bird.speed}s linear forwards`,
-            }}
-            viewBox="0 0 20 8"
-            fill="none"
-          >
-            <path
-              d="M0 4 Q5 0 10 4 Q15 0 20 4"
-              stroke={mode() === 'dark' ? palette.nightSecondaryText : palette.dayText}
-              stroke-width="1.5"
+        {(bird) => {
+          const strokeColor = () => mode() === 'dark' ? palette.nightSecondaryText : palette.dayText;
+          return (
+            <svg
+              class="absolute"
+              style={{
+                top: `${bird.y}%`,
+                width: `${bird.size}px`,
+                height: `${bird.size * 0.6}px`,
+                animation: `bird-fly ${bird.speed}s linear forwards`,
+              }}
+              viewBox="0 0 20 10"
               fill="none"
-              style={{ animation: `bird-flap 0.6s ease-in-out infinite` }}
-            />
-          </svg>
-        )}
+            >
+              {/* Left wing */}
+              <line
+                x1="10" y1="5" x2="2" y2="2"
+                stroke={strokeColor()}
+                stroke-width="1.5"
+                stroke-linecap="round"
+                style={{
+                  'transform-origin': '10px 5px',
+                  animation: `bird-flap-left ${bird.flapSpeed}s ease-in-out infinite`,
+                }}
+              />
+              {/* Right wing */}
+              <line
+                x1="10" y1="5" x2="18" y2="2"
+                stroke={strokeColor()}
+                stroke-width="1.5"
+                stroke-linecap="round"
+                style={{
+                  'transform-origin': '10px 5px',
+                  animation: `bird-flap-right ${bird.flapSpeed}s ease-in-out infinite`,
+                }}
+              />
+            </svg>
+          );
+        }}
       </For>
     </div>
   );
