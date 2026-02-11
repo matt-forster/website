@@ -1,29 +1,51 @@
 import type { Component } from 'solid-js';
+import { createSignal, onMount } from 'solid-js';
 import { useTheme } from '../../context/theme';
 
 export const CelestialBody: Component = () => {
   const { mode } = useTheme();
+  const [initialized, setInitialized] = createSignal(false);
+
+  onMount(() => setInitialized(true));
+
+  // Rotation: 0deg = sun visible (day), 180deg = moon visible (night)
+  const rotation = () => mode() === 'dark' ? 180 : 0;
+  const transitionStyle = () => initialized() ? 'transform 2s ease-in-out' : 'none';
 
   return (
     <div
       class="absolute pointer-events-none z-[2]"
       style={{
-        top: '8%',
+        top: '4%',
         right: '12%',
+        width: '48px',
+        height: '48px',
       }}
     >
       {/* Sun */}
       <div
-        class="rounded-full"
+        class="absolute inset-0 rounded-full"
         style={{
-          width: '48px',
-          height: '48px',
-          'background-color': mode() === 'dark' ? '#d8dee9' : '#ebcb8b',
-          'box-shadow': mode() === 'dark'
-            ? '0 0 12px 4px rgba(216, 222, 233, 0.3)'
-            : '0 0 20px 8px rgba(235, 203, 139, 0.4)',
-          opacity: '1',
-          transition: 'background-color 2s ease, box-shadow 2s ease',
+          'background-color': '#ebcb8b',
+          'box-shadow': '0 0 20px 8px rgba(235, 203, 139, 0.4)',
+          transform: `rotate(${rotation()}deg) translateY(${mode() === 'dark' ? '60px' : '0px'})`,
+          opacity: mode() === 'dark' ? '0' : '1',
+          transition: transitionStyle() === 'none' ? 'none' : 'transform 2s ease-in-out, opacity 1.5s ease',
+        }}
+      />
+      {/* Moon */}
+      <div
+        class="absolute rounded-full"
+        style={{
+          width: '40px',
+          height: '40px',
+          left: '4px',
+          top: '4px',
+          'background-color': '#d8dee9',
+          'box-shadow': '0 0 12px 4px rgba(216, 222, 233, 0.3)',
+          transform: `rotate(${rotation()}deg) translateY(${mode() === 'dark' ? '0px' : '-60px'})`,
+          opacity: mode() === 'dark' ? '1' : '0',
+          transition: transitionStyle() === 'none' ? 'none' : 'transform 2s ease-in-out, opacity 1.5s ease',
         }}
       />
     </div>
