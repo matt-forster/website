@@ -4,20 +4,20 @@ This document outlines the approach for five planned enhancements to the portfol
 
 ---
 
-## 1. Get Personal Information from an API
+## 1. Get Personal Information from an API (Profile + CV Unified)
 
-**Goal:** Decouple hardcoded personal data (name, title, skills, links) from the Card component so it can later be fetched from an API.
+**Goal:** Decouple hardcoded personal data (name, title, skills, links, **and CV/experience**) from the Card component so it can later be fetched from a single API endpoint.
 
-**Approach — Data Layer with Static Fallback:**
+**Approach — Unified Data Layer with Static Fallback:**
 
-1. **Create `src/data/profile.ts`** — Define TypeScript interfaces (`ProfileData`, `Link`, `Experience`) and export a `getProfile()` function that currently returns a static object containing all the data that is today hardcoded in `src/components/card/index.tsx`.
+1. **Create `src/data/profile.ts`** — Define TypeScript interfaces (`ProfileData`, `Link`, `Experience`) and export a `getProfile()` function that currently returns a static object containing **all** data: identity, links, and work experience. Both the landing card and the CV page consume the same data source.
 2. **Update `<Card />`** — Import and call `getProfile()` instead of using inline constants. Render links from the data array using `<For>`.
-3. **Future API swap** — When the API is ready, change `getProfile()` to an async fetch call. Wrap the Card in a SolidJS `<Suspense>` / `createResource` pattern to handle the loading state. The component interface stays the same.
+3. **Future API swap** — When the API is ready, change `getProfile()` to an async fetch call. Wrap consumers in a SolidJS `<Suspense>` / `createResource` pattern. One endpoint returns everything (profile + CV), so both views stay in sync.
 
 **Files affected:**
 | File | Change |
 |---|---|
-| `src/data/profile.ts` | New — data types & static getter |
+| `src/data/profile.ts` | New — unified data types & static getter (profile + experience + links) |
 | `src/components/card/index.tsx` | Modified — consume data layer instead of inline constants |
 
 ---
@@ -25,6 +25,8 @@ This document outlines the approach for five planned enhancements to the portfol
 ## 2. CV / Resume Page with Similar Design
 
 **Goal:** Add a second page for work experience/CV that shares the visual language of the landing page (card overlay on top of the parallax mountain scene).
+
+**Data source:** CV data (experience, roles, descriptions) comes from the same `getProfile()` / API endpoint as the landing-page profile data (see §1). No separate CV API.
 
 **Approach — Client-Side Routing:**
 
@@ -34,9 +36,9 @@ This document outlines the approach for five planned enhancements to the portfol
    - `/cv` → renders a new `<CVPage />` component.
 3. **Create `src/components/cv/index.tsx`** — A `<CVPage />` component that:
    - Reuses the same parallax mountain background and overall layout from `<Main />`.
-   - Renders a wider card-style panel (same rounded/shadow/positioned style) populated with experience data from `getProfile()`.
+   - Renders a wider panel (same glassmorphic style as the redesigned card — see §3) populated with experience data from `getProfile()`.
    - Includes a "← Back" link to `/` using the router's `<A>` component.
-4. **Update `<Card />`** — Add a "CV" link that routes to `/cv` using `<A href="/cv">`.
+4. **Update `<Card />`** — Add a subtle CV link that routes to `/cv` using `<A href="/cv">`.
 5. **Shared layout** — Extract the parallax-scene + mouse-tracking wrapper from `<Main />` into a shared layout component (or use the router's `root` prop) so both pages share the same background scene.
 
 **Files affected:**
@@ -46,27 +48,57 @@ This document outlines the approach for five planned enhancements to the portfol
 | `src/App.tsx` | Modified — add `<Router>` and route definitions |
 | `src/components/index.tsx` | Modified — extract shared layout logic |
 | `src/components/cv/index.tsx` | New — CV page component |
-| `src/components/card/index.tsx` | Modified — add CV navigation link |
+| `src/components/card/index.tsx` | Modified — add subtle CV navigation link |
 
 ---
 
-## 3. Add More Links
+## 3. Card Redesign + Subtle Links
 
-**Goal:** Add LinkedIn, personal website, and other links in a way that scales with the current card design.
+### 3a. Card Redesign — Flow with the Scene
 
-**Approach — Data-Driven Link Rendering:**
+**Goal:** Rethink the card so it feels like a natural part of the landscape rather than a separate opaque box floating on top.
 
-1. **Extend the `Link` type** in `src/data/profile.ts` with an `icon` discriminator field (e.g., `'github' | 'email' | 'linkedin' | 'web'`).
-2. **Create `src/components/icons/index.tsx`** — Extract the existing `GithubIcon` and `InboxIcon` SVG components from `<Card />` into a shared icons file. Add new icon components: `LinkedInIcon`, `WebIcon`, `DocumentIcon`.
+**Approach — Glassmorphic / Semi-Transparent Card:**
+
+- Replace the solid white `bg-white` background with a semi-transparent frosted-glass style:
+  - `background: rgba(255, 255, 255, 0.65)` (light mode) or `rgba(59, 66, 82, 0.7)` (dark mode).
+  - `backdrop-filter: blur(12px)` to create a frosted effect that lets the mountain scene bleed through.
+  - Softer shadow: `shadow-lg shadow-black/10` instead of `shadow-md`.
+  - Slightly more rounded corners: `rounded-2xl`.
+- Reduce the heavy positioning margins; let the card sit more naturally:
+  - Keep the responsive breakpoint positions but loosen the strict `absolute` layout so it doesn't feel pinned.
+- Typography: slightly increase letter spacing on the name, use lighter weight for description/skills to feel airy.
+- The card should feel like a translucent sign sitting in the scene rather than a modal overlay.
+
+### 3b. Subtle Links
+
+**Goal:** Links should be understated — visible but not attention-grabbing. They should be discoverable on hover rather than loudly labelled.
+
+**Approach — Icon-Only with Hover Reveal:**
+
+1. **Default state:** Render links as a row of small, muted-color icons (e.g., `text-[#4c566a]/60`, ~`w-5 h-5`). No visible text labels by default.
+2. **Hover state:** On hover, the icon lifts slightly (`transform: translateY(-2px)`), its color intensifies to the Nord accent (`#81a1c1`), and a small tooltip or label fades in below/above the icon showing the link text (e.g., "GitHub", "Posts").
+3. **Spacing:** Icons are evenly spaced in a compact row with `gap-3`, sitting below a subtle 1px divider line.
+4. **Links to include** (from data layer):
+   - GitHub → `https://www.github.com/matt-forster`
+   - Email → `mailto:hey@mattforster.ca`
+   - LinkedIn → `https://www.linkedin.com/in/matt-forster`
+   - Posts → `https://posts.mattforster.ca`
+   - CV → internal route `/cv`
+
+**Approach — Data-Driven Rendering:**
+
+1. **Extend the `Link` type** in `src/data/profile.ts` with an `icon` discriminator field (e.g., `'github' | 'email' | 'linkedin' | 'posts' | 'web'`).
+2. **Create `src/components/icons/index.tsx`** — Extract the existing `GithubIcon` and `InboxIcon` SVG components from `<Card />` into a shared icons file. Add new icon components: `LinkedInIcon`, `PostsIcon`, `DocumentIcon`.
 3. **Build an icon map** — `Record<Link['icon'], Component>` that maps the discriminator to the correct icon component.
-4. **Update `<Card />`** — Replace the hardcoded link markup with a `<For each={profile.links}>` loop that renders each link with its corresponding icon from the map. Add `aria-label` attributes for accessibility.
+4. **Update `<Card />`** — Replace the hardcoded link markup with a `<For each={profile.links}>` loop. Each link renders as a small icon with hover tooltip via `aria-label` and a CSS tooltip/label.
 
 **Files affected:**
 | File | Change |
 |---|---|
-| `src/data/profile.ts` | Modified — add more links to static data, add `icon` field to `Link` type |
-| `src/components/icons/index.tsx` | New — shared icon components |
-| `src/components/card/index.tsx` | Modified — data-driven link rendering |
+| `src/data/profile.ts` | Modified — add posts + linkedin links, add `icon` field to `Link` type |
+| `src/components/icons/index.tsx` | New — shared icon components (smaller, muted) |
+| `src/components/card/index.tsx` | Modified — glassmorphic card, icon-only links with hover reveal |
 
 ---
 
@@ -155,10 +187,10 @@ This document outlines the approach for five planned enhancements to the portfol
 
 The recommended order minimizes conflicts and builds incrementally:
 
-1. **Data layer** (#1) — foundational; no visual change yet.
-2. **Icons extraction & more links** (#3) — refactor needed before routing.
-3. **Routing & CV page** (#2) — depends on data layer and icons.
-4. **Dark mode** (#4) — theme context, sun, stars, toggle, color transitions.
+1. **Unified data layer** (#1) — foundational; includes both profile and CV data. No visual change yet.
+2. **Icons extraction, subtle links & card redesign** (#3) — refactor icons into shared file, redesign card to glassmorphic style, make links icon-only with hover reveal. Add posts link.
+3. **Routing & CV page** (#2) — depends on data layer and icons. CV reads from same data source.
+4. **Dark mode** (#4) — theme context, sun, stars, toggle, color transitions (glassmorphic card adapts).
 5. **Animated elements** (#5) — birds, shooting stars, cloud drift, composition.
 
 Each step should be followed by a build verification (`npm run build`) and visual check.
@@ -177,15 +209,15 @@ src/
 ├── context/
 │   └── theme.tsx                      # NEW — dark/light mode context
 ├── data/
-│   └── profile.ts                     # NEW — profile data & types
+│   └── profile.ts                     # NEW — unified profile + CV data & types
 └── components/
     ├── index.tsx                       # Shared layout + scene composition
     ├── icons/
-    │   └── index.tsx                   # NEW — shared SVG icon components
+    │   └── index.tsx                   # NEW — shared SVG icon components (muted, small)
     ├── card/
-    │   └── index.tsx                   # Updated — data-driven, dark mode
+    │   └── index.tsx                   # Updated — glassmorphic, icon-only links
     ├── cv/
-    │   └── index.tsx                   # NEW — CV/resume page
+    │   └── index.tsx                   # NEW — CV/resume page (reads same data)
     ├── scene/
     │   ├── sun.tsx                     # NEW — animated sun
     │   ├── stars.tsx                   # NEW — stars + shooting stars
