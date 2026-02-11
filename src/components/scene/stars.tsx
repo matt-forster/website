@@ -1,6 +1,7 @@
 import type { Component } from 'solid-js';
 import { createSignal, onMount, onCleanup, For } from 'solid-js';
 import { transitions } from '../../theme';
+import { Satellite } from './satellite';
 
 interface Star {
   x: number;
@@ -59,6 +60,7 @@ export const Stars: Component<{ visible: boolean }> = (props) => {
         )}
       </For>
       <ShootingStars visible={props.visible} />
+      <Satellite visible={props.visible} />
     </div>
   );
 };
