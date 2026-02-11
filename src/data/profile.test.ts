@@ -14,11 +14,11 @@ describe('fetchProfile', () => {
   it('includes links with required fields', async () => {
     const profile = await fetchProfile();
 
-    expect(profile.links.length).toBeGreaterThanOrEqual(5);
+    expect(profile.links.length).toBeGreaterThanOrEqual(6);
     profile.links.forEach((link) => {
       expect(link.label).toBeTruthy();
       expect(link.href).toBeTruthy();
-      expect(['github', 'email', 'linkedin', 'posts', 'bluesky']).toContain(link.icon);
+      expect(['github', 'email', 'linkedin', 'posts', 'bluesky', 'cv']).toContain(link.icon);
     });
   });
 
@@ -60,6 +60,14 @@ describe('fetchProfile', () => {
 
     expect(bluesky).toBeDefined();
     expect(bluesky!.href).toContain('mattforster.social');
+  });
+
+  it('includes a cv link', async () => {
+    const profile = await fetchProfile();
+    const cv = profile.links.find((l) => l.icon === 'cv');
+
+    expect(cv).toBeDefined();
+    expect(cv!.href).toContain('github.com/matt-forster/cv');
   });
 
   it('has an experience array', async () => {
