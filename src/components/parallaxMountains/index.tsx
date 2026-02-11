@@ -19,7 +19,9 @@ let wildflowersSvg = '';
 let shrubSvg = '';
 let dandelionSvg = '';
 let treeDeciduousSvg = '';
+let treeDeciduousBSvg = '';
 let treePineSvg = '';
+let treePineBSvg = '';
 let tuftBushSvg = '';
 
 type GroundElement = {
@@ -93,8 +95,9 @@ function generateGroundElements(): GroundElement[] {
   // Deciduous trees (2–4) — first one placed left for mobile visibility
   const deciduousCount = 2 + Math.floor(rand() * 3);
   for (let i = 0; i < deciduousCount; i++) {
+    const variant = rand() > 0.5 ? () => treeDeciduousBSvg : () => treeDeciduousSvg;
     elements.push({
-      src: () => treeDeciduousSvg,
+      src: variant,
       left: i === 0 ? 60 + Math.floor(rand() * 120) : spreadLeft(),
       height: 120 + Math.floor(rand() * 40),
       isTree: true,
@@ -107,8 +110,9 @@ function generateGroundElements(): GroundElement[] {
   // Pine trees (2–3) — first one placed left for mobile visibility, offset from deciduous
   const pineCount = 2 + Math.floor(rand() * 2);
   for (let i = 0; i < pineCount; i++) {
+    const variant = rand() > 0.5 ? () => treePineBSvg : () => treePineSvg;
     elements.push({
-      src: () => treePineSvg,
+      src: variant,
       left: i === 0 ? 220 + Math.floor(rand() * 120) : spreadLeft(),
       height: 100 + Math.floor(rand() * 40),
       isTree: true,
@@ -153,7 +157,9 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
     shrubSvg = (await import('./shrub.svg')).default;
     dandelionSvg = (await import('./dandelion.svg')).default;
     treeDeciduousSvg = (await import('./treeDeciduous.svg')).default;
+    treeDeciduousBSvg = (await import('./treeDeciduousB.svg')).default;
     treePineSvg = (await import('./treePine.svg')).default;
+    treePineBSvg = (await import('./treePineB.svg')).default;
     tuftBushSvg = (await import('./tuftBush.svg')).default;
     
     setGroundElements(generateGroundElements());
@@ -263,7 +269,7 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
           }</For>
 
           <img class="absolute bottom-0 -left-12 h-[750px] max-w-none"
-            style={`translate: ${translateValues().grass}; transform-origin: bottom center; animation: grass-sway 8s ease-in-out infinite;`}
+            style={`translate: ${translateValues().grass}; animation: grass-sway 8s ease-in-out infinite;`}
             src={grass}
             alt='Grass' />
 

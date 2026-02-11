@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 150" shape-rendering="geometricPrecision">
+  <!-- Pine tree variant B — narrower/taller silhouette, paper diorama style, Nord palette -->
+  <!-- Trunk — slightly offset -->
+  <path d="M32,148 L33,75 L38,75 L39,148Z" fill="#815020" stroke="#65381c" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Trunk bark lines -->
+  <line x1="35" y1="146" x2="35" y2="120" stroke="#65381c" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  <line x1="36" y1="135" x2="37" y2="105" stroke="#65381c" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+  <line x1="34" y1="115" x2="34" y2="85" stroke="#65381c" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+  <!-- Canopy — narrower, more columnar spruce-like shape with 4 tiers -->
+  <path d="M35,80 C30,78 20,76 14,72 C18,68 24,62 30,58 C24,56 18,52 16,48 C20,44 26,38 32,34 C28,32 22,28 20,24 C24,20 30,14 34,10 C30,8 28,6 26,4 C30,2 33,1 35,0 C37,1 40,2 44,4 C42,6 40,8 36,10 C40,14 46,20 50,24 C48,28 42,32 38,34 C44,38 50,44 54,48 C52,52 46,56 40,58 C46,62 52,68 56,72 C50,76 40,78 35,80Z" fill="#a3be8c" stroke="#7a8e68" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- Canopy texture lines — different angles from variant A -->
+  <path d="M20,68 C26,64 32,62 36,62" fill="none" stroke="#7a8e68" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+  <path d="M22,54 C28,50 34,48 38,48" fill="none" stroke="#7a8e68" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  <path d="M26,40 C30,36 34,34 38,34" fill="none" stroke="#7a8e68" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+  <path d="M28,26 C32,22 35,20 38,20" fill="none" stroke="#7a8e68" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+  <!-- Highlight lines -->
+  <path d="M24,62 C28,58 34,56 38,56" fill="none" stroke="#8fbcbb" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+  <path d="M28,46 C32,42 36,40 38,40" fill="none" stroke="#8fbcbb" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+</svg>

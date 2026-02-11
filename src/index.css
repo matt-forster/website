@@ -50,10 +50,10 @@ html, body {
 }
 
 @keyframes grass-sway {
-  0%, 100% { transform: skewX(0deg); }
-  25% { transform: skewX(0.3deg); }
-  50% { transform: skewX(-0.2deg); }
-  75% { transform: skewX(0.15deg); }
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(3px); }
+  50% { transform: translateX(-2px); }
+  75% { transform: translateX(1.5px); }
 }
 
 @keyframes satellite-pass-ltr {
