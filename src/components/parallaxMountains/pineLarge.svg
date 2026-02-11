@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 160" shape-rendering="geometricPrecision">
+  <!-- Large pine tree — hand-drawn style, Nord palette -->
+  <!-- Trunk -->
+  <path d="M48,158 C47,135 50,128 51,118 C52,112 49,108 50,102" fill="none" stroke="#5e81ac" stroke-width="4" stroke-linecap="round"/>
+  <!-- Bottom tier -->
+  <path d="M10,118 C18,96 30,84 37,76 C41,71 46,65 50,58 C54,65 59,71 63,76 C70,84 82,96 90,118 C75,112 63,110 50,109 C37,110 25,112 10,118Z" fill="#a3be8c" stroke="#3f5787" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Middle tier -->
+  <path d="M18,94 C26,74 35,63 42,54 C45,50 48,44 50,40 C52,44 55,50 58,54 C65,63 74,74 82,94 C70,88 60,86 50,85 C40,86 30,88 18,94Z" fill="#8fbcbb" stroke="#3f5787" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Upper tier -->
+  <path d="M26,72 C32,56 39,45 44,37 C46,33 49,27 50,22 C51,27 54,33 56,37 C61,45 68,56 74,72 C65,67 57,65 50,64 C43,65 35,67 26,72Z" fill="#a3be8c" stroke="#3f5787" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Top -->
+  <path d="M34,52 C38,40 44,30 47,22 C48,18 50,12 50,6 C50,12 52,18 53,22 C56,30 62,40 66,52 C60,48 55,47 50,46 C45,47 40,48 34,52Z" fill="#8fbcbb" stroke="#3f5787" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

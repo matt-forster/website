@@ -11,6 +11,12 @@ let cloudThree = '';
 let cloudFour = '';
 let cloudFive = '';
 let cloudSix = '';
+let pineSmallSvg = '';
+let pineLargeSvg = '';
+let deciduousOneSvg = '';
+let bushOneSvg = '';
+let bushTwoSvg = '';
+let rocksSvg = '';
 
 export const ParallaxMountainScene: Component<{ position: { x: number, y: number } }> = (props) => {
   // Initialize with default values that work on both server and client
@@ -30,6 +36,12 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
     cloudFour = (await import('./cloudFour.svg')).default;
     cloudFive = (await import('./cloudFive.svg')).default;
     cloudSix = (await import('./cloudSix.svg')).default;
+    pineSmallSvg = (await import('./pineSmall.svg')).default;
+    pineLargeSvg = (await import('./pineLarge.svg')).default;
+    deciduousOneSvg = (await import('./deciduousOne.svg')).default;
+    bushOneSvg = (await import('./bushOne.svg')).default;
+    bushTwoSvg = (await import('./bushTwo.svg')).default;
+    rocksSvg = (await import('./rocks.svg')).default;
     
     setAssetsLoaded(true);
     
@@ -63,7 +75,14 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
       cloudSix: calculateTranslate(7, 3),
       cloudTwo: calculateTranslate(27, 2),
       cloudOne: calculateTranslate(13, 3),
-      grass: calculateTranslate()
+      grass: calculateTranslate(),
+      // Vegetation layers — background (slow), mid-ground (moderate), foreground (faster)
+      pineBack: calculateTranslate(2, 0.5),
+      pineFore: calculateTranslate(0.8, 0.3),
+      deciduous: calculateTranslate(0.6, 0.2),
+      bushOne: calculateTranslate(0.4, 0.1),
+      bushTwo: calculateTranslate(0.5, 0.2),
+      rocks: calculateTranslate(0.3, 0.1),
     });
   });
 
@@ -108,6 +127,48 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
             style={`translate: ${translateValues().foreground}`}
             src={mountainForegroundSvg}
             alt='Mountain Foreground' />
+
+          {/* Background vegetation — small pines on the distant hillside */}
+          <img class="absolute bottom-[220px] left-[900px] h-[50px] max-w-none"
+            style={`translate: ${translateValues().pineBack}`}
+            src={pineSmallSvg}
+            alt='' />
+          <img class="absolute bottom-[240px] left-[1050px] h-[45px] max-w-none"
+            style={`translate: ${translateValues().pineBack}`}
+            src={pineSmallSvg}
+            alt='' />
+          <img class="absolute bottom-[230px] left-[1600px] h-[55px] max-w-none"
+            style={`translate: ${translateValues().pineBack}`}
+            src={pineLargeSvg}
+            alt='' />
+
+          {/* Mid-ground vegetation — trees between mountain layers */}
+          <img class="absolute bottom-[120px] left-[1200px] h-[90px] max-w-none"
+            style={`translate: ${translateValues().pineFore}`}
+            src={pineLargeSvg}
+            alt='' />
+          <img class="absolute bottom-[110px] left-[1350px] h-[70px] max-w-none"
+            style={`translate: ${translateValues().pineFore}`}
+            src={pineSmallSvg}
+            alt='' />
+          <img class="absolute bottom-[105px] left-[1800px] h-[85px] max-w-none"
+            style={`translate: ${translateValues().deciduous}`}
+            src={deciduousOneSvg}
+            alt='' />
+
+          {/* Foreground vegetation — bushes, rocks near the grass */}
+          <img class="absolute bottom-[55px] left-[800px] h-[35px] max-w-none"
+            style={`translate: ${translateValues().bushOne}`}
+            src={bushOneSvg}
+            alt='' />
+          <img class="absolute bottom-[50px] left-[1500px] h-[28px] max-w-none"
+            style={`translate: ${translateValues().bushTwo}`}
+            src={bushTwoSvg}
+            alt='' />
+          <img class="absolute bottom-[40px] left-[1100px] h-[32px] max-w-none"
+            style={`translate: ${translateValues().rocks}`}
+            src={rocksSvg}
+            alt='' />
 
           <img class="absolute bottom-[250px] left-[1900px] h-[100px] max-w-none"
             style={`translate: ${translateValues().cloudSix} animation: cloud-drift 42s ease-in-out 8s infinite;`}

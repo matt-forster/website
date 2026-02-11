@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 120" shape-rendering="geometricPrecision">
+  <!-- Small pine tree — hand-drawn style, Nord palette -->
+  <!-- Trunk -->
+  <path d="M38,118 C38,95 40,92 41,85 C42,80 39,78 40,75" fill="none" stroke="#5e81ac" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Bottom tier -->
+  <path d="M12,88 C18,72 26,65 30,60 C33,56 37,52 40,48 C43,53 47,57 50,61 C54,66 61,73 67,88 C55,84 47,83 40,82 C33,83 24,84 12,88Z" fill="#8fbcbb" stroke="#3f5787" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Middle tier -->
+  <path d="M18,72 C24,56 31,48 35,42 C37,39 39,35 40,32 C41,35 43,39 45,42 C49,48 56,57 62,72 C53,68 47,67 40,66 C33,67 27,68 18,72Z" fill="#a3be8c" stroke="#3f5787" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Top tier -->
+  <path d="M25,55 C30,42 35,33 38,26 C39,23 40,18 40,14 C40,18 41,23 42,26 C45,33 50,42 55,55 C49,52 44,51 40,50 C36,51 31,52 25,55Z" fill="#8fbcbb" stroke="#3f5787" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

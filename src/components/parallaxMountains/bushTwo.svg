@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 45" shape-rendering="geometricPrecision">
+  <!-- Small bush — hand-drawn, Nord palette -->
+  <!-- Back -->
+  <path d="M6,42 C2,32 6,22 14,16 C22,11 32,10 38,12 C46,10 54,12 60,18 C66,24 68,34 64,42Z" fill="#8fbcbb" stroke="#3f5787" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Front lobe -->
+  <path d="M12,44 C8,36 12,26 22,22 C30,18 42,20 48,26 C52,32 52,38 48,44 C38,46 18,46 12,44Z" fill="#a3be8c" stroke="#3f5787" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

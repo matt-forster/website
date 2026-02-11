@@ -17,7 +17,7 @@ Six planned enhancements for the portfolio site. Each is documented in its own f
 
 Build incrementally — each step depends on the ones before it:
 
-1. ~~**Data layer**~~ ✅ → 2. ~~**Card redesign + links**~~ ✅ → 3. ~~**Dark mode**~~ ✅ → 4. ~~**Animated elements**~~ ✅ → 5. **Scene vegetation** → 6. **CV page + routing**
+1. ~~**Data layer**~~ ✅ → 2. ~~**Card redesign + links**~~ ✅ → 3. ~~**Dark mode**~~ ✅ → 4. ~~**Animated elements**~~ ✅ → 5. ~~**Scene vegetation**~~ ✅ → 6. **CV page + routing**
 
 Each step should be followed by a build verification (`npm run build`) and visual check.
 

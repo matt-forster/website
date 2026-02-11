@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 130" shape-rendering="geometricPrecision">
+  <!-- Deciduous tree — hand-drawn rounded canopy, Nord palette -->
+  <!-- Trunk -->
+  <path d="M43,128 C43,105 44,98 45,88 C46,82 44,78 45,72" fill="none" stroke="#5e81ac" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Branch hints -->
+  <path d="M45,85 C38,78 32,76 28,74" fill="none" stroke="#5e81ac" stroke-width="2" stroke-linecap="round"/>
+  <path d="M45,80 C52,74 58,73 62,72" fill="none" stroke="#5e81ac" stroke-width="2" stroke-linecap="round"/>
+  <!-- Canopy back -->
+  <path d="M14,68 C10,52 14,38 22,28 C28,20 36,14 45,12 C54,14 62,20 68,28 C76,38 80,52 76,68 C72,78 62,82 45,84 C28,82 18,78 14,68Z" fill="#8fbcbb" stroke="#3f5787" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Canopy front lobe -->
+  <path d="M20,62 C18,48 22,36 30,28 C35,22 40,18 45,17 C50,18 55,22 60,28 C68,36 72,48 70,62 C66,70 58,74 45,75 C32,74 24,70 20,62Z" fill="#a3be8c" stroke="#3f5787" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
