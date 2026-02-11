@@ -3,6 +3,7 @@ import { createSignal, createEffect, onMount, onCleanup } from 'solid-js';
 import { useTheme } from '../../context/theme';
 import { Stars } from './stars';
 import { CelestialBody } from './celestialBody';
+import { ThemeToggle } from './themeToggle';
 import { palette, NIGHT_FILTER, EVENING_COLORS, MORNING_COLORS, transitions } from '../../theme';
 
 export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
@@ -63,7 +64,7 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
 
   return (
     <div
-      class="relative min-h-screen min-w-screen w-100 max-w-none overflow-hidden"
+      class="relative min-h-screen w-full max-w-none overflow-hidden"
       style={{ 'background-color': skyColor() }}
     >
       <Stars visible={mode() === 'dark'} />
@@ -74,6 +75,7 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
       }}>
         {props.children}
       </div>
+      <ThemeToggle />
     </div>
   );
 };
