@@ -55,6 +55,7 @@ export const Deer: Component = () => {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 90 80"
+          overflow="visible"
           shape-rendering="geometricPrecision"
           style={{ width: '72px', height: '64px' }}
         >
