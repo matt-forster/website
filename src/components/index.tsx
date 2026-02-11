@@ -19,7 +19,7 @@ export const Main: Component = () => {
 
   return (
     <DayNightScene>
-      <div class="min-h-screen" onMouseMove={handleMouseMove}>
+      <div class="min-h-[100dvh]" onMouseMove={handleMouseMove}>
         <Card />
         <Birds />
         <ParallaxMountainScene position={mousePosition()} />

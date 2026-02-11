@@ -64,7 +64,7 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
 
   return (
     <div
-      class="relative min-h-screen w-full max-w-none overflow-hidden"
+      class="relative h-[100dvh] w-full max-w-none overflow-hidden"
       style={{ 'background-color': skyColor() }}
     >
       <Stars visible={mode() === 'dark'} />

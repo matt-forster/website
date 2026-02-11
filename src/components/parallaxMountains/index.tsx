@@ -17,6 +17,9 @@ let grassTuftSvg = '';
 let wildflowersSvg = '';
 let shrubSvg = '';
 let dandelionSvg = '';
+let treeDeciduousSvg = '';
+let treePineSvg = '';
+let tuftBushSvg = '';
 
 type GroundElement = {
   src: () => string;
@@ -40,6 +43,9 @@ function generateGroundElements(): GroundElement[] {
   // Helper: generate a left position biased toward the left (0–1200px range most likely)
   const biasedLeft = () => Math.floor(rand() * rand() * 1400) + 100;
 
+  // Helper: wider spread for taller elements like trees (100–1500px range)
+  const spreadLeft = () => Math.floor(rand() * 1500) + 100;
+
   // Rocks cluster (1–2)
   const rockCount = rand() > 0.5 ? 2 : 1;
   for (let i = 0; i < rockCount; i++) {
@@ -52,8 +58,8 @@ function generateGroundElements(): GroundElement[] {
     elements.push({ src: () => rockSmallSvg, left: biasedLeft(), height: 16 + Math.floor(rand() * 8) });
   }
 
-  // Grass tufts (2–4)
-  const grassCount = 2 + Math.floor(rand() * 3);
+  // Grass tufts (5–8)
+  const grassCount = 5 + Math.floor(rand() * 4);
   for (let i = 0; i < grassCount; i++) {
     elements.push({ src: () => grassTuftSvg, left: biasedLeft(), height: 16 + Math.floor(rand() * 8) });
   }
@@ -74,6 +80,24 @@ function generateGroundElements(): GroundElement[] {
   const dandelionCount = 4 + Math.floor(rand() * 5);
   for (let i = 0; i < dandelionCount; i++) {
     elements.push({ src: () => dandelionSvg, left: biasedLeft(), height: 40 + Math.floor(rand() * 16) });
+  }
+
+  // Deciduous trees (2–4) — extracted from grass layer
+  const deciduousCount = 2 + Math.floor(rand() * 3);
+  for (let i = 0; i < deciduousCount; i++) {
+    elements.push({ src: () => treeDeciduousSvg, left: spreadLeft(), height: 120 + Math.floor(rand() * 40) });
+  }
+
+  // Pine trees (2–3) — new tree variety
+  const pineCount = 2 + Math.floor(rand() * 2);
+  for (let i = 0; i < pineCount; i++) {
+    elements.push({ src: () => treePineSvg, left: spreadLeft(), height: 100 + Math.floor(rand() * 40) });
+  }
+
+  // Tuft bushes (2–4) — dense grass tuft bushes with berries
+  const tuftBushCount = 2 + Math.floor(rand() * 3);
+  for (let i = 0; i < tuftBushCount; i++) {
+    elements.push({ src: () => tuftBushSvg, left: biasedLeft(), height: 22 + Math.floor(rand() * 10) });
   }
 
   return elements;
@@ -104,6 +128,9 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
     wildflowersSvg = (await import('./wildflowers.svg')).default;
     shrubSvg = (await import('./shrub.svg')).default;
     dandelionSvg = (await import('./dandelion.svg')).default;
+    treeDeciduousSvg = (await import('./treeDeciduous.svg')).default;
+    treePineSvg = (await import('./treePine.svg')).default;
+    tuftBushSvg = (await import('./tuftBush.svg')).default;
     
     setGroundElements(generateGroundElements());
     setAssetsLoaded(true);
