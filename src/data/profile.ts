@@ -26,7 +26,7 @@ const profile: ProfileData = {
   description: 'Backend Services, DevEx, Operations',
   skills: 'Software Architecture, Typescript, Golang',
   links: [
-    { label: 'matt-forster', href: 'http://www.github.com/matt-forster', icon: 'github' },
+    { label: 'matt-forster', href: 'https://github.com/matt-forster', icon: 'github' },
     { label: 'hey@mattforster.ca', href: 'mailto:hey@mattforster.ca', icon: 'email' },
   ],
   experience: [],
