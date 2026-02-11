@@ -23,14 +23,19 @@ export const Deer: Component = () => {
     // First eat after a short delay
     const initialDelay = setTimeout(() => startEating(), 3000 + Math.random() * 4000);
 
-    // Then eat every 6–12 seconds
-    const interval = setInterval(() => {
-      startEating();
-    }, 6000 + Math.random() * 6000);
+    // Then eat at random intervals (6–12 seconds apart)
+    let nextTimeout: ReturnType<typeof setTimeout>;
+    const scheduleNextEat = () => {
+      nextTimeout = setTimeout(() => {
+        startEating();
+        scheduleNextEat();
+      }, 6000 + Math.random() * 6000);
+    };
+    scheduleNextEat();
 
     onCleanup(() => {
       clearTimeout(initialDelay);
-      clearInterval(interval);
+      clearTimeout(nextTimeout);
     });
   });
 
@@ -91,7 +96,7 @@ export const Deer: Component = () => {
             {/* Head */}
             <ellipse cx="68" cy="16" rx="8" ry="6" fill="#d08770" stroke="#4c566a" stroke-width="2" />
 
-            {/* Ear */}
+            {/* Ears */}
             <path d="M72,12 C74,8 76,7 77,9" fill="#d08770" stroke="#4c566a" stroke-width="1.5" stroke-linecap="round" />
             <path d="M64,12 C62,8 61,7 62,10" fill="#d08770" stroke="#4c566a" stroke-width="1.5" stroke-linecap="round" />
 
