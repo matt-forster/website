@@ -50,16 +50,16 @@ function generateGroundElements(): GroundElement[] {
   // Helper: guarantee near-left placement for mobile visibility (20–300px range)
   const nearLeft = () => Math.floor(rand() * 280) + 20;
 
-  // Rocks cluster (1–2)
+  // Rocks cluster (1–2) — first one placed left for mobile visibility
   const rockCount = rand() > 0.5 ? 2 : 1;
   for (let i = 0; i < rockCount; i++) {
-    elements.push({ src: () => rocksSvg, left: biasedLeft(), height: 24 + Math.floor(rand() * 8) });
+    elements.push({ src: () => rocksSvg, left: i === 0 ? nearLeft() : biasedLeft(), height: 24 + Math.floor(rand() * 8) });
   }
 
-  // Small rocks (1–3)
+  // Small rocks (1–3) — first one placed left for mobile visibility
   const smallRockCount = 1 + Math.floor(rand() * 3);
   for (let i = 0; i < smallRockCount; i++) {
-    elements.push({ src: () => rockSmallSvg, left: biasedLeft(), height: 16 + Math.floor(rand() * 8) });
+    elements.push({ src: () => rockSmallSvg, left: i === 0 ? nearLeft() : biasedLeft(), height: 16 + Math.floor(rand() * 8) });
   }
 
   // Grass tufts (5–8) — first one placed left for mobile visibility
@@ -74,10 +74,10 @@ function generateGroundElements(): GroundElement[] {
     elements.push({ src: () => wildflowersSvg, left: i === 0 ? nearLeft() : biasedLeft(), height: 30 + Math.floor(rand() * 12) });
   }
 
-  // Wild rose bushes (1–2)
+  // Wild rose bushes (1–2) — first one placed left for mobile visibility
   const shrubCount = 1 + Math.floor(rand() * 2);
   for (let i = 0; i < shrubCount; i++) {
-    elements.push({ src: () => shrubSvg, left: biasedLeft(), height: 28 + Math.floor(rand() * 8) });
+    elements.push({ src: () => shrubSvg, left: i === 0 ? nearLeft() : biasedLeft(), height: 28 + Math.floor(rand() * 8) });
   }
 
   // Dandelions (4–8) — first one placed left for mobile visibility
@@ -86,16 +86,16 @@ function generateGroundElements(): GroundElement[] {
     elements.push({ src: () => dandelionSvg, left: i === 0 ? nearLeft() : biasedLeft(), height: 40 + Math.floor(rand() * 16) });
   }
 
-  // Deciduous trees (2–4) — extracted from grass layer
+  // Deciduous trees (2–4) — first one placed left for mobile visibility
   const deciduousCount = 2 + Math.floor(rand() * 3);
   for (let i = 0; i < deciduousCount; i++) {
-    elements.push({ src: () => treeDeciduousSvg, left: spreadLeft(), height: 120 + Math.floor(rand() * 40), isTree: true });
+    elements.push({ src: () => treeDeciduousSvg, left: i === 0 ? nearLeft() : spreadLeft(), height: 120 + Math.floor(rand() * 40), isTree: true });
   }
 
-  // Pine trees (2–3) — new tree variety
+  // Pine trees (2–3) — first one placed left for mobile visibility
   const pineCount = 2 + Math.floor(rand() * 2);
   for (let i = 0; i < pineCount; i++) {
-    elements.push({ src: () => treePineSvg, left: spreadLeft(), height: 100 + Math.floor(rand() * 40), isTree: true });
+    elements.push({ src: () => treePineSvg, left: i === 0 ? nearLeft() : spreadLeft(), height: 100 + Math.floor(rand() * 40), isTree: true });
   }
 
   // Tuft bushes (2–4) — first one placed left for mobile visibility
