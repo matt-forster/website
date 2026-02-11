@@ -81,7 +81,7 @@ export const Deer: Component = () => {
             style={{
               'transform-origin': '62px 36px',
               transition: 'transform 1.5s ease-in-out',
-              transform: eating() ? 'rotate(20deg)' : 'rotate(0deg)',
+              transform: eating() ? 'rotate(55deg)' : 'rotate(0deg)',
             }}
           >
             {/* Neck — filled shape */}
