@@ -141,8 +141,7 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
     inline-block
     right-0
     bottom-0
-    w-screen
-    min-w-screen
+    w-full
     h-[500px]
     z-0
     overflow-hidden
@@ -178,14 +177,6 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
             src={mountainForegroundSvg}
             alt='Mountain Foreground' />
 
-          {/* Ground-level vegetation — randomized paper diorama elements */}
-          <For each={groundElements()}>{(el) =>
-            <img class="absolute bottom-[2px] max-w-none"
-              style={`left: ${el.left}px; height: ${el.height}px; translate: ${translateValues().ground}`}
-              src={el.src()}
-              alt='' />
-          }</For>
-
           <img class="absolute bottom-[250px] left-[1900px] h-[100px] max-w-none"
             style={`translate: ${translateValues().cloudSix} animation: cloud-drift 42s ease-in-out 8s infinite;`}
             src={cloudSix}
@@ -205,6 +196,14 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
             style={`translate: ${translateValues().grass}`}
             src={grass}
             alt='Grass' />
+
+          {/* Ground-level vegetation — rendered after grass so they appear in front */}
+          <For each={groundElements()}>{(el) =>
+            <img class="absolute bottom-[2px] max-w-none"
+              style={`left: ${el.left}px; height: ${el.height}px; translate: ${translateValues().ground}`}
+              src={el.src()}
+              alt='' />
+          }</For>
         </>
       )}
     </div>

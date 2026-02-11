@@ -4,7 +4,6 @@ import { createSignal } from 'solid-js';
 import { ParallaxMountainScene } from './parallaxMountains';
 import { Card } from './card';
 import { DayNightScene } from './scene/dayNightScene';
-import { ThemeToggle } from './scene/themeToggle';
 import { Birds } from './scene/birds';
 
 export const Main: Component = () => {
@@ -24,7 +23,6 @@ export const Main: Component = () => {
         <Card />
         <Birds />
         <ParallaxMountainScene position={mousePosition()} />
-        <ThemeToggle />
       </div>
     </DayNightScene>
   )
