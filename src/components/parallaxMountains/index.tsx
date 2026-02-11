@@ -89,13 +89,13 @@ function generateGroundElements(): GroundElement[] {
   // Deciduous trees (2–4) — first one placed left for mobile visibility
   const deciduousCount = 2 + Math.floor(rand() * 3);
   for (let i = 0; i < deciduousCount; i++) {
-    elements.push({ src: () => treeDeciduousSvg, left: i === 0 ? nearLeft() : spreadLeft(), height: 120 + Math.floor(rand() * 40), isTree: true });
+    elements.push({ src: () => treeDeciduousSvg, left: i === 0 ? 60 + Math.floor(rand() * 120) : spreadLeft(), height: 120 + Math.floor(rand() * 40), isTree: true });
   }
 
-  // Pine trees (2–3) — first one placed left for mobile visibility
+  // Pine trees (2–3) — first one placed left for mobile visibility, offset from deciduous
   const pineCount = 2 + Math.floor(rand() * 2);
   for (let i = 0; i < pineCount; i++) {
-    elements.push({ src: () => treePineSvg, left: i === 0 ? nearLeft() : spreadLeft(), height: 100 + Math.floor(rand() * 40), isTree: true });
+    elements.push({ src: () => treePineSvg, left: i === 0 ? 220 + Math.floor(rand() * 120) : spreadLeft(), height: 100 + Math.floor(rand() * 40), isTree: true });
   }
 
   // Tuft bushes (2–4) — first one placed left for mobile visibility
