@@ -7,18 +7,6 @@ import { CelestialBody } from './celestialBody';
 const EVENING_COLORS = ['#eceff4', '#d4956a', '#3b4252', '#2e3440'];
 const MORNING_COLORS = ['#2e3440', '#3b4252', '#d08770', '#eceff4'];
 
-const EVENING_FILTERS = [
-  'none',
-  'sepia(0.2) brightness(0.8)',
-  'brightness(0.5) hue-rotate(20deg) saturate(0.7)',
-];
-
-const MORNING_FILTERS = [
-  'brightness(0.5) hue-rotate(20deg) saturate(0.7)',
-  'sepia(0.1) brightness(0.9)',
-  'none',
-];
-
 export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
   const { mode } = useTheme();
   const [skyColor, setSkyColor] = createSignal('#eceff4');
@@ -46,13 +34,15 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
 
     const toNight = current === 'dark';
 
+    // Set the SVG filter target immediately — CSS transition handles the smooth interpolation
+    setSvgFilter(toNight ? 'brightness(0.5) hue-rotate(20deg) saturate(0.7)' : 'none');
+
     const duration = 2000;
     const steps = 50;
     const interval = duration / steps;
     let step = 0;
 
     const colors = toNight ? EVENING_COLORS : MORNING_COLORS;
-    const filters = toNight ? EVENING_FILTERS : MORNING_FILTERS;
 
     const timer = setInterval(() => {
       step++;
@@ -66,14 +56,9 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
       const colorProgress = (eased * (colors.length - 1)) - colorIndex;
       setSkyColor(interpolateColor(colors[colorIndex], colors[colorIndex + 1], colorProgress));
 
-      // Interpolate SVG filters smoothly
-      const filterIndex = Math.min(Math.floor(eased * (filters.length - 1)), filters.length - 2);
-      setSvgFilter(eased < 0.5 ? filters[filterIndex] : filters[filterIndex + 1]);
-
       if (step >= steps) {
         clearInterval(timer);
         setSkyColor(toNight ? '#2e3440' : '#eceff4');
-        setSvgFilter(toNight ? 'brightness(0.5) hue-rotate(20deg) saturate(0.7)' : 'none');
       }
     }, interval);
 
@@ -87,7 +72,10 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
     >
       <Stars visible={mode() === 'dark'} />
       <CelestialBody />
-      <div style={{ filter: svgFilter() }}>
+      <div style={{
+        filter: svgFilter(),
+        transition: initialized() ? 'filter 2s ease-in-out' : 'none',
+      }}>
         {props.children}
       </div>
     </div>

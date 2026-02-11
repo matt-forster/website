@@ -28,9 +28,9 @@ export const CelestialBody: Component = () => {
         style={{
           'background-color': '#ebcb8b',
           'box-shadow': '0 0 20px 8px rgba(235, 203, 139, 0.4)',
-          transform: `rotate(${rotation()}deg) translateY(${mode() === 'dark' ? '60px' : '0px'})`,
+          transform: `rotate(${rotation()}deg) translateY(${mode() === 'dark' ? '100px' : '0px'})`,
           opacity: mode() === 'dark' ? '0' : '1',
-          transition: transitionStyle() === 'none' ? 'none' : 'transform 2s ease-in-out, opacity 1.5s ease',
+          transition: transitionStyle() === 'none' ? 'none' : 'transform 3s ease-in-out, opacity 2s ease',
         }}
       />
       {/* Moon */}
@@ -43,9 +43,9 @@ export const CelestialBody: Component = () => {
           top: '4px',
           'background-color': '#d8dee9',
           'box-shadow': '0 0 12px 4px rgba(216, 222, 233, 0.3)',
-          transform: `rotate(${rotation()}deg) translateY(${mode() === 'dark' ? '0px' : '-60px'})`,
+          transform: `rotate(${rotation()}deg) translateY(${mode() === 'dark' ? '0px' : '-100px'})`,
           opacity: mode() === 'dark' ? '1' : '0',
-          transition: transitionStyle() === 'none' ? 'none' : 'transform 2s ease-in-out, opacity 1.5s ease',
+          transition: transitionStyle() === 'none' ? 'none' : 'transform 3s ease-in-out, opacity 2s ease',
         }}
       />
     </div>
