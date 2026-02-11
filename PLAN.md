@@ -88,7 +88,7 @@ This document outlines the approach for five planned enhancements to the portfol
 
 **Approach — Data-Driven Rendering:**
 
-1. **Extend the `Link` type** in `src/data/profile.ts` with an `icon` discriminator field (e.g., `'github' | 'email' | 'linkedin' | 'posts' | 'web'`).
+1. **Extend the `Link` type** in `src/data/profile.ts` with an `icon` discriminator field (e.g., `'github' | 'email' | 'linkedin' | 'posts'`). Additional types like `'web'` can be added later as needed.
 2. **Create `src/components/icons/index.tsx`** — Extract the existing `GithubIcon` and `InboxIcon` SVG components from `<Card />` into a shared icons file. Add new icon components: `LinkedInIcon`, `PostsIcon`, `DocumentIcon`.
 3. **Build an icon map** — `Record<Link['icon'], Component>` that maps the discriminator to the correct icon component.
 4. **Update `<Card />`** — Replace the hardcoded link markup with a `<For each={profile.links}>` loop. Each link renders as a small icon with hover tooltip via `aria-label` and a CSS tooltip/label.
