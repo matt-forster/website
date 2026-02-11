@@ -43,3 +43,19 @@
   50% { transform: translateX(40px); }
   100% { transform: translateX(0); }
 }
+
+@keyframes satellite-pass-ltr {
+  0%   { left: -2%; transform: translateY(0); }
+  25%  { transform: translateY(-18px); }
+  50%  { transform: translateY(-28px); }
+  75%  { transform: translateY(-18px); }
+  100% { left: 102%; transform: translateY(0); }
+}
+
+@keyframes satellite-pass-rtl {
+  0%   { right: -2%; transform: translateY(0); }
+  25%  { transform: translateY(-18px); }
+  50%  { transform: translateY(-28px); }
+  75%  { transform: translateY(-18px); }
+  100% { right: 102%; transform: translateY(0); }
+}
