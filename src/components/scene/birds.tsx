@@ -35,9 +35,12 @@ export const Birds: Component = () => {
       }, bird.speed * 1000);
     };
 
+    // Spawn first bird quickly, then continue at regular intervals
+    const firstSpawn = setTimeout(spawn, 2000 + Math.random() * 2000);
     const spawnInterval = setInterval(spawn, 8000 + Math.random() * 10000);
 
     onCleanup(() => {
+      clearTimeout(firstSpawn);
       clearInterval(spawnInterval);
     });
   });
