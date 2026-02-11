@@ -2,45 +2,52 @@ import type { Component, JSX } from 'solid-js';
 import { createSignal, createEffect, onMount, onCleanup } from 'solid-js';
 import { useTheme } from '../../context/theme';
 import { Stars } from './stars';
+import { CelestialBody } from './celestialBody';
 
 export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
   const { mode } = useTheme();
   const [skyColor, setSkyColor] = createSignal('#eceff4');
   const [svgFilter, setSvgFilter] = createSignal('none');
   const [initialized, setInitialized] = createSignal(false);
+  // Track the last mode we've applied so the effect only runs on actual changes
+  let lastAppliedMode: string | null = null;
 
   onMount(() => {
-    if (mode() === 'dark') {
+    const current = mode();
+    if (current === 'dark') {
       setSkyColor('#2e3440');
       setSvgFilter('brightness(0.5) hue-rotate(20deg) saturate(0.7)');
     }
+    lastAppliedMode = current;
     setInitialized(true);
   });
 
   createEffect(() => {
     const current = mode();
     if (!initialized()) return;
+    // Skip if this is the same mode we already applied (e.g. on initial mount)
+    if (current === lastAppliedMode) return;
+    lastAppliedMode = current;
 
     const toNight = current === 'dark';
 
-    const duration = 2500;
-    const steps = 60;
+    const duration = 2000;
+    const steps = 50;
     const interval = duration / steps;
     let step = 0;
 
-    const eveningColors = ['#eceff4', '#e8c47c', '#d4956a', '#bf616a', '#a3546d', '#3b4252', '#2e3440'];
-    const morningColors = ['#2e3440', '#434c5e', '#bf616a', '#d08770', '#ebcb8b', '#eceff4'];
+    // Fewer color stops for a smoother, less jarring transition
+    const eveningColors = ['#eceff4', '#d4956a', '#3b4252', '#2e3440'];
+    const morningColors = ['#2e3440', '#3b4252', '#d08770', '#eceff4'];
 
     const eveningFilters = [
       'none',
-      'sepia(0.3) brightness(0.9)',
-      'sepia(0.2) brightness(0.7) hue-rotate(10deg)',
+      'sepia(0.2) brightness(0.8)',
       'brightness(0.5) hue-rotate(20deg) saturate(0.7)',
     ];
 
     const morningFilters = [
       'brightness(0.5) hue-rotate(20deg) saturate(0.7)',
-      'sepia(0.2) brightness(0.8)',
       'sepia(0.1) brightness(0.9)',
       'none',
     ];
@@ -60,7 +67,7 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
       const colorProgress = (eased * (colors.length - 1)) - colorIndex;
       setSkyColor(interpolateColor(colors[colorIndex], colors[colorIndex + 1], colorProgress));
 
-      // Step through SVG filters
+      // Interpolate SVG filters smoothly
       const filterIndex = Math.min(Math.floor(eased * (filters.length - 1)), filters.length - 2);
       setSvgFilter(eased < 0.5 ? filters[filterIndex] : filters[filterIndex + 1]);
 
@@ -80,6 +87,7 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
       style={{ 'background-color': skyColor() }}
     >
       <Stars visible={mode() === 'dark'} />
+      <CelestialBody />
       <div style={{ filter: svgFilter() }}>
         {props.children}
       </div>

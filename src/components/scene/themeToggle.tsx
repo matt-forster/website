@@ -9,9 +9,9 @@ export const ThemeToggle: Component = () => {
       onClick={toggle}
       aria-label="Toggle dark mode"
       class={`
-        fixed bottom-3 right-3 z-50
-        w-3 h-3 rounded-full
-        opacity-[0.15] hover:opacity-40
+        fixed top-3 right-3 z-50
+        w-4 h-4 rounded-full
+        opacity-25 hover:opacity-[0.55]
         focus-visible:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#81a1c1] focus-visible:outline-offset-2
         transition-opacity duration-300
         cursor-pointer
