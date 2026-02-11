@@ -1,6 +1,6 @@
 import type { Component } from 'solid-js';
 import { useTheme } from '../../context/theme';
-import { palette, colors } from '../../theme';
+import { palette } from '../../theme';
 
 export const ThemeToggle: Component = () => {
   const { mode, toggle } = useTheme();
@@ -13,7 +13,7 @@ export const ThemeToggle: Component = () => {
         fixed top-3 right-3 z-50
         w-4 h-4 rounded-full
         opacity-25 hover:opacity-[0.55]
-        focus-visible:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[${colors.nord9}] focus-visible:outline-offset-2
+        focus-visible:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-nord-frost focus-visible:outline-offset-2
         transition-opacity duration-300
         cursor-pointer
       `}

@@ -4,7 +4,7 @@ import { Portal } from 'solid-js/web'
 import { fetchProfile } from '../../data/profile';
 import { iconComponents } from '../icons';
 import { useTheme } from '../../context/theme';
-import { palette, colors } from '../../theme';
+import { palette } from '../../theme';
 
 export const Card: Component = () => {
   const [profile] = createResource(fetchProfile);
@@ -89,7 +89,7 @@ export const Card: Component = () => {
                         aria-label={link.label}
                         class={`
                           relative group
-                          hover:text-[${colors.nord9}]
+                          hover:text-nord-frost
                           transition-all duration-200
                           hover:-translate-y-0.5
                         `}
