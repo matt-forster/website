@@ -105,41 +105,81 @@ This document outlines the approach for five planned enhancements to the portfol
 
 ## 4. Dark Mode with Day/Night Transition
 
-**Goal:** Add a toggle that transitions the scene between day and night. The sun should set, stars should appear, and colors should shift.
+**Goal:** Transition the scene between day and night using a pinwheel/rotation effect. The toggle should be nearly invisible, and the initial theme should follow the user's system/browser preference.
 
-**Approach — Theme Context + CSS Transitions:**
+### 4a. Theme Context with System Preference Detection
+
+**Approach:**
 
 1. **Create `src/context/theme.tsx`** — A SolidJS context provider that exposes:
    - `mode()` signal — `'light' | 'dark'`
    - `toggle()` function
+   - **Initialize from `prefers-color-scheme`:** On mount, read `window.matchMedia('(prefers-color-scheme: dark)')` to set the default mode. Also listen for changes to the media query (e.g., user changes OS theme while the page is open) and update the signal accordingly.
+   - Store the user's explicit override (if they use the toggle) in `localStorage` so it persists across visits. On init: check `localStorage` first → fall back to system preference.
 2. **Wrap the app** in `<ThemeProvider>` in `src/App.tsx`.
-3. **Create `src/components/scene/themeToggle.tsx`** — A fixed-position button (top-right corner) that calls `toggle()`. Shows a sun icon in dark mode, moon icon in light mode.
-4. **Create `src/components/scene/sun.tsx`** — A `<Sun />` component:
-   - Renders a radial-gradient circle positioned in the sky.
-   - On dark mode, animates downward (CSS `top` transition, ~2s ease) to simulate setting. Opacity fades.
-   - On light mode, animates back up.
-5. **Create `src/components/scene/stars.tsx`** — A `<Stars />` component:
-   - Generates ~80 small white dots at random positions in the upper 60% of the viewport.
-   - Each star has a CSS `twinkle` animation (opacity oscillation with random delay/duration).
-   - The entire layer fades in (`opacity: 0 → 1`, 2s transition) when dark mode activates.
-6. **Update background colors** — In `<Main />` (`src/components/index.tsx`):
-   - Transition `bg-[#eceff4]` to a dark sky color (e.g., `#2e3440`) using inline `style` with a CSS `transition: background 1.5s ease`.
-7. **Update `<Card />` and `<CVPage />`** — Transition card background from the off-white/white Nord palette to a dark Nord variant (`#3b4252`) and text from dark to light. Keep the hand-drawn border/stroke style but shift stroke colors to lighter Nord tones for night visibility.
-8. **Add CSS animations** to `src/index.css`:
-   - `@keyframes twinkle` — opacity oscillation for stars.
-   - `@keyframes shooting-star` — diagonal translate + fade for shooting stars.
+
+### 4b. Very Subtle Toggle
+
+**Goal:** The toggle should be _very_ subtle — almost hard to find. It is not a prominent UI button; it is a discoverable Easter-egg-style interaction for users who want to manually switch.
+
+**Approach — Near-Invisible Toggle:**
+
+- Render as a tiny, nearly transparent element (e.g., a small dot or a faint star/moon icon, ~`w-3 h-3`, `opacity: 0.15`).
+- Position it in an unobtrusive corner (e.g., bottom-right or top-right, flush with the edge).
+- On hover, it gains slightly more opacity (`opacity: 0.4`) and shows a subtle cursor change — but still remains very understated.
+- On click, it triggers `toggle()` to switch the theme.
+- No tooltip, no label, no visible text. Just a near-invisible clickable element.
+- **Accessibility:** The element should be a `<button>` with a descriptive `aria-label` (e.g., "Toggle dark mode") so screen readers can discover it. On keyboard focus (`:focus-visible`), show a clear focus ring at full opacity so keyboard users can find and activate it. The visual subtlety is intentional for sighted mouse users, but the control must remain fully accessible via keyboard and assistive technology.
+- **Create `src/components/scene/themeToggle.tsx`** for this component.
+
+### 4c. Pinwheel / Rotation Transition
+
+**Goal:** Instead of a vertical sun rise/set, the transition between day and night should feel like a **pinwheel rotation** — the entire scene rotates to reveal the opposite side (day ↔ night).
+
+**Approach — Dual-Scene Background with CSS Rotation:**
+
+The core idea is to treat the background as a single element (or a wrapper) that has **both** the day scene and the night scene composed together, and the transition between them is a **rotation** (like flipping a coin or spinning a pinwheel).
+
+1. **Create a scene wrapper** (`src/components/scene/dayNightScene.tsx` or integrate into the main layout):
+   - Contains two layers: the **day scene** (current parallax mountains, bright sky `#eceff4`) and a **night scene** (same mountains but darker palette, dark sky `#2e3440`, with stars overlaid).
+   - Both layers are stacked and the wrapper is a single rotatable container.
+
+2. **Rotation mechanism:**
+   - The wrapper uses a CSS `transform: rotate()` transition. When toggling day → night, it rotates 180° (like a pinwheel). The night scene is positioned on the "back" of the rotation (using `backface-visibility` or an offset rotation).
+   - Alternatively, use a **clip-path / radial wipe** that expands from the toggle point outward in a spiral/pinwheel pattern, revealing the night scene underneath. This avoids literal 3D rotation while still giving the pinwheel feel.
+   - The transition duration should be ~1.5–2s with a smooth easing curve.
+
+3. **Scene variants:**
+   - **Day scene:** The existing parallax mountains + clouds with the `#eceff4` sky background. Sun element visible.
+   - **Night scene:** The same mountain/cloud SVGs but with shifted colors (darker fills, lighter strokes for visibility), `#2e3440` sky, stars scattered in the upper portion, moon element instead of sun.
+   - Since the hand-drawn SVGs are the same shapes, the night variant can be achieved by applying CSS `filter` adjustments (e.g., `brightness(0.6) hue-rotate(...)`) or by having a second set of SVGs with night-palette colors. Using CSS filters is simpler and avoids duplicating SVG assets.
+
+4. **Stars:** Appear only in the night scene layer. Generated as small white dots with `twinkle` animation (opacity oscillation with random delay/duration). They are children of the night-scene layer, so they naturally appear/disappear with the rotation.
+
+5. **Sun / Moon:** Rather than separate components that animate vertically, the sun is part of the day scene and the moon is part of the night scene. They rotate in/out as part of the pinwheel transition.
+
+### 4d. Card and Content Dark Mode
+
+- **Update `<Card />` and `<CVPage />`** — Transition card background from the off-white/white Nord palette to a dark Nord variant (`#3b4252`) and text from dark to light. Keep the hand-drawn border/stroke style but shift stroke colors to lighter Nord tones for night visibility.
+- Card color transitions should happen smoothly with CSS `transition` on `background-color` and `color`, coordinated with but independent of the pinwheel scene rotation.
+
+### 4e. CSS Animations
+
+- **Add CSS animations** to `src/index.css`:
+  - `@keyframes twinkle` — opacity oscillation for stars.
+  - `@keyframes shooting-star` — diagonal translate + fade for shooting stars.
+  - `@keyframes pinwheel-rotate` (if using keyframes rather than a simple transition for the rotation).
 
 **Files affected:**
 | File | Change |
 |---|---|
-| `src/context/theme.tsx` | New — theme context provider |
-| `src/components/scene/sun.tsx` | New — animated sun element |
-| `src/components/scene/stars.tsx` | New — stars + shooting stars |
-| `src/components/scene/themeToggle.tsx` | New — dark mode toggle button |
-| `src/components/icons/index.tsx` | Modified — add `SunIcon`, `MoonIcon` |
-| `src/index.css` | Modified — add keyframe animations |
+| `src/context/theme.tsx` | New — theme context provider (system preference detection + localStorage) |
+| `src/components/scene/dayNightScene.tsx` | New — dual day/night scene wrapper with pinwheel rotation |
+| `src/components/scene/stars.tsx` | New — stars (night scene layer) |
+| `src/components/scene/themeToggle.tsx` | New — near-invisible toggle element |
+| `src/index.css` | Modified — add keyframe animations (twinkle, shooting-star, pinwheel) |
 | `src/App.tsx` | Modified — wrap in `<ThemeProvider>` |
-| `src/components/index.tsx` | Modified — dynamic background color |
+| `src/components/index.tsx` | Modified — integrate day/night scene wrapper |
 | `src/components/card/index.tsx` | Modified — dark mode card styling |
 | `src/components/cv/index.tsx` | Modified — dark mode CV styling |
 
@@ -171,7 +211,7 @@ This document outlines the approach for five planned enhancements to the portfol
 1. **Update `src/components/parallaxMountains/index.tsx`** — Add a slow, continuous CSS `translateX` animation to each cloud `<img>`, independent of the mouse parallax. This gives clouds a gentle autonomous drift even when the mouse is still. Implemented by adding a secondary `animation` style property alongside the existing mouse-driven `translate`.
 
 ### 5d. Composition
-1. **Add `<Birds />`, `<Stars />`, `<ShootingStars />`, and `<Sun />`** to the main layout component in `src/components/index.tsx`, layered via `z-index` between the background and the card.
+1. **Add `<Birds />`, `<Stars />`, `<ShootingStars />`** to the main layout component in `src/components/index.tsx`, layered via `z-index` between the background and the card. (The day/night scene rotation from §4 handles sun/moon and the overall scene transition.)
 
 **Files affected:**
 | File | Change |
@@ -191,7 +231,7 @@ The recommended order minimizes conflicts and builds incrementally:
 1. **Unified data layer** (#1) — foundational; includes both profile and CV data. No visual change yet.
 2. **Icons extraction, subtle links & card redesign** (#3) — refactor icons into shared file, redesign card to hand-drawn style, make links icon-only with hover reveal. Add posts link.
 3. **Routing & CV page** (#2) — depends on data layer and icons. CV reads from same data source.
-4. **Dark mode** (#4) — theme context, sun, stars, toggle, color transitions (hand-drawn card adapts).
+4. **Dark mode** (#4) — theme context (system preference + localStorage), near-invisible toggle, pinwheel day/night rotation, stars, card color transitions.
 5. **Animated elements** (#5) — birds, shooting stars, cloud drift, composition.
 
 Each step should be followed by a build verification (`npm run build`) and visual check.
@@ -220,10 +260,10 @@ src/
     ├── cv/
     │   └── index.tsx                   # NEW — CV/resume page (reads same data)
     ├── scene/
-    │   ├── sun.tsx                     # NEW — animated sun
+    │   ├── dayNightScene.tsx           # NEW — dual day/night scene with pinwheel rotation
     │   ├── stars.tsx                   # NEW — stars + shooting stars
     │   ├── birds.tsx                   # NEW — flying birds
-    │   └── themeToggle.tsx             # NEW — dark mode toggle button
+    │   └── themeToggle.tsx             # NEW — near-invisible dark mode toggle
     └── parallaxMountains/
         ├── index.tsx                   # Updated — cloud drift animation
         └── *.svg
