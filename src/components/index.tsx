@@ -20,6 +20,7 @@ export const Main: Component = () => {
   // Add device orientation support for mobile tilt-based parallax
   onMount(() => {
     let orientationListenerAdded = false;
+    let touchListenerAdded = false;
 
     function handleOrientation(event: DeviceOrientationEvent) {
       // DeviceOrientationEvent provides:
@@ -64,6 +65,7 @@ export const Main: Component = () => {
     }
 
     function handleFirstTouch() {
+      touchListenerAdded = false; // Mark that the listener has been automatically removed
       // Request permission on first touch (required for iOS 13+)
       if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
         requestOrientationPermission();
@@ -77,6 +79,7 @@ export const Main: Component = () => {
         // Wait for user interaction before requesting permission
         // The 'once: true' option automatically removes the listener after first execution
         window.addEventListener('touchstart', handleFirstTouch, { once: true });
+        touchListenerAdded = true;
       } else {
         // Non-iOS or older iOS - just add the listener directly
         window.addEventListener('deviceorientation', handleOrientation);
@@ -89,7 +92,10 @@ export const Main: Component = () => {
       if (orientationListenerAdded) {
         window.removeEventListener('deviceorientation', handleOrientation);
       }
-      // Note: touchstart listener with 'once: true' is automatically removed after first use
+      // Remove touch listener if it's still attached (user hasn't touched yet)
+      if (touchListenerAdded) {
+        window.removeEventListener('touchstart', handleFirstTouch);
+      }
     });
   });
 
