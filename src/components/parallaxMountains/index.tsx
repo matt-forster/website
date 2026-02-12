@@ -7,11 +7,17 @@ let mountainForegroundSvg = '';
 let mountainBackgroundSvg = '';
 let grass = '';
 let cloudOne = '';
+let cloudOneB = '';
 let cloudTwo = '';
+let cloudTwoB = '';
 let cloudThree = '';
+let cloudThreeB = '';
 let cloudFour = '';
+let cloudFourB = '';
 let cloudFive = '';
+let cloudFiveB = '';
 let cloudSix = '';
+let cloudSixB = '';
 let rocksSvg = '';
 let rockSmallSvg = '';
 let grassTuftSvg = '';
@@ -131,12 +137,88 @@ function generateGroundElements(): GroundElement[] {
   return elements;
 }
 
+type CloudConfig = {
+  src: () => string;
+  baseBottom: number;
+  baseLeft: number;
+  xSpeed: number;
+  ySpeed: number;
+  animationDuration: number;
+  animationDelay: number;
+};
+
+function generateCloudConfigs(): CloudConfig[] {
+  const rand = seededRandom(4229); // Different seed for clouds
+  
+  return [
+    {
+      src: rand() > 0.5 ? () => cloudFiveB : () => cloudFive,
+      baseBottom: 350,
+      baseLeft: 1500,
+      xSpeed: 10,
+      ySpeed: 1,
+      animationDuration: 30,
+      animationDelay: 0,
+    },
+    {
+      src: rand() > 0.5 ? () => cloudFourB : () => cloudFour,
+      baseBottom: 300,
+      baseLeft: 1100,
+      xSpeed: 20,
+      ySpeed: 0.5,
+      animationDuration: 38,
+      animationDelay: 5,
+    },
+    {
+      src: rand() > 0.5 ? () => cloudThreeB : () => cloudThree,
+      baseBottom: 250,
+      baseLeft: 50,
+      xSpeed: 7,
+      ySpeed: 1,
+      animationDuration: 34,
+      animationDelay: 2,
+    },
+    {
+      src: rand() > 0.5 ? () => cloudSixB : () => cloudSix,
+      baseBottom: 250,
+      baseLeft: 1900,
+      xSpeed: 7,
+      ySpeed: 3,
+      animationDuration: 42,
+      animationDelay: 8,
+    },
+    {
+      src: rand() > 0.5 ? () => cloudTwoB : () => cloudTwo,
+      baseBottom: 350,
+      baseLeft: 750,
+      xSpeed: 27,
+      ySpeed: 2,
+      animationDuration: 26,
+      animationDelay: 3,
+    },
+    {
+      src: rand() > 0.5 ? () => cloudOneB : () => cloudOne,
+      baseBottom: 400,
+      baseLeft: 450,
+      xSpeed: 13,
+      ySpeed: 3,
+      animationDuration: 22,
+      animationDelay: 6,
+    },
+  ].map(cloud => ({
+    ...cloud,
+    // Add slight vertical randomization (±15px)
+    baseBottom: cloud.baseBottom + Math.floor((rand() - 0.5) * 30),
+  }));
+}
+
 export const ParallaxMountainScene: Component<{ position: { x: number, y: number } }> = (props) => {
   // Initialize with default values that work on both server and client
   const [windowSize, setWindowSize] = createSignal({ width: 1024, height: 768 });
   const [translateValues, setTranslateValues] = createSignal<Record<string, string>>({});
   const [assetsLoaded, setAssetsLoaded] = createSignal(false);
   const [groundElements, setGroundElements] = createSignal<GroundElement[]>([]);
+  const [cloudConfigs, setCloudConfigs] = createSignal<CloudConfig[]>([]);
   
   // Load all assets only on the client side
   onMount(async () => {
@@ -145,11 +227,17 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
     mountainBackgroundSvg = (await import('./mountainBackground.svg')).default;
     grass = (await import('./grass.svg')).default;
     cloudOne = (await import('./cloudOne.svg')).default;
+    cloudOneB = (await import('./cloudOneB.svg')).default;
     cloudTwo = (await import('./cloudTwo.svg')).default;
+    cloudTwoB = (await import('./cloudTwoB.svg')).default;
     cloudThree = (await import('./cloudThree.svg')).default;
+    cloudThreeB = (await import('./cloudThreeB.svg')).default;
     cloudFour = (await import('./cloudFour.svg')).default;
+    cloudFourB = (await import('./cloudFourB.svg')).default;
     cloudFive = (await import('./cloudFive.svg')).default;
+    cloudFiveB = (await import('./cloudFiveB.svg')).default;
     cloudSix = (await import('./cloudSix.svg')).default;
+    cloudSixB = (await import('./cloudSixB.svg')).default;
     rocksSvg = (await import('./rocks.svg')).default;
     rockSmallSvg = (await import('./rockSmall.svg')).default;
     grassTuftSvg = (await import('./grassTuft.svg')).default;
@@ -163,6 +251,7 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
     tuftBushSvg = (await import('./tuftBush.svg')).default;
     
     setGroundElements(generateGroundElements());
+    setCloudConfigs(generateCloudConfigs());
     setAssetsLoaded(true);
     
     // Set window size after mounting
@@ -186,18 +275,18 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
 
   // Update all translation values whenever position or window size changes
   createEffect(() => {
+    const cloudTranslations: Record<string, string> = {};
+    cloudConfigs().forEach((cloud, index) => {
+      cloudTranslations[`cloud${index}`] = calculateTranslate(cloud.xSpeed, cloud.ySpeed);
+    });
+    
     setTranslateValues({
       background: calculateTranslate(3),
-      cloudFive: calculateTranslate(10, 1),
-      cloudFour: calculateTranslate(20, 0.5),
-      cloudThree: calculateTranslate(7, 1),
       foreground: calculateTranslate(1),
-      cloudSix: calculateTranslate(7, 3),
-      cloudTwo: calculateTranslate(27, 2),
-      cloudOne: calculateTranslate(13, 3),
       grass: calculateTranslate(),
       // Ground-level vegetation uses a single shared parallax speed
       ground: calculateTranslate(0.15, 0.05),
+      ...cloudTranslations,
     });
   });
 
@@ -222,40 +311,26 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
             src={mountainBackgroundSvg}
             alt='Mountain Background' />
 
-          <img class="absolute bottom-[350px] left-[1500px] h-[100px] max-w-none"
-            style={`translate: ${translateValues().cloudFive} animation: cloud-drift 30s ease-in-out infinite;`}
-            src={cloudFive}
-            alt='Cloud Five' />
-
-          <img class="absolute bottom-[300px] left-[1100px] h-[100px] max-w-none"
-            style={`translate: ${translateValues().cloudFour} animation: cloud-drift 38s ease-in-out 5s infinite;`}
-            src={cloudFour}
-            alt='Cloud Four' />
-
-          <img class="absolute bottom-[250px] left-[50px] h-[100px] max-w-none"
-            style={`translate: ${translateValues().cloudThree} animation: cloud-drift 34s ease-in-out 2s infinite;`}
-            src={cloudThree}
-            alt='Cloud Three' />
+          {/* Clouds — rendered between background and foreground mountains */}
+          <For each={cloudConfigs().slice(0, 3)}>{(cloud, index) =>
+            <img class="absolute h-[100px] max-w-none"
+              style={`bottom: ${cloud.baseBottom}px; left: ${cloud.baseLeft}px; translate: ${translateValues()[`cloud${index()}`]}; animation: cloud-drift ${cloud.animationDuration}s ease-in-out ${cloud.animationDelay}s infinite;`}
+              src={cloud.src()}
+              alt='' />
+          }</For>
 
           <img class="absolute bottom-0 -left-12 h-[1100px] max-w-none"
             style={`translate: ${translateValues().foreground}`}
             src={mountainForegroundSvg}
             alt='Mountain Foreground' />
 
-          <img class="absolute bottom-[250px] left-[1900px] h-[100px] max-w-none"
-            style={`translate: ${translateValues().cloudSix} animation: cloud-drift 42s ease-in-out 8s infinite;`}
-            src={cloudSix}
-            alt='Cloud Six' />
-
-          <img class="absolute bottom-[350px] left-[750px] h-[100px] max-w-none"
-            style={`translate: ${translateValues().cloudTwo} animation: cloud-drift 26s ease-in-out 3s infinite;`}
-            src={cloudTwo}
-            alt='Cloud Two' />
-
-          <img class="absolute bottom-[400px] left-[450px] h-[100px] max-w-none"
-            style={`translate: ${translateValues().cloudOne} animation: cloud-drift 22s ease-in-out 6s infinite;`}
-            src={cloudOne}
-            alt='Cloud One' />
+          {/* Clouds — rendered in front of foreground mountains */}
+          <For each={cloudConfigs().slice(3)}>{(cloud, index) =>
+            <img class="absolute h-[100px] max-w-none"
+              style={`bottom: ${cloud.baseBottom}px; left: ${cloud.baseLeft}px; translate: ${translateValues()[`cloud${index() + 3}`]}; animation: cloud-drift ${cloud.animationDuration}s ease-in-out ${cloud.animationDelay}s infinite;`}
+              src={cloud.src()}
+              alt='' />
+          }</For>
 
           {/* Deer — appears occasionally, rendered before grass so it sits behind */}
           <Deer />
