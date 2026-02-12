@@ -48,15 +48,25 @@ export function useDeviceOrientation(enabled: boolean = true) {
         setIsActive(true);
       }
 
-      // Normalize beta from [-90, 90] to [0, window.innerHeight]
+      // Amplify the device orientation for mobile parallax
+      // Mobile devices need more sensitivity since tilting is less precise than mouse movement
+      const mobileSensitivity = 3; // Multiplier to amplify the effect
+      
+      // Normalize beta from [-90, 90] to [0, window.innerHeight] with amplification
       const normalizedBeta = Math.max(-90, Math.min(90, beta));
-      const y = ((normalizedBeta + 90) / 180) * window.innerHeight;
+      const centerY = window.innerHeight / 2;
+      const y = centerY + ((normalizedBeta / 90) * centerY * mobileSensitivity);
       
-      // Normalize gamma from [-90, 90] to [0, window.innerWidth]
+      // Normalize gamma from [-90, 90] to [0, window.innerWidth] with amplification
       const normalizedGamma = Math.max(-90, Math.min(90, gamma));
-      const x = ((normalizedGamma + 90) / 180) * window.innerWidth;
+      const centerX = window.innerWidth / 2;
+      const x = centerX + ((normalizedGamma / 90) * centerX * mobileSensitivity);
       
-      setPosition({ x, y });
+      // Clamp to screen bounds to prevent overflow
+      const clampedX = Math.max(0, Math.min(window.innerWidth, x));
+      const clampedY = Math.max(0, Math.min(window.innerHeight, y));
+      
+      setPosition({ x: clampedX, y: clampedY });
     }
 
     async function requestOrientationPermission() {
