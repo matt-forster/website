@@ -208,7 +208,7 @@ function generateCloudConfigs(): CloudConfig[] {
   ].map(cloud => ({
     ...cloud,
     // Add slight vertical randomization (±15px)
-    baseBottom: cloud.baseBottom + Math.floor((rand() - 0.5) * 30),
+    baseBottom: cloud.baseBottom + Math.round((rand() - 0.5) * 30),
   }));
 }
 
@@ -316,7 +316,7 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
             <img class="absolute h-[100px] max-w-none"
               style={`bottom: ${cloud.baseBottom}px; left: ${cloud.baseLeft}px; translate: ${translateValues()[`cloud${index()}`]}; animation: cloud-drift ${cloud.animationDuration}s ease-in-out ${cloud.animationDelay}s infinite;`}
               src={cloud.src()}
-              alt='' />
+              alt='Cloud' />
           }</For>
 
           <img class="absolute bottom-0 -left-12 h-[1100px] max-w-none"
@@ -329,7 +329,7 @@ export const ParallaxMountainScene: Component<{ position: { x: number, y: number
             <img class="absolute h-[100px] max-w-none"
               style={`bottom: ${cloud.baseBottom}px; left: ${cloud.baseLeft}px; translate: ${translateValues()[`cloud${index() + 3}`]}; animation: cloud-drift ${cloud.animationDuration}s ease-in-out ${cloud.animationDelay}s infinite;`}
               src={cloud.src()}
-              alt='' />
+              alt='Cloud' />
           }</For>
 
           {/* Deer — appears occasionally, rendered before grass so it sits behind */}
