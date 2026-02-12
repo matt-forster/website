@@ -19,7 +19,7 @@ export const Main: Component = () => {
 
   // Add device orientation support for mobile tilt-based parallax
   onMount(() => {
-    let permissionGranted = false;
+    let orientationListenerAdded = false;
 
     function handleOrientation(event: DeviceOrientationEvent) {
       // DeviceOrientationEvent provides:
@@ -54,8 +54,8 @@ export const Main: Component = () => {
         try {
           const permission = await (DeviceOrientationEvent as any).requestPermission();
           if (permission === 'granted') {
-            permissionGranted = true;
             window.addEventListener('deviceorientation', handleOrientation);
+            orientationListenerAdded = true;
           }
         } catch (error) {
           console.warn('Device orientation permission denied or error:', error);
@@ -65,10 +65,8 @@ export const Main: Component = () => {
 
     function handleFirstTouch() {
       // Request permission on first touch (required for iOS 13+)
-      if (!permissionGranted && typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+      if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
         requestOrientationPermission();
-        // Remove the touch listener after first attempt
-        window.removeEventListener('touchstart', handleFirstTouch);
       }
     }
 
@@ -77,17 +75,21 @@ export const Main: Component = () => {
       // iOS 13+ requires permission via user interaction
       if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
         // Wait for user interaction before requesting permission
+        // The 'once: true' option automatically removes the listener after first execution
         window.addEventListener('touchstart', handleFirstTouch, { once: true });
       } else {
         // Non-iOS or older iOS - just add the listener directly
         window.addEventListener('deviceorientation', handleOrientation);
-        permissionGranted = true;
+        orientationListenerAdded = true;
       }
     }
 
     onCleanup(() => {
-      window.removeEventListener('deviceorientation', handleOrientation);
-      window.removeEventListener('touchstart', handleFirstTouch);
+      // Only remove the orientation listener if it was actually added
+      if (orientationListenerAdded) {
+        window.removeEventListener('deviceorientation', handleOrientation);
+      }
+      // Note: touchstart listener with 'once: true' is automatically removed after first use
     });
   });
 
