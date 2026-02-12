@@ -69,10 +69,12 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
     >
       <Stars visible={mode() === 'dark'} />
       <CelestialBody />
-      <div style={{
-        filter: svgFilter(),
-        transition: initialized() ? transitions.filterCss : 'none',
-      }}>
+      <div 
+        class="relative z-[2]"
+        style={{
+          filter: svgFilter(),
+          transition: initialized() ? transitions.filterCss : 'none',
+        }}>
         {props.children}
       </div>
       <ThemeToggle />
