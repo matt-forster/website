@@ -52,7 +52,7 @@ function seededRandom(seed: number) {
 // Generate a daily seed that changes each day but remains consistent during the day
 function getDailySeed(): number {
   const now = new Date();
-  const dayOfYear = Math.floor((now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 86400000);
+  const dayOfYear = Math.floor((now.getTime() - new Date(now.getFullYear(), 0, 1).getTime()) / 86400000);
   const year = now.getFullYear();
   return year * 1000 + dayOfYear;
 }
@@ -75,10 +75,10 @@ function getSessionSeed(key: string): number {
     // localStorage error, fall through to generate new seed
   }
   
-  // Generate new seed based on current time for randomness
+  // Generate new seed based on timestamp for uniqueness per visitor
   const dailySeed = getDailySeed();
-  const randomOffset = Math.floor(Math.random() * 10000);
-  const newSeed = dailySeed + randomOffset;
+  const timestampOffset = Date.now() % 10000;
+  const newSeed = dailySeed + timestampOffset;
   
   try {
     localStorage.setItem(key, JSON.stringify({
