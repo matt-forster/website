@@ -12,12 +12,13 @@ Six planned enhancements for the portfolio site. Each is documented in its own f
 | 4 | [Dark Mode](./04-dark-mode.md) | Day/night transition with a pinwheel rotation effect, evening/morning color phases, system preference detection, and a near-invisible toggle. Stars, sun/moon, and CSS filter tinting for the SVGs. | You are implementing dark mode, the theme context, the scene transition, or the toggle. |
 | 5 | [Animated Elements](./05-animated-elements.md) | Add birds, shooting stars (night only), and autonomous cloud drift to bring the scene to life independently of mouse movement. | You are adding animations, scene elements, or working on the parallax cloud layer. |
 | 6 | [Scene Vegetation](./06-scene-vegetation.md) | Add hand-drawn trees, bushes, flowers, and rocks to the parallax scene. Covers element types, Nord palette usage, parallax layer placement, and dark mode filter compatibility. | You are adding new landscape elements (trees, plants, rocks) to the scene, or creating new SVG assets for the environment. |
+| 7 | [Weather Scenes](./07-weather-scenes.md) | Dynamic seasonal and weather-based scene system. Integrate real-time weather data from Lethbridge, Alberta to show appropriate scenes (winter/spring/summer/fall) with weather overlays (snow/rain/wind/sun). | You are adding weather integration, seasonal variants, weather effects, or working on the data layer for live weather. |
 
 ## Implementation Order
 
 Build incrementally — each step depends on the ones before it:
 
-1. ~~**Data layer**~~ ✅ → 2. ~~**Card redesign + links**~~ ✅ → 3. ~~**Dark mode**~~ ✅ → 4. ~~**Animated elements**~~ ✅ → 5. ~~**Scene vegetation**~~ ✅ → 6. **CV page + routing**
+1. ~~**Data layer**~~ ✅ → 2. ~~**Card redesign + links**~~ ✅ → 3. ~~**Dark mode**~~ ✅ → 4. ~~**Animated elements**~~ ✅ → 5. ~~**Scene vegetation**~~ ✅ → 6. **CV page + routing** → 7. **Weather scenes**
 
 Each step should be followed by a build verification (`npm run build`) and visual check.
 
