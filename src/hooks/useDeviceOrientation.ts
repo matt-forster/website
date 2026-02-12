@@ -18,7 +18,15 @@ export function useDeviceOrientation(enabled: boolean = true) {
   const [isActive, setIsActive] = createSignal(false);
 
   onMount(() => {
-    if (!enabled || typeof DeviceOrientationEvent === 'undefined') {
+    console.log('[DeviceOrientation] Hook mounted, enabled:', enabled);
+    
+    if (!enabled) {
+      console.log('[DeviceOrientation] Hook disabled via prop');
+      return;
+    }
+    
+    if (typeof DeviceOrientationEvent === 'undefined') {
+      console.log('[DeviceOrientation] DeviceOrientationEvent not supported');
       return;
     }
 
@@ -30,11 +38,15 @@ export function useDeviceOrientation(enabled: boolean = true) {
       const gamma = event.gamma;
       
       if (beta === null || gamma === null) {
+        console.log('[DeviceOrientation] Received event with null values:', { beta, gamma });
         return;
       }
 
       // Mark as active once we receive first orientation event
-      setIsActive(true);
+      if (!isActive()) {
+        console.log('[DeviceOrientation] First orientation event received:', { beta, gamma });
+        setIsActive(true);
+      }
 
       // Normalize beta from [-90, 90] to [0, window.innerHeight]
       const normalizedBeta = Math.max(-90, Math.min(90, beta));
@@ -49,36 +61,38 @@ export function useDeviceOrientation(enabled: boolean = true) {
 
     async function requestOrientationPermission() {
       if (typeof (DeviceOrientationEvent as any).requestPermission !== 'function') {
+        console.log('[DeviceOrientation] No permission request needed (non-iOS or older iOS)');
         return;
       }
 
       try {
+        console.log('[DeviceOrientation] Requesting permission...');
         const permission = await (DeviceOrientationEvent as any).requestPermission();
+        console.log('[DeviceOrientation] Permission result:', permission);
         
         if (permission === 'granted') {
           setPermissionState('granted');
           window.addEventListener('deviceorientation', handleOrientation);
           orientationListenerAdded = true;
+          console.log('[DeviceOrientation] Permission granted, listener added');
         } else {
           setPermissionState('denied');
-          console.warn('Device orientation permission denied');
+          console.warn('[DeviceOrientation] Permission denied by user');
         }
       } catch (error) {
         setPermissionState('denied');
-        console.warn('Device orientation permission error:', error);
+        console.error('[DeviceOrientation] Permission request error:', error);
       }
     }
 
     // iOS 13+ requires permission via user interaction
     if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+      console.log('[DeviceOrientation] iOS 13+ detected, waiting for user interaction');
+      
       // Add both touchstart and click listeners for better iOS compatibility
-      const handleInteraction = () => {
-        if (touchListenerAdded) {
-          touchListenerAdded = false;
-          window.removeEventListener('touchstart', handleInteraction);
-          window.removeEventListener('click', handleInteraction);
-        }
-        requestOrientationPermission();
+      const handleInteraction = async () => {
+        console.log('[DeviceOrientation] User interaction detected, requesting permission');
+        await requestOrientationPermission();
       };
 
       window.addEventListener('touchstart', handleInteraction, { once: true, passive: true });
@@ -86,6 +100,7 @@ export function useDeviceOrientation(enabled: boolean = true) {
       touchListenerAdded = true;
     } else {
       // Non-iOS or older iOS - add listener directly
+      console.log('[DeviceOrientation] Non-iOS detected, adding listener directly');
       window.addEventListener('deviceorientation', handleOrientation);
       orientationListenerAdded = true;
       setPermissionState('granted');
