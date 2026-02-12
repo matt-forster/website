@@ -39,7 +39,7 @@ let shootingStarId = 0;
 export const Stars: Component<{ visible: boolean }> = (props) => {
   return (
     <div
-      class="absolute inset-0 pointer-events-none z-[-1]"
+      class="absolute inset-0 pointer-events-none z-[1]"
       style={{
         opacity: props.visible ? '1' : '0',
         transition: transitions.starsFade,
