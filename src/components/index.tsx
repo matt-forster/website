@@ -12,7 +12,7 @@ export const Main: Component = () => {
   const [mousePosition, setMousePosition] = createSignal({ x: 0, y: 0 });
   
   // Use device orientation for mobile tilt-based parallax
-  const { position: devicePosition } = useDeviceOrientation();
+  const { position: devicePosition, isActive: deviceOrientationActive } = useDeviceOrientation();
 
   function handleMouseMove(event: MouseEvent) {
     setMousePosition({
@@ -22,11 +22,10 @@ export const Main: Component = () => {
   }
 
   // Merge device orientation with mouse position
-  // Device orientation takes precedence when available (non-zero values)
+  // Device orientation takes precedence when active
   createEffect(() => {
-    const devPos = devicePosition();
-    if (devPos.x !== 0 || devPos.y !== 0) {
-      setMousePosition(devPos);
+    if (deviceOrientationActive()) {
+      setMousePosition(devicePosition());
     }
   });
 

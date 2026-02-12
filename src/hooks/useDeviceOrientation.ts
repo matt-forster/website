@@ -15,6 +15,7 @@ export interface DeviceOrientationPosition {
 export function useDeviceOrientation(enabled: boolean = true) {
   const [position, setPosition] = createSignal<DeviceOrientationPosition>({ x: 0, y: 0 });
   const [permissionState, setPermissionState] = createSignal<'prompt' | 'granted' | 'denied'>('prompt');
+  const [isActive, setIsActive] = createSignal(false);
 
   onMount(() => {
     if (!enabled || typeof DeviceOrientationEvent === 'undefined') {
@@ -31,6 +32,9 @@ export function useDeviceOrientation(enabled: boolean = true) {
       if (beta === null || gamma === null) {
         return;
       }
+
+      // Mark as active once we receive first orientation event
+      setIsActive(true);
 
       // Normalize beta from [-90, 90] to [0, window.innerHeight]
       const normalizedBeta = Math.max(-90, Math.min(90, beta));
@@ -65,11 +69,6 @@ export function useDeviceOrientation(enabled: boolean = true) {
       }
     }
 
-    function handleFirstTouch() {
-      touchListenerAdded = false;
-      requestOrientationPermission();
-    }
-
     // iOS 13+ requires permission via user interaction
     if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
       // Add both touchstart and click listeners for better iOS compatibility
@@ -96,14 +95,14 @@ export function useDeviceOrientation(enabled: boolean = true) {
       if (orientationListenerAdded) {
         window.removeEventListener('deviceorientation', handleOrientation);
       }
-      if (touchListenerAdded) {
-        window.removeEventListener('touchstart', handleFirstTouch);
-      }
+      // Note: Event listeners with 'once: true' are automatically removed after first use
+      // so we don't need to manually clean them up
     });
   });
 
   return {
     position,
     permissionState,
+    isActive,
   };
 }
