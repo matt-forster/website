@@ -6,6 +6,22 @@ export interface DeviceOrientationPosition {
 }
 
 /**
+ * iOS 13+ extends DeviceOrientationEvent with a requestPermission method
+ * that requires user interaction before accessing device orientation data.
+ */
+interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
+  requestPermission?: () => Promise<'granted' | 'denied'>;
+}
+
+interface DeviceOrientationEventConstructor {
+  prototype: DeviceOrientationEvent;
+  new(): DeviceOrientationEvent;
+  requestPermission?: () => Promise<'granted' | 'denied'>;
+}
+
+declare const DeviceOrientationEvent: DeviceOrientationEventConstructor;
+
+/**
  * Custom hook for device orientation-based parallax control.
  * Maps device tilt (beta/gamma angles) to screen coordinates.
  * 
@@ -70,14 +86,14 @@ export function useDeviceOrientation(enabled: boolean = true) {
     }
 
     async function requestOrientationPermission() {
-      if (typeof (DeviceOrientationEvent as any).requestPermission !== 'function') {
+      if (typeof DeviceOrientationEvent.requestPermission !== 'function') {
         console.log('[DeviceOrientation] No permission request needed (non-iOS or older iOS)');
         return;
       }
 
       try {
         console.log('[DeviceOrientation] Requesting permission...');
-        const permission = await (DeviceOrientationEvent as any).requestPermission();
+        const permission = await DeviceOrientationEvent.requestPermission();
         console.log('[DeviceOrientation] Permission result:', permission);
         
         if (permission === 'granted') {
@@ -96,7 +112,7 @@ export function useDeviceOrientation(enabled: boolean = true) {
     }
 
     // iOS 13+ requires permission via user interaction
-    if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
       console.log('[DeviceOrientation] iOS 13+ detected, waiting for user interaction');
       
       // Add both touchstart and click listeners for better iOS compatibility
