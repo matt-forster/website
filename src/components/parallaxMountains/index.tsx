@@ -49,8 +49,51 @@ function seededRandom(seed: number) {
   };
 }
 
+// Generate a daily seed that changes each day but remains consistent during the day
+function getDailySeed(): number {
+  const now = new Date();
+  const dayOfYear = Math.floor((now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 86400000);
+  const year = now.getFullYear();
+  return year * 1000 + dayOfYear;
+}
+
+// Get or generate a session seed from localStorage, with daily rotation
+function getSessionSeed(key: string): number {
+  if (typeof window === 'undefined') return 7331; // SSR fallback
+  
+  try {
+    const stored = localStorage.getItem(key);
+    if (stored) {
+      const { seed, date } = JSON.parse(stored);
+      const today = new Date().toDateString();
+      // If stored seed is from today, use it; otherwise generate new one
+      if (date === today) {
+        return seed;
+      }
+    }
+  } catch (e) {
+    // localStorage error, fall through to generate new seed
+  }
+  
+  // Generate new seed based on current time for randomness
+  const dailySeed = getDailySeed();
+  const randomOffset = Math.floor(Math.random() * 10000);
+  const newSeed = dailySeed + randomOffset;
+  
+  try {
+    localStorage.setItem(key, JSON.stringify({
+      seed: newSeed,
+      date: new Date().toDateString()
+    }));
+  } catch (e) {
+    // localStorage error, just use the seed without storing
+  }
+  
+  return newSeed;
+}
+
 function generateGroundElements(): GroundElement[] {
-  const rand = seededRandom(7331);
+  const rand = seededRandom(getSessionSeed('ground-seed'));
   const elements: GroundElement[] = [];
 
   // Helper: generate a left position with mild left bias (spread across 200–1500px range)
@@ -148,7 +191,7 @@ type CloudConfig = {
 };
 
 function generateCloudConfigs(): CloudConfig[] {
-  const rand = seededRandom(4229); // Different seed for clouds
+  const rand = seededRandom(getSessionSeed('cloud-seed'));
   
   return [
     {
