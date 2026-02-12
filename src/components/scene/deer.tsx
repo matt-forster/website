@@ -60,14 +60,14 @@ export const Deer: Component = () => {
           style={{ width: '72px', height: '64px' }}
         >
           {/* Legs */}
-          <path d="M24,54 L21,78" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
-          <path d="M32,56 L30,78" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
-          <path d="M52,56 L50,78" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
-          <path d="M58,54 L61,78" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
+          <path d="M26,50 L23,78" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
+          <path d="M34,51 L32,78" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
+          <path d="M52,51 L50,78" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
+          <path d="M60,50 L63,78" fill="none" stroke="#4c566a" stroke-width="2" stroke-linecap="round" />
 
           {/* Body */}
           <path
-            d="M20,48 C18,40 22,34 30,32 C38,30 50,30 58,32 C64,34 66,40 64,48 C62,54 56,58 48,58 C40,58 28,56 20,48Z"
+            d="M20,45 C20,38 24,34 32,33 C40,32 48,32 56,33 C62,34 66,38 66,45 C66,50 62,54 56,55 C48,56 40,56 32,55 C24,54 20,50 20,45Z"
             fill="#d08770"
             stroke="#4c566a"
             stroke-width="2"
@@ -75,18 +75,18 @@ export const Deer: Component = () => {
           />
 
           {/* Tail */}
-          <path d="M18,42 C14,38 12,40 13,44" fill="none" stroke="#d08770" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M18,40 C14,36 12,38 13,42" fill="none" stroke="#d08770" stroke-width="2.5" stroke-linecap="round" />
 
           {/* Neck and head group — animated */}
           <g
             style={{
-              'transform-origin': '62px 36px',
+              'transform-origin': '64px 38px',
               transition: 'transform 1.5s ease-in-out',
               transform: eating() ? 'rotate(55deg)' : 'rotate(0deg)',
             }}
           >
             {/* Neck — filled shape */}
-            <path d="M58,36 C59,34 60,32 61,30 L67,18 C68,20 68,22 67,24 L63,34 C62,36 60,37 58,36Z" fill="#d08770" stroke="#4c566a" stroke-width="1.5" stroke-linejoin="round" />
+            <path d="M60,38 C61,36 62,34 63,32 L68,20 C69,22 69,24 68,26 L64,35 C63,37 61,38 60,38Z" fill="#d08770" stroke="#4c566a" stroke-width="1.5" stroke-linejoin="round" />
 
             {/* Head */}
             <ellipse cx="68" cy="16" rx="8" ry="6" fill="#d08770" stroke="#4c566a" stroke-width="1.5" />
