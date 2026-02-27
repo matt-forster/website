@@ -4,7 +4,7 @@ import { useTheme } from '../../context/theme';
 import { palette, transitions } from '../../theme';
 
 export const CelestialBody: Component = () => {
-  const { mode } = useTheme();
+  const { mode, toggle } = useTheme();
   const [initialized, setInitialized] = createSignal(false);
 
   onMount(() => setInitialized(true));
@@ -16,8 +16,10 @@ export const CelestialBody: Component = () => {
     : 'none';
 
   return (
-    <div
-      class="absolute pointer-events-none z-[2]"
+    <button
+      onClick={toggle}
+      aria-label={mode() === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+      class="absolute z-[3] cursor-pointer border-none bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 rounded-full"
       style={{
         top: '4%',
         right: '12%',
@@ -80,6 +82,6 @@ export const CelestialBody: Component = () => {
           <circle cx="28" cy="20" r="2" fill="none" stroke={palette.moonCrater} stroke-width="1" stroke-linecap="round" opacity="0.3" />
         </svg>
       </div>
-    </div>
+    </button>
   );
 };
