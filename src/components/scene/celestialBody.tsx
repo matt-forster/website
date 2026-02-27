@@ -6,9 +6,9 @@ import { palette, transitions } from '../../theme';
 const SUN_SIZE = 48;
 const MOON_SIZE = 40;
 const BODY_CENTER = SUN_SIZE / 2;
+const MOON_INSET = (SUN_SIZE - MOON_SIZE) / 2;
 // Orbit radius in vh — controls the arc from sky to horizon.
-// Sun rests at the top of the orbit (high in the sky), moon at the bottom (below the horizon).
-// Pivot sits at ~36% from the viewport top; with 30vh radius the sun is at ~6% and the moon at ~66%.
+// Pivot at 36 % from top ± 30 vh gives: sun ≈ 6 %, moon ≈ 66 %.
 const ORBIT_VH = 30;
 
 export const CelestialBody: Component = () => {
@@ -101,8 +101,8 @@ export const CelestialBody: Component = () => {
           aria-label="Switch to light mode"
           class={`absolute ${buttonClass}`}
           style={{
-            left: `${(SUN_SIZE - MOON_SIZE) / 2}px`,
-            top: `calc(${ORBIT_VH}vh + ${(SUN_SIZE - MOON_SIZE) / 2}px)`,
+            left: `${MOON_INSET}px`,
+            top: `calc(${ORBIT_VH}vh + ${MOON_INSET}px)`,
             width: `${MOON_SIZE}px`,
             height: `${MOON_SIZE}px`,
             transform: `rotate(-${totalRotation()}deg)`,
