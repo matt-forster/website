@@ -6,8 +6,10 @@ import { palette, transitions } from '../../theme';
 const SUN_SIZE = 48;
 const MOON_SIZE = 40;
 const BODY_CENTER = SUN_SIZE / 2;
-// Orbit radius — sun and moon sit at opposite ends, arcing east/west on toggle
-const ORBIT_RADIUS = 70;
+// Orbit radius in vh — controls the arc from sky to horizon.
+// Sun rests at the top of the orbit (high in the sky), moon at the bottom (below the horizon).
+// Pivot sits at ~36% from the viewport top; with 30vh radius the sun is at ~6% and the moon at ~66%.
+const ORBIT_VH = 30;
 
 export const CelestialBody: Component = () => {
   const { mode, toggle } = useTheme();
@@ -32,39 +34,48 @@ export const CelestialBody: Component = () => {
     ? `${transitions.celestialTransform}, ${transitions.celestialOpacity}`
     : 'none';
 
+  const buttonClass = `cursor-pointer border-none bg-transparent p-0
+    focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
+    focus-visible:outline-sky-400/70 rounded-full`;
+
   return (
-    <button
-      onClick={handleToggle}
-      aria-label={mode() === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
-      class="absolute z-[3] cursor-pointer border-none bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400/70 rounded-full"
+    <div
+      class="absolute z-[3] pointer-events-none"
       style={{
-        top: '4%',
-        right: '12%',
+        // Pivot point of the orbit — positioned at the horizon line.
+        // Sun = pivot − ORBIT_VH ≈ 6 % from top; Moon = pivot + ORBIT_VH ≈ 66 %.
+        top: `calc(36% - ${BODY_CENTER}px)`,
+        right: `calc(12% - ${BODY_CENTER}px)`,
         width: `${SUN_SIZE}px`,
         height: `${SUN_SIZE}px`,
       }}
     >
       {/* Orbit track — always rotates clockwise so bodies arc east→west */}
       <div
-        class="absolute pointer-events-none"
+        class="absolute"
         style={{
-          width: `${SUN_SIZE}px`,
-          height: `${ORBIT_RADIUS * 2 + BODY_CENTER + MOON_SIZE / 2}px`,
           left: '0',
           top: '0',
-          'transform-origin': `${BODY_CENTER}px ${BODY_CENTER + ORBIT_RADIUS}px`,
+          width: `${SUN_SIZE}px`,
+          height: `${SUN_SIZE}px`,
+          'transform-origin': 'center center',
           transform: `rotate(${totalRotation()}deg)`,
           transition: orbitTransition(),
         }}
       >
-        {/* Sun — top of orbit (visible position) */}
-        <div
-          class="absolute inset-x-0 top-0"
+        {/* Sun — top of orbit (high in sky during day) */}
+        <button
+          onClick={handleToggle}
+          aria-label="Switch to dark mode"
+          class={`absolute ${buttonClass}`}
           style={{
+            left: '0',
+            top: `calc(-${ORBIT_VH}vh)`,
             width: `${SUN_SIZE}px`,
             height: `${SUN_SIZE}px`,
             transform: `rotate(-${totalRotation()}deg)`,
             opacity: mode() === 'dark' ? '0' : '1',
+            'pointer-events': mode() === 'dark' ? 'none' : 'auto',
             transition: bodyTransition(),
           }}
         >
@@ -83,17 +94,20 @@ export const CelestialBody: Component = () => {
             <path d="M18 28 Q20 26 23 27" stroke={palette.sunTexture} stroke-width="1" stroke-linecap="round" fill="none" opacity="0.35" />
             <path d="M28 17 Q31 15 33 17" stroke={palette.sunTexture} stroke-width="1" stroke-linecap="round" fill="none" opacity="0.35" />
           </svg>
-        </div>
-        {/* Moon — bottom of orbit (diametrically opposite sun) */}
-        <div
-          class="absolute"
+        </button>
+        {/* Moon — bottom of orbit (below horizon, diametrically opposite sun) */}
+        <button
+          onClick={handleToggle}
+          aria-label="Switch to light mode"
+          class={`absolute ${buttonClass}`}
           style={{
+            left: `${(SUN_SIZE - MOON_SIZE) / 2}px`,
+            top: `calc(${ORBIT_VH}vh + ${(SUN_SIZE - MOON_SIZE) / 2}px)`,
             width: `${MOON_SIZE}px`,
             height: `${MOON_SIZE}px`,
-            left: `${(SUN_SIZE - MOON_SIZE) / 2}px`,
-            top: `${ORBIT_RADIUS * 2 + (SUN_SIZE - MOON_SIZE) / 2}px`,
             transform: `rotate(-${totalRotation()}deg)`,
             opacity: mode() === 'dark' ? '1' : '0',
+            'pointer-events': mode() === 'dark' ? 'auto' : 'none',
             transition: bodyTransition(),
           }}
         >
@@ -113,8 +127,8 @@ export const CelestialBody: Component = () => {
             <circle cx="12" cy="25" r="1.5" fill="none" stroke={palette.moonCrater} stroke-width="1" stroke-linecap="round" opacity="0.35" />
             <circle cx="28" cy="20" r="2" fill="none" stroke={palette.moonCrater} stroke-width="1" stroke-linecap="round" opacity="0.3" />
           </svg>
-        </div>
+        </button>
       </div>
-    </button>
+    </div>
   );
 };
