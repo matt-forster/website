@@ -3,7 +3,6 @@ import { createSignal, createEffect, onMount, onCleanup } from 'solid-js';
 import { useTheme } from '../../context/theme';
 import { Stars } from './stars';
 import { CelestialBody } from './celestialBody';
-import { ThemeToggle } from './themeToggle';
 import { palette, NIGHT_FILTER, EVENING_COLORS, MORNING_COLORS, transitions } from '../../theme';
 
 export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
@@ -70,14 +69,13 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
       <Stars visible={mode() === 'dark'} />
       <CelestialBody />
       <div 
-        class="relative z-[2]"
+        class="relative z-[2] pointer-events-none"
         style={{
           filter: svgFilter(),
           transition: initialized() ? transitions.filterCss : 'none',
         }}>
         {props.children}
       </div>
-      <ThemeToggle />
     </div>
   );
 };

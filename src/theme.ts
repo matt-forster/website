@@ -78,8 +78,7 @@ export const transitions = {
   skySteps: 50,
   filterCss: 'filter 2s ease-in-out',
   celestialTransform: 'transform 3s ease-in-out',
-  celestialOpacity: 'opacity 2s ease',
-  celestialTranslateY: '140px',
+  celestialOpacity: 'opacity 2s ease 0.4s',
   cardColors: 'duration-700',
   starsFade: 'opacity 1.5s ease',
 } as const;
