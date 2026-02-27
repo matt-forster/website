@@ -40,7 +40,7 @@ export const CelestialBody: Component = () => {
 
   return (
     <div
-      class="absolute z-[3] pointer-events-none"
+      class="absolute z-[1] pointer-events-none"
       style={{
         // Pivot point of the orbit — positioned at the horizon line.
         // Sun = pivot − ORBIT_VH ≈ 6 % from top; Moon = pivot + ORBIT_VH ≈ 66 %.

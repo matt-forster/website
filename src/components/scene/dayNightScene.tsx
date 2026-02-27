@@ -69,7 +69,7 @@ export const DayNightScene: Component<{ children: JSX.Element }> = (props) => {
       <Stars visible={mode() === 'dark'} />
       <CelestialBody />
       <div 
-        class="relative z-[2]"
+        class="relative z-[2] pointer-events-none"
         style={{
           filter: svgFilter(),
           transition: initialized() ? transitions.filterCss : 'none',
