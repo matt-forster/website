@@ -1,7 +1,7 @@
 export interface Link {
   label: string;
   href: string;
-  icon: 'github' | 'email' | 'linkedin' | 'posts' | 'bluesky' | 'cv';
+  icon: 'github' | 'email' | 'linkedin' | 'posts' | 'bluesky';
 }
 
 export interface Experience {
@@ -31,7 +31,6 @@ const profile: ProfileData = {
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/mattforster', icon: 'linkedin' },
     { label: 'Posts', href: 'https://posts.mattforster.ca', icon: 'posts' },
     { label: 'Bluesky', href: 'https://mattforster.social', icon: 'bluesky' },
-    { label: 'CV', href: 'https://github.com/matt-forster/cv', icon: 'cv' },
   ],
   experience: [],
 };
